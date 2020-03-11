@@ -4,7 +4,7 @@ We used a simulation-estimation approach to evaluate the reliability of the four
 
 ## Table of Contents
 
-- About the project
+- [About the project](#About-the-project)
 - Getting started
 - Usage
 - Contact
@@ -25,6 +25,7 @@ The project is built based on [R](https://www.r-project.org/).
  - [ASAP](https://nmfs-fish-tools.github.io/ASAP/)
  - [BAM]
  - [SS](https://vlab.ncep.noaa.gov/web/stock-synthesis/home)
+ 
 2. Clone the repo
 
  `git clone https://github.com/Bai-Li-NOAA/Age-Structured-Stock-Assessment-Model-Comparison.git`
