@@ -27,7 +27,7 @@ The project is built based on [R](https://www.r-project.org/).
  - [SS](https://vlab.ncep.noaa.gov/web/stock-synthesis/home)
 2. Clone the repo
 
- git clone https://github.com/Bai-Li-NOAA/Age-Structured-Stock-Assessment-Model-Comparison.git
+ `git clone https://github.com/Bai-Li-NOAA/Age-Structured-Stock-Assessment-Model-Comparison.git`
 
 ## Usage
 ## Contact
