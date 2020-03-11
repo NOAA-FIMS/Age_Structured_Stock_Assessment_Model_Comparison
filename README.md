@@ -20,13 +20,14 @@ The project is built based on [R](https://www.r-project.org/).
 
 ## Getting started
 
-1. Get the age-structured stock assessment packages:
+**1. Get the age-structured stock assessment packages:**
+
  - [AMAK](https://github.com/NMFS-toolbox/AMAK.git)
  - [ASAP](https://nmfs-fish-tools.github.io/ASAP/)
  - [BAM]
  - [SS](https://vlab.ncep.noaa.gov/web/stock-synthesis/home)
- 
-2. Clone the repo
+
+**2. Clone the repo**
 
  `git clone https://github.com/Bai-Li-NOAA/Age-Structured-Stock-Assessment-Model-Comparison.git`
 
