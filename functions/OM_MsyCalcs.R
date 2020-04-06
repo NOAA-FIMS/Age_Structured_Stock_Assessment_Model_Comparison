@@ -1,4 +1,4 @@
-msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL, mat.m=NULL, sigma=0, maxF=1.0, step=0.01, verbose=FALSE){
+msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL, mat.m=NULL, BC=BC, maxF=1.0, step=0.01, verbose=FALSE){
 
 	## Language:          R
 	## Contains:          Function "msy.calcs"
@@ -50,14 +50,14 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
   if (is.null(mat.f) & is.null(mat.m)) stop ("Specify maturity schedule -- male, female, or both!")
    
   if (verbose){
-  	if (sigma == 0) {cat("*** MSY NOTE: Estimates contain no bias correction.\n")}
+  	if (BC == 1) {cat("*** MSY NOTE: Estimates contain no bias correction.\n")}
   	else {cat("*** NOTE: Estimates contain bias correction.\n")}
   	if (is.null(mat.f)){cat("*** MSY NOTE: SSB based on males only.\n")}
   	if (is.null(mat.m)){cat("*** MSY NOTE: SSB based on females only.\n")}
   	if (!is.null(mat.f) & !is.null(mat.m)){cat("*** MSY NOTE: SSB based on both sexes.\n")}
   }
   ##INITIALIZATION
-  BC=exp(sigma^2/2.0)              #multiplicative bias correction
+  BC=BC              #multiplicative bias correction
 	nages=length(wgt)
 	if (length(M)>1){M_age=M}        #natural mortality at age (may be constant)
 	else M_age=rep(M,nages)
@@ -71,14 +71,14 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
 	reprod=wgt*(prop.f*mu.f + prop.m *mu.m) #constant vector multiplied by abundance to get SSB at age
 
   
-	f=seq(0.0,maxF, by=step)
-	spr=rep(0.0,length(f))   #equilibrium spr at F
-	S_eq=rep(0.0,length(f))  #equilibrium SSB at F
-	R_eq=rep(0.0,length(f))  #equilibrium recruitment at F
-	B_eq=rep(0.0,length(f))  #equilibrium biomass at F
-	L_eq=rep(0.0,length(f))  #equilibrium landings at F
-	D_eq=rep(0.0,length(f))  #equilibrium dead discards at F
-	E_eq=rep(0.0,length(f))  #equilibrium exploitation rate at F (landings only)
+	f_seq=seq(0.0,maxF, by=step)
+	spr=rep(0.0,length(f_seq))   #equilibrium spr at F
+	S_eq=rep(0.0,length(f_seq))  #equilibrium SSB at F
+	R_eq=rep(0.0,length(f_seq))  #equilibrium recruitment at F
+	B_eq=rep(0.0,length(f_seq))  #equilibrium biomass at F
+	L_eq=rep(0.0,length(f_seq))  #equilibrium landings at F
+	D_eq=rep(0.0,length(f_seq))  #equilibrium dead discards at F
+	E_eq=rep(0.0,length(f_seq))  #equilibrium exploitation rate at F (landings only)
   
   L_age=rep(0.0,nages)     #landings at age
   D_age=rep(0.0,nages)     #dead discards at age
@@ -92,10 +92,10 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
   spr_F0=sum(N0*reprod)
 
   ## BEGIN ALGORITHM
-  for (i in 1:length(f)){
-    FL_age=f[i]*selL
-    FD_age=f[i]*selD
-    Z_age=M_age+f[i]*selZ
+  for (i in 1:length(f_seq)){
+    FL_age=f_seq[i]*selL
+    FD_age=f_seq[i]*selD
+    Z_age=M_age+f_seq[i]*selZ
  
     N_age=rep(1.0,nages)     #N at age
     for (iage in 2:nages){
@@ -129,7 +129,7 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
   } #END F loop
 
   msy_out=max(L_eq)
-  F_msy_out=f[L_eq==msy_out]
+  F_msy_out=f_seq[L_eq==msy_out]
   spr_msy_out=spr[L_eq==msy_out]
   SR_msy_out=spr_msy_out/spr_F0
   D_msy_out=D_eq[L_eq==msy_out]
@@ -140,7 +140,7 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
 
 	if (F_msy_out==maxF){cat("*** Fmsy reached a bound.\n")}
 	
-  return(list(msy=msy_out, Fmsy=F_msy_out, Dmsy=D_msy_out, spr_msy=spr_msy_out, SPRmsy=SR_msy_out, SSBmsy=S_msy_out, Rmsy=R_msy_out, Bmsy=B_msy_out, Emsy=E_msy_out, F=F, L_eq=L_eq, D_eq=D_eq, SSB_eq=S_eq))
+  return(list(msy=msy_out, Fmsy=F_msy_out, Dmsy=D_msy_out, spr_msy=spr_msy_out, SPRmsy=SR_msy_out, SSBmsy=S_msy_out, Rmsy=R_msy_out, Bmsy=B_msy_out, Emsy=E_msy_out, f_seq=f_seq, L_eq=L_eq, D_eq=D_eq, SSB_eq=S_eq))
 
 }
 

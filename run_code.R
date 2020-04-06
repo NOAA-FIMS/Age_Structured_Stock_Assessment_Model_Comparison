@@ -36,37 +36,39 @@ set.seed(9924)
 
 ## Set recruitment and fishing mortality 
 nyr = 30
-logR_sd=0.2
-logf_sd=0.01
+logR_sd=0.6
+logf_sd=0.2
 
 f_dev_matrix <- f_dev_case(f_dev_change=FALSE, nyr=nyr, logf_sd=logf_sd, om_sim_num=om_sim_num)
 
-f_matrix <- f_case(f_pattern=6, f_min=NULL, f_max=NULL, f_end=NULL, f_mean=0.39, start_val=0.01, start_year=7, nyr=nyr, om_sim_num=om_sim_num, f_dev_matrix=f_dev_matrix)
+f_matrix <- f_case(f_pattern=1, f_min=0.01, f_max=0.39, f_end=NULL, f_mean=NULL, start_val=NULL, start_year=NULL, nyr=nyr, om_sim_num=om_sim_num, f_dev_matrix=f_dev_matrix)
 
 r_dev_matrix <- r_dev_case(r_dev_change=TRUE, nyr=nyr, logR_sd=logR_sd, om_sim_num=om_sim_num)
 
+om_bias_cor=TRUE # TRUE: bias correction; FALSE: no bias correction
+em_bias_cor=TRUE # TRUE: bias correction; FALSE: no bias correction
 #### Run OM ####
-OM_Run(maindir=maindir, subdir="OM", om_sim_num=om_sim_num, r_dev_matrix=r_dev_matrix, f_dev_matrix=f_dev_matrix, f_matrix=f_matrix)
-rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", lsf.str())))
+OM_Run(maindir=maindir, subdir="OM", om_sim_num=om_sim_num, r_dev_matrix=r_dev_matrix, f_dev_matrix=f_dev_matrix, f_matrix=f_matrix, om_bias_cor=om_bias_cor)
+rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", "em_bias_cor", lsf.str())))
 
-#### Run EM ####
-plan(multiprocess)
-asapjob %<-% ASAP_Run(maindir=maindir, subdir="ASAP", om_sim_num=om_sim_num)
-amakjob %<-% AMAK_Run(maindir=maindir, subdir="AMAK", om_sim_num=om_sim_num)
-bamjob %<-% BAM_Run(maindir=maindir, subdir="BAM", om_sim_num=om_sim_num)
-ssjob %<-% SS_Run(maindir=maindir, subdir="SS", om_sim_num=om_sim_num)
+### Run EM ####
+# plan(multiprocess)
+# asapjob %<-% ASAP_Run(maindir=maindir, subdir="ASAP", om_sim_num=om_sim_num)
+# amakjob %<-% AMAK_Run(maindir=maindir, subdir="AMAK", om_sim_num=om_sim_num)
+# bamjob %<-% BAM_Run(maindir=maindir, subdir="BAM", om_sim_num=om_sim_num)
+# ssjob %<-% SS_Run(maindir=maindir, subdir="SS", om_sim_num=om_sim_num)
 
 AMAK_Run(maindir=maindir, subdir="AMAK", om_sim_num=om_sim_num)
-rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", lsf.str())))
+rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", "em_bias_cor", lsf.str())))
 
 ASAP_Run(maindir=maindir, subdir="ASAP", om_sim_num=om_sim_num)
-rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", lsf.str())))
+rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", "em_bias_cor", lsf.str())))
 
 BAM_Run(maindir=maindir, subdir="BAM", om_sim_num=om_sim_num)
-rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", lsf.str())))
+rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", "em_bias_cor", lsf.str())))
 
 SS_Run(maindir=maindir, subdir="SS", om_sim_num=om_sim_num)
-rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", lsf.str())))
+rm(list=setdiff(ls(), c("maindir", "om_sim_num", "keep_sim_num", "figure_number", "em_names", "em_bias_cor", lsf.str())))
 
 #### Remove .exe to save space ####
 sapply(1:om_sim_num, function(x) file.remove(file.path(maindir, "output", "AMAK", paste("s", x, sep=""), "amak.exe")))

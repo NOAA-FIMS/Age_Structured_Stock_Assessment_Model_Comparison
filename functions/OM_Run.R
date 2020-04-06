@@ -1,4 +1,4 @@
-OM_Run <- function(maindir=maindir, subdir="OM", om_sim_num=160, r_dev_matrix=r_dev_matrix, f_dev_matrix=f_dev_matrix, f_matrix=f_matrix){
+OM_Run <- function(maindir=maindir, subdir="OM", om_sim_num=160, r_dev_matrix=r_dev_matrix, f_dev_matrix=f_dev_matrix, f_matrix=f_matrix, om_bias_cor=om_bias_cor){
   
   setwd(paste(maindir))
   

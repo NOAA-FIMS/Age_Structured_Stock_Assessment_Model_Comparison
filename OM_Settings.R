@@ -96,10 +96,10 @@ for (a in 1:(nages-1))
   N.pr0[nages]=N.pr0[nages]/(1-exp(-M.age[nages]))  #Plus group
 Phi.0=sum(N.pr0*proportion.female*mat.age*W.mt)     #Spawners per recruit based on mature female biomass 
 
-om_input <- list(fleet_num=fleet_num, survey_num=survey_num, nyr=nyr, yr=yr, ages=ages, nages=nages, cv.L=cv.L, cv.survey=cv.survey, n.L=n.L, n.survey=n.survey, logR_sd=logR_sd, logf_sd=logf_sd, R0=R0, h=h, M=M, Linf=Linf, K=K, a0=a0, a.lw=a.lw, b.lw=b.lw, A50.mat=A50.mat, slope.mat=slope.mat, sel_fleet=sel_fleet, sel_survey=sel_survey, len=len, W.kg=W.kg, W.mt=W.mt, M.age=M.age, mat.age=mat.age, proportion.female=proportion.female, selex_fleet=selex_fleet, selex_survey=selex_survey, N.pr0=N.pr0, Phi.0=Phi.0, logR.resid=logR.resid, logf.resid=logf.resid, f=f)
+om_input <- list(fleet_num=fleet_num, survey_num=survey_num, nyr=nyr, yr=yr, ages=ages, nages=nages, cv.L=cv.L, cv.survey=cv.survey, n.L=n.L, n.survey=n.survey, logR_sd=logR_sd, logf_sd=logf_sd, R0=R0, h=h, M=M, Linf=Linf, K=K, a0=a0, a.lw=a.lw, b.lw=b.lw, A50.mat=A50.mat, slope.mat=slope.mat, sel_fleet=sel_fleet, sel_survey=sel_survey, len=len, W.kg=W.kg, W.mt=W.mt, M.age=M.age, mat.age=mat.age, proportion.female=proportion.female, selex_fleet=selex_fleet, selex_survey=selex_survey, N.pr0=N.pr0, Phi.0=Phi.0, logR.resid=logR.resid, logf.resid=logf.resid, f=f, om_bias_cor=om_bias_cor)
 
 #### Simulate the stock dynamics ####
-input1<-list(nyr=nyr, f=f, ages=ages, nages=nages, R0=R0, h=h, Phi.0=Phi.0, M.age=M.age, W.mt=W.mt, mat.age=mat.age, prop.f=proportion.female, selex_fleet=selex_fleet, logR.resid=logR.resid)
+input1<-list(nyr=nyr, f=f, ages=ages, nages=nages, R0=R0, h=h, Phi.0=Phi.0, M.age=M.age, W.mt=W.mt, mat.age=mat.age, prop.f=proportion.female, selex_fleet=selex_fleet, logR.resid=logR.resid, om_bias_cor=om_bias_cor)
 om_output <- popsim(x=input1)
 
 ### Simulate the survey index ####

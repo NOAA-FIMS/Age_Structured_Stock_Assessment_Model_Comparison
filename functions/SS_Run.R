@@ -2,12 +2,6 @@ SS_Run <- function(maindir=maindir, subdir="SS", om_sim_num=1){
   setwd(file.path(maindir, "output", subdir))
   sapply(1:om_sim_num, function(x) dir.create(file.path(maindir, "output", subdir, paste("s", x, sep=""))))
   
-  #file.copy(file.path(maindir, "starter.ss"), file.path(maindir, subdir, "starter.ss"), overwrite = T)
-  #file.copy(file.path(maindir, "forecast.ss"), file.path(maindir, subdir, "forecast.ss"), overwrite = T)
-  #file.copy(file.path(maindir, "data.ss"), file.path(maindir, subdir, "data.ss"), overwrite = T)
-  #file.copy(file.path(maindir, "control.ss"), file.path(maindir, subdir, "control.ss"), overwrite = T)
-  #file.copy(file.path(maindir, "wtatage.ss"), file.path(maindir, subdir, "wtatage.ss"), overwrite = T)
-  #file.copy(file.path(maindir, "ss.exe"), file.path(maindir, subdir, "ss.exe"), overwrite = T)
   ss_data <- SS_readdat_3.30(file.path(maindir, "em_input", "data.ss"), verbose=FALSE)
   
   modify_input = "partial"
@@ -31,6 +25,12 @@ SS_Run <- function(maindir=maindir, subdir="SS", om_sim_num=1){
       ss_ctl$SRparm$INIT[which(rownames(ss_ctl$SRparm)=="SR_sigmaR")] <- om_input$logR_sd
       ss_ctl$SRparm$PRIOR[which(rownames(ss_ctl$SRparm)=="SR_sigmaR")] <- om_input$logR_sd
       ss_ctl$F_setup[1] <- om_output$f[1]
+      if(em_bias_cor==FALSE) {
+        ss_ctl$max_bias_adj <- 0
+      }else{
+        ss_ctl$max_bias_adj <- 1
+      }
+      
     }
     SS_writedat_3.30(datlist = ss_data, outfile = file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "data.ss"), overwrite = T, verbose = FALSE)
     SS_writectl_3.30(ctllist = ss_ctl, outfile = file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "control.ss"), overwrite = T, verbose = F)

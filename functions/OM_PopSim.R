@@ -112,10 +112,15 @@ popsim<-function(x){
   N.pr1[nages]=N.pr1[nages]/(1-exp(-Z[nages])) #Plus group
   Phi.F=sum(N.pr1*reprod) #Spawners per recruit based on mature female biomass
   
-  R.eq=R0*(4*h*Phi.F-(1-h)*Phi.0)/((5*h-1)*Phi.F)
+  if(x$om_bias_cor==TRUE){
+    BC <- exp(logR_sd^2/2)
+  } else{
+    BC <- 1
+  }
+  
+  R.eq=R0*(BC*4*h*Phi.F-(1-h)*Phi.0)/((5*h-1)*Phi.F)
   if (R.eq<1) {R.eq=1}  #Catch numerical possibility that equilibrium R is negative
   N.age[1,]=R.eq*N.pr1
-  
   
   for (i in 1:(nyr-1)){
     Z=f[i]*selex_fleet$fleet1 + M.age
@@ -143,9 +148,10 @@ popsim<-function(x){
   biomass.mt[nyr]=sum(N.age[nyr,]*W.mt)
     
   selex.D=rep(0,nages) #selex of discards. not used here (set to 0), but required as input for msy calculations
-  msy=msy_calcs(steep=h, R0=R0, M=M.age, wgt=W.mt, prop.f=prop.f, selL=selex_fleet$fleet1, selD=selex.D, selZ=selex_fleet$fleet1, mat.f=mat.age, mat.m=NULL, sigma=0, maxF=1.0, step=0.01)
   
-  return(list(yr=1:nyr, SSB=SSB, abundance=abundance, biomass.mt=biomass.mt, N.age=N.age, L.age=L.age, L.knum=L.knum, L.mt=L.mt, msy=msy, f=f, FAA=FAA))
+  msy=msy_calcs(steep=h, R0=R0, M=M.age, wgt=W.mt, prop.f=prop.f, selL=selex_fleet$fleet1, selD=selex.D, selZ=selex_fleet$fleet1, mat.f=mat.age, mat.m=NULL, BC=BC, maxF=1.0, step=0.01)
+  
+  return(list(yr=1:nyr, SSB=SSB, abundance=abundance, biomass.mt=biomass.mt, N.age=N.age, L.age=L.age, L.knum=L.knum, L.mt=L.mt, msy=msy, f=f, FAA=FAA, BC=BC))
 } #end popsim
 
 #####################################################################################

@@ -20,7 +20,7 @@ BAM_Run <- function(maindir=maindir, subdir="BAM", om_sim_num=1){
       
       dat1.L=list(styr=om_input$yr[1],endyr=om_input$yr[length(om_input$yr)], vals.obs=em_input$L.obs$fleet1, cv=rep(em_input$cv.L$fleet1, length(em_input$L.obs$fleet1)), nyr.ages=length(em_input$L.obs$fleet1), yrs.age=om_input$yr, nsamp=rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)), nfish=rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)), acomp=em_input$L.age.obs$fleet1)
       
-      BAM.write.dat(fname=file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.dat"), nyr=om_input$nyr, nages=om_input$nages, dat.survey=dat1.survey, dat.L=dat1.L, parms=bam_parms, a.lw=om_input$a.lw, b.lw=om_input$b.lw, prop.f=om_input$proportion.female, om_input$mat.age,om_input$M.age)
+      BAM.write.dat(fname=file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.dat"), nyr=om_input$nyr, nages=om_input$nages, dat.survey=dat1.survey, dat.L=dat1.L, parms=bam_parms, a.lw=om_input$a.lw, b.lw=om_input$b.lw, prop.f=om_input$proportion.female, mat.age=om_input$mat.age, M.age=om_input$M.age, BC=om_output$BC)
     }
     file.copy(file.path(maindir, "em_input", "bam-sim.exe"), file.path(maindir,"output", subdir, paste("s", om_sim, sep=""), "bam-sim.exe"), overwrite = T)
   }

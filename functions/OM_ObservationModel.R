@@ -65,6 +65,6 @@ ObsModel<-function(L, survey, L.age, survey.age, cv.L, cv.survey, n.L, n.survey)
     }
   }))
 
-  return(list(L.obs=L.obs, survey.obs=survey.obs, L.age.obs=L.age.obs, survey.age.obs=survey.age.obs, n.L=n.L, n.survey=n.survey, survey_q=om_output$survey_q, ln.L=ln.L, ln.survey=ln.survey))
+  return(list(L.obs=L.obs, survey.obs=survey.obs, L.age.obs=L.age.obs, survey.age.obs=survey.age.obs, n.L=n.L, n.survey=n.survey, survey_q=om_output$survey_q))
   
 } # end ObsModel  

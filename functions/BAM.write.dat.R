@@ -1,7 +1,7 @@
 #Function to write dat file for BAM
 
 BAM.write.dat<-function(fname, nyr, nages, dat.survey, dat.L, parms, 
-                     a.lw, b.lw, prop.f, mat.age, M.age){
+                     a.lw, b.lw, prop.f, mat.age, M.age, BC){
 
   sink(fname)
   
@@ -37,7 +37,12 @@ BAM.write.dat<-function(fname, nyr, nages, dat.survey, dat.L, parms,
   #Number years at end of time series over which to average sector F's, for weighted selectivities
   cat(as.character(paste(1,collapse="\t")), sep="\n", append=TRUE) 
   #Bias correction (set to 1.0 for no bias correction or a negative value to compute from rec variance)
-  cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE) 
+  if (em_bias_cor==FALSE){
+    cat(as.character(paste(1,collapse="\t")), sep="\n", append=TRUE)
+    }else{
+    cat(as.character(paste(-1,collapse="\t")), sep="\n", append=TRUE)
+  }
+   
 
   ##########SURVEY DATA############################################################
   cat(as.character(paste("#######SURVEY DATA#######",collapse="\t")), sep="\n")  
