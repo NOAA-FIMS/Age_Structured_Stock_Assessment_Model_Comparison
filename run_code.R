@@ -21,7 +21,7 @@ invisible(sapply(c("output", "figure"), function(x) {
   if (!file.exists(file.path(maindir, x))) dir.create(file.path(maindir, x))
 }))
 
-em_names <- c("ASAP", "AMAK", "BAM", "SS") # Set estimation models 
+em_names <- c("AMAK", "ASAP", "BAM", "SS") # Set estimation models 
 invisible(sapply(c(em_names, "OM"), function(x) {
   if (!file.exists(file.path(maindir, "output", x))) dir.create(file.path(maindir, "output", x))
 }))
