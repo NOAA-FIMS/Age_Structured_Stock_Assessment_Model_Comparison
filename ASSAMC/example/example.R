@@ -3,9 +3,9 @@ devtools::load_all()
 ## ASAPplots, r4ss, readxl
 maindir <- "C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example"
 
-om_sim_num <- 20 # total number of iterations per case
-keep_sim_num <- 10 # number of kept iterations per case
-figure_number <- 10 # number of individual iteration to plot
+om_sim_num <- 10 # total number of iterations per case
+keep_sim_num <- 5 # number of kept iterations per case
+figure_number <- 5 # number of individual iteration to plot
 
 seed_num <- 9924
 
