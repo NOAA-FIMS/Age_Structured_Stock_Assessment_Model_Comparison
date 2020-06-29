@@ -1,10 +1,10 @@
-devtools::create("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC")
+devtools::load_all()
 ## Need to install packages below:
-## ASAPplots, r4ss,
-maindir <- "C:/Users/bai.li/Documents/Github/ASSAMC/example/"
+## ASAPplots, r4ss, readxl
+maindir <- "C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example"
 
-om_sim_num <- 50 # total number of iterations per case
-keep_sim_num <- 30 # number of kept iterations per case
+om_sim_num <- 20 # total number of iterations per case
+keep_sim_num <- 10 # number of kept iterations per case
 figure_number <- 10 # number of individual iteration to plot
 
 seed_num <- 9924
@@ -95,7 +95,7 @@ run_om(maindir=maindir)
 #### Run EMs ####
 run_em(run_em_names=c("AMAK", "ASAP"))
 run_em(run_em_names=c("BAM"))
-run_em(run_em_names=c("SS"))
+#run_em(run_em_names=c("SS"))
 
 #### Plot comparison outputs ####
 #generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"), plot_ncol=2, plot_nrow=2, plot_color = c("orange", "green", "red", "deepskyblue3"))
