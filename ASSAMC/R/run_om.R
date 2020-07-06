@@ -14,7 +14,13 @@ run_om <- function(maindir=NULL,
 
   invisible(do.call(file.remove, list(list.files(file.path(maindir, "output", "OM"), full.names = TRUE))))
 
-  nyr <<- length(yr)
+  if (is.null(seed_num)) {
+    set.seed(9924)
+  } else {
+    set.seed(seed_num)
+  }
+
+  nyr <<- length(year)
   nages <<- length(ages)
 
   ## Set up F deviations-at-age per iteration
@@ -82,7 +88,7 @@ run_om <- function(maindir=NULL,
     om_input <<- list(fleet_num=fleet_num,
                      survey_num=survey_num,
                      nyr=nyr,
-                     yr=yr,
+                     year=year,
                      ages=ages,
                      nages=nages,
                      cv.L=cv.L,
@@ -149,9 +155,9 @@ run_om <- function(maindir=NULL,
       survey_q[[x]] <<- 1/mean(survey_annual_sum)
     }))
 
-    om_output$survey_age_comp <- survey_age_comp
-    om_output$survey_index <- survey_index
-    om_output$survey_q <- survey_q
+    om_output$survey_age_comp <<- survey_age_comp
+    om_output$survey_index <<- survey_index
+    om_output$survey_q <<- survey_q
 
     ## Generate observation data
     em_input <<- ObsModel(L=om_output$L.mt,

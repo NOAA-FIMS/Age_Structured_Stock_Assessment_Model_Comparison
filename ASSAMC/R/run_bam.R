@@ -21,21 +21,21 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL){
       bam_parms[bam_parms$notes=="log mean F",c(1,5)]=log(mean(om_output$f))
 
       dat1.survey=list(nyr=length(em_input$survey.obs$survey1),
-                       yrs=om_input$yr,
+                       yrs=om_input$year,
                        vals.obs=em_input$survey.obs$survey1,
                        cv=rep(em_input$cv.survey$survey1, length(em_input$survey.obs$survey1)),
                        nyr.ages=length(em_input$survey.obs$survey1),
-                       yrs.age=om_input$yr,
+                       yrs.age=om_input$year,
                        nsamp=rep(em_input$n.survey$survey1, length(em_input$survey.obs$survey1)),
                        nfish=rep(em_input$n.survey$survey1, length(em_input$survey.obs$survey1)),
                        acomp=em_input$survey.age.obs$survey1)
 
-      dat1.L=list(styr=om_input$yr[1],
-                  endyr=om_input$yr[length(om_input$yr)],
+      dat1.L=list(styr=om_input$year[1],
+                  endyr=om_input$year[length(om_input$year)],
                   vals.obs=em_input$L.obs$fleet1,
                   cv=rep(em_input$cv.L$fleet1, length(em_input$L.obs$fleet1)),
                   nyr.ages=length(em_input$L.obs$fleet1),
-                  yrs.age=om_input$yr,
+                  yrs.age=om_input$year,
                   nsamp=rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)),
                   nfish=rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)),
                   acomp=em_input$L.age.obs$fleet1)
@@ -46,6 +46,8 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL){
 
   for (om_sim in 1:om_sim_num){
     setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
-    system(paste(file.path(maindir, "em_input", "bam-sim.exe"), " BAM-Sim.DAT", sep = ""), show.output.on.console = FALSE)
+    file.copy(file.path(maindir, "em_input", "BAM-Sim.exe"), file.path(maindir,"output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.exe"), overwrite = T)
+    system(paste(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.exe"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.dat"), sep = " "), show.output.on.console = FALSE)
+    file.remove(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.exe"))
   }
 }

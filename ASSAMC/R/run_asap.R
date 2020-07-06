@@ -31,7 +31,7 @@ run_asap <- function(maindir=maindir, subdir="ASAP", om_sim_num=NULL){
       asap_input$dat$CAA_mats[[1]] <- cbind(em_input$L.age.obs$fleet1, em_input$L.obs$fleet1)
       asap_input$dat$catch_cv <- cbind(rep(em_input$cv.L$fleet1, times=length(em_input$L.obs$fleet1)))
       for (survey_id in 1:om_input$survey_num){
-        asap_input$dat$IAA_mats[[survey_id]] <- cbind(om_input$yr, em_input$survey.obs[[survey_id]], rep(em_input$cv.survey[[survey_id]], times=length(em_input$survey.obs[[survey_id]])), em_input$survey.age.obs[[survey_id]], rep(em_input$n.survey[[survey_id]], times=length(em_input$survey.obs[[survey_id]])))
+        asap_input$dat$IAA_mats[[survey_id]] <- cbind(om_input$year, em_input$survey.obs[[survey_id]], rep(em_input$cv.survey[[survey_id]], times=length(em_input$survey.obs[[survey_id]])), em_input$survey.age.obs[[survey_id]], rep(em_input$n.survey[[survey_id]], times=length(em_input$survey.obs[[survey_id]])))
       }
 
       asap_input$dat$catch_Neff <- cbind(rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)))
@@ -77,8 +77,13 @@ run_asap <- function(maindir=maindir, subdir="ASAP", om_sim_num=NULL){
   # }
 
   invisible(lapply(1:om_sim_num, function(om_sim) {
+    # setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
+    # system(paste(file.path(maindir, "em_input", "ASAP3.exe"), " asap3.DAT", sep = ""), show.output.on.console = FALSE)
+
     setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
-    system(paste(file.path(maindir, "em_input", "ASAP3.exe"), " asap3.DAT", sep = ""), show.output.on.console = FALSE)
+    file.copy(file.path(maindir, "em_input", "ASAP3.exe"), file.path(maindir,"output", subdir, paste("s", om_sim, sep=""), "ASAP3.exe"), overwrite = T)
+    system(paste(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "ASAP3.exe"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "asap3.DAT"), sep = " "), show.output.on.console = FALSE)
+    file.remove(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "ASAP3.exe"))
   }))
 
   # for (om_sim in 1:om_sim_num){

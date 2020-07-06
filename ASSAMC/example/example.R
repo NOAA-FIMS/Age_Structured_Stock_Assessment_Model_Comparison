@@ -3,13 +3,13 @@ devtools::load_all()
 ## ASAPplots, r4ss, readxl
 maindir <- "C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example"
 
-om_sim_num <- 10 # total number of iterations per case
-keep_sim_num <- 5 # number of kept iterations per case
-figure_number <- 5 # number of individual iteration to plot
+om_sim_num <- 160 # total number of iterations per case
+keep_sim_num <- 100 # number of kept iterations per case
+figure_number <- 10 # number of individual iteration to plot
 
 seed_num <- 9924
 
-yr <- 1:30
+year <- 1:30
 
 logf_sd <- 0.2
 f_dev_change <- FALSE
@@ -19,6 +19,8 @@ f_max <- 0.39
 
 logR_sd <- 0.2
 r_dev_change <- TRUE
+
+em_bias_cor <- FALSE
 
 #### Life-history parameters ####
 ages=1:12           #Age structure of the popn
@@ -89,18 +91,21 @@ sel_survey$survey1$slope.sel <- 2
 #sel_survey$survey2$A50.sel <- 1.5
 #sel_survey$survey2$slope.sel <- 2
 
-#### Run OM ####
-run_om(maindir=maindir)
+system.time({
+  #### Run OM ####
+  run_om(maindir=maindir)
 
-#### Run EMs ####
-run_em(run_em_names=c("AMAK", "ASAP"))
-run_em(run_em_names=c("BAM"))
-#run_em(run_em_names=c("SS"))
+  #### Run EMs ####
+  run_em(run_em_names=c("AMAK", "ASAP"))
+  run_em(run_em_names=c("BAM"))
+  run_em(run_em_names=c("SS"))
 
-#### Plot comparison outputs ####
-#generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"), plot_ncol=2, plot_nrow=2, plot_color = c("orange", "green", "red", "deepskyblue3"))
+  #### Plot comparison outputs ####
+  generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"), plot_ncol=2, plot_nrow=2, plot_color = c("orange", "green", "red", "deepskyblue3"))
 
-generate_plot(em_names = c("AMAK", "ASAP", "BAM"), plot_ncol=3, plot_nrow=1, plot_color = c("orange", "green", "red"))
+  #generate_plot(em_names = c("AMAK", "ASAP", "BAM"), plot_ncol=3, plot_nrow=1, plot_color = c("orange", "green", "red"))
+})
+
 
 
 

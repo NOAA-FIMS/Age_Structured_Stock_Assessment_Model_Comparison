@@ -1,0 +1,1732 @@
+#V3.30.14.00-safe;_2019_07_19;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_12.0
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+Mon Jul 06 05:05:39 2020
+
+data.ss  datfilename
+control.ss  ctlfilename
+0  readparfile
+1  rundetail
+1  reportdetail
+1  docheckup
+1  Do_ParmTrace
+1  Do_CumReport
+1  Do_all_priors
+1  SoftBound
+2  N_nudata
+8  Turn_off_phase
+0  MCeval burn_intvl
+1  MCeval thin_intvl
+0  jitter fraction for initial parm values
+-1  STD_Yr_min
+-2  STD_Yr_max
+0  N extra STD years to read
+0.0001  final_conv
+0  retro_yr
+1  Smry_Age
+2  depletion_basis
+0.4  depletion_level
+4  SPR_reporting
+3  F_reporting
+2  F_std_basis
+For Kobe plot, set depletion_basis=2; depletion_level=1.0; F_reporting=your choose; F_std_basis=2
+0.01
+Read files in 3.30 format
+Now read MCMC output detail.MCMC_bump;  separate values will be parsed from input
+MCMC output detail:  0
+Now read ALK tolerance (suggest 0.0001)
+ALK tolerance:  0.0001
+  finish reading starter.ss
+
+1 start year 
+30 end year 
+1 N seasons 
+ 12 months/seas (fractions OK) 
+2 Number of subseasons (even number only; min 2) for calculation of ALK 
+ 1 processed season duration (frac. of year) 
+ 0.5 processed subseason duration (frac. of year) 
+ processed subseason cumulative annual time within season 
+ 0 0.5
+SPAWN month: 1.00001; seas: 1; subseas_for_ALK: 1; timing_in_season: 8.33333e-007
+gender read is negative, so total spawnbiomass will be multiplied by frac_female parameter
+1 N sexes 
+Accumulator age 12
+1 N_areas 
+2 total number of fishing fleets and surveys 
+rows are fleets; columns are: Fleet_#, fleet_type, timing, area, units, need_catch_mult
+1 #  1 -1 1 1 0 # FISHERY1
+2 #  3 1 1 2 0 # SURVEY1
+YPR_optimize_mask:  1 0
+31 records
+first catch record:  -999 1 1 13.3778 0.00999975
+last catch record:  30 1 1 1407.24 0.00999975
+ equ, seas:   -1 1 catches:  13.3778 0
+year, seas: 1 1 catches:  160.534 0
+year, seas: 2 1 catches:  459.101 0
+year, seas: 3 1 catches:  735.97 0
+year, seas: 4 1 catches:  965.146 0
+year, seas: 5 1 catches:  746.568 0
+year, seas: 6 1 catches:  1269.48 0
+year, seas: 7 1 catches:  1202.43 0
+year, seas: 8 1 catches:  2275.22 0
+year, seas: 9 1 catches:  1201.53 0
+year, seas: 10 1 catches:  1380.29 0
+year, seas: 11 1 catches:  1484.08 0
+year, seas: 12 1 catches:  1523.89 0
+year, seas: 13 1 catches:  1083.18 0
+year, seas: 14 1 catches:  1554.04 0
+year, seas: 15 1 catches:  1542.23 0
+year, seas: 16 1 catches:  1290.62 0
+year, seas: 17 1 catches:  2262.53 0
+year, seas: 18 1 catches:  1650.71 0
+year, seas: 19 1 catches:  1526.81 0
+year, seas: 20 1 catches:  1433.58 0
+year, seas: 21 1 catches:  1829.68 0
+year, seas: 22 1 catches:  1216.81 0
+year, seas: 23 1 catches:  1824.65 0
+year, seas: 24 1 catches:  1334.35 0
+year, seas: 25 1 catches:  1250.15 0
+year, seas: 26 1 catches:  1113.84 0
+year, seas: 27 1 catches:  1070.39 0
+year, seas: 28 1 catches:  1395.71 0
+year, seas: 29 1 catches:  986.268 0
+year, seas: 30 1 catches:  1407.24 0
+
+#_show_total_catch_by_fleet
+1 type: 1 FISHERY1 catch: 39190.4
+2 type: 3 SURVEY1 catch: 0
+
+#_  now read survey characteristics:  fleet_#, svyunits, svyerrtype for each fleet 
+Units:  0=numbers; 1=biomass; 2=F; >=30 for special patterns
+Errtype:  -1=normal; 0=lognormal; >0=T
+SD_Report: 0=no sdreport; 1=enable sdreport
+Fleet Units Err_Type SD_Report
+ 1 1 0 1
+ 2 0 0 1
+30 nobs_survey 
+ 1 1 2 1.60278 0.198042
+ 2 1 2 1.35341 0.198042
+ 3 1 2 1.30481 0.198042
+ 4 1 2 1.4411 0.198042
+ 5 1 2 1.53531 0.198042
+ 6 1 2 1.16493 0.198042
+ 7 1 2 1.07779 0.198042
+ 8 1 2 1.18271 0.198042
+ 9 1 2 1.26938 0.198042
+ 10 1 2 1.02039 0.198042
+ 11 1 2 1.02085 0.198042
+ 12 1 2 1.31148 0.198042
+ 13 1 2 1.0648 0.198042
+ 14 1 2 1.06958 0.198042
+ 15 1 2 1.10915 0.198042
+ 16 1 2 1.06749 0.198042
+ 17 1 2 1.26853 0.198042
+ 18 1 2 0.96204 0.198042
+ 19 1 2 0.892055 0.198042
+ 20 1 2 0.900934 0.198042
+ 21 1 2 0.883047 0.198042
+ 22 1 2 0.605394 0.198042
+ 23 1 2 0.707622 0.198042
+ 24 1 2 0.60657 0.198042
+ 25 1 2 0.734238 0.198042
+ 26 1 2 0.521357 0.198042
+ 27 1 2 0.629237 0.198042
+ 28 1 2 0.588494 0.198042
+ 29 1 2 0.599317 0.198042
+ 30 1 2 0.620396 0.198042
+ processed survey data 
+1 FISHERY1 
+2 SURVEY1  1.60278 1.35341 1.30481 1.4411 1.53531 1.16493 1.07779 1.18271 1.26938 1.02039 1.02085 1.31148 1.0648 1.06958 1.10915 1.06749 1.26853 0.96204 0.892055 0.900934 0.883047 0.605394 0.707622 0.60657 0.734238 0.521357 0.629237 0.588494 0.599317 0.620396
+Successful read of index data; N= 30
+Number of survey superperiods by fleet:  0 0
+Number of sdreport index values: 30
+ note order of discard read is now: N fleets with disc, then if Ndisc_fleets>0 read:  fleet, disc_units, disc_error(for 1,Ndisc_fleets), then read obs 
+0 N fleets with discard 
+Successful read of discard data, N by fleet =  0 0
+N superperiods by fleet =  0 0
+0 Use mean body size (weight or length); If 0, then no additional input in 3.30 
+Successful pre-processing of mean-bodysize data
+2 LenBin_option:  1=set to data bins; 2 generate uniform; 3 = read custom
+ 1 10 89 input for setup of pop length bins 
+0 indicator for length data  
+
+Processed Population length bin info 
+ 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89
+Overall_Compositions
+Fleet len_bins  0 0
+Successful processing of length data
+
+Enter the number of agebins, or 0 if no age data
+12 N age bins 
+ 1 2 3 4 5 6 7 8 9 10 11 12 agebins 
+1 N age error defs 
+ageerror_definitions_as_read
+ -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+ 0 0 0 0 0 0 0 0 0 0 0 0 0
+#_now read for each fleet info for processing the age comps:
+#_mintailcomp: upper and lower distribution for females and males separately are accumulated until exceeding this level.
+#_addtocomp:  after accumulation of tails; this value added to all bins
+#_males and females treated as combined gender below this bin number 
+#_compressbins: accumulate upper tail by this number of bins; acts simultaneous with mintailcomp; set=0 for no forced accumulation
+#_Comp_Error:  0=multinomial, 1=dirichlet
+#_Comp_ERR-2:  index of parameter to use
+#_minsamplesize: minimum sample size; set to 1 to match 3.24, set to 0 for no minimum
+0 0.0001 1 0 0 0 1  #_fleet: 1 FISHERY1
+0 0.0001 1 0 0 0 1  #_fleet: 2 SURVEY1
+1 Lbin method for defined size ranges 
+age_obs_#:1 #  1 1 1 0 0 1 -1 -1 200 0.065 0.1 0.115 0.135 0.125 0.08 0.09 0.035 0.035 0.045 0.02 0.155
+age_obs_#:2 #  2 1 1 0 0 1 -1 -1 200 0.055 0.115 0.13 0.125 0.13 0.1 0.065 0.055 0.025 0.02 0.05 0.13
+60 N age comp observations 
+age_obs_#:60 #  30 1 2 0 0 1 -1 -1 200 0.12 0.21 0.265 0.125 0.13 0.05 0.04 0.015 0.005 0.01 0.005 0.025
+
+Age_Data Nobs by fleet  30 30
+Age_Data superperiods by fleet  0 0
+process age comps 
+Fleet age_bins  1 2 3 4 5 6 7 8 9 10 11 12
+1 freq  0.110969 0.159078 0.16607 0.146759 0.109636 0.0756765 0.0552008 0.0402186 0.0285658 0.0230724 0.0192437 0.0655114
+1 cuml  0.110969 0.270046 0.436116 0.582875 0.692511 0.768187 0.823388 0.863607 0.892173 0.915245 0.934489 1
+2 freq  0.0899931 0.194203 0.193204 0.134107 0.0954863 0.0705159 0.0527038 0.0440474 0.0290654 0.0219071 0.015578 0.059189
+2 cuml  0.0899931 0.284196 0.4774 0.611507 0.706993 0.777509 0.830213 0.874261 0.903326 0.925233 0.940811 1
+
+Successful processing of age data 
+0 (0/1) use mean size-at-age data 
+Successful read of size-at-age data; N kept =  0 0
+0 N_envvar 
+0 N sizefreq methods to read 
+ finished processing sizefreq data 
+0 Do_TagData(0/1) 
+0 Do_Morphcomp(0/1) 
+Do dataread for selectivity priors(0/1):  0
+Yr  Seas Fleet  Age/Size  Bin  selex_prior  prior_sd
+feature not yet implemented
+ data read successful
+
+read Do_Benchmark(0/1), then MSY basis(1=F_SPR,2=F_Btarget,3=calcMSY,4=mult*F_endyr)
+1 echoed Do_Benchmark 
+2 echoed MSY basis
+next read SPR target and Biomass target as fractions
+0.4 echoed SPR_target 
+0.4 echoed B_target 
+next read 10 Benchmark years for:  beg-end bio; beg-end selex; beg-end relF; beg-end recr_dist; beg-end SRparm
+codes: -999 means start year; >0 is an actual year; <=0 is relative to endyr
+ 0 0 0 0 0 0 0 0 0 0 echoed Benchmark years
+ 30 30 30 30 30 30 30 30 30 30 Benchmark years as processed
+next read:  1=use range of years for relF; 2 = set same as forecast relF below
+1  echoed Bmark_RelF_Basis
+
+next read forecast basis: 0=none; 1=F(SPR); 2=F(MSY) 3=F(Btgt); 4=Ave F (enter yrs); 5=read Fmult
+2 echoed Forecast basis
+
+#next read N forecast years
+5 #echoed N_Fcast_Yrs 
+
+# next read Fmult value to be used only if Forecast basis==5
+0 # echoed Fmult value
+
+# next enter Fcast_years:  beg_selex, end_selex, beg_relF, end_relF, beg_recruits, end_recruits
+# enter actual year, or values of 0 or -integer to be relative to endyr)
+ 0 0 0 0 0 0 # echoed Fcast years as read
+ 30 30 30 30 30 30  # After Transformation
+
+# next read flag for specifying selectivity used in forecasts; 0 is value that mimics 3.24, 1 is experimental
+0 # echoed Fcast_Specify_Selex value
+
+next read 4 values for:  control rule shape(1, 2, 3 or 4), inflection (like 0.40), cutoff(like 0.10), scale(like 0.75)
+2  # echoed HarvestPolicy 
+0.4   # echoed harvest policy inflection 
+0.1   # echoed harvest policy cutoff 
+0.75   # echoed harvest policy scalar 
+
+# next enter 2 values that control looping through the forecast (see manual), then 3 placeholder values
+# first does F_msy or proxy; 2nd applies control rule; 3rd applies caps and allocations
+3 #echoed N forecast loops (1-3) (recommend 3)
+3 #echoed First forecast loop with stochastic recruitment (recommend 3)
+0 #echoed Forecast recruitment:  0=spawn_recr; 1=value*spawn_recr; 2=value*VirginRecr; 3=mean from year range
+1 #echoed Forecast loop control #4 (not used) 
+0 #echoed Forecast loop control #5 (reserved for future use) 
+
+#next enter year in which Fcast loop 3 caps and allocations begin to be applied
+36 # echoed value
+
+#next enter 0, or stddev of implementation error
+0 # echoed value
+
+#next select rebuilding program output (0/1)
+0 # echoed value
+
+#next select rebuilding program:  year declared overfished
+0 # echoed value
+
+#next select rebuilding program:  year rebuilding plan started
+0 # echoed value
+
+#next select fleet relative F:  1=use first-last alloc year read above; 2=read list of seas, fleet, relF below
+# Note that fleet allocation is used directly as average F if Do_Forecast=4 
+1 # echoed value
+
+#next read Catch Basis for caps and allocations;  Same for all fleets
+2=dead catch bio, 3=retained catch bio, 5= dead catch numbers 6=retained catch numbers
+2 # echoed value
+
+# next read list of fleet ID and max annual catch;  end with fleet=-9999
+ -9999 -1
+ Processed Max totalcatch by fleet 
+ -1 -1
+
+Read list of area ID and max annual catch;  end with area=-9999
+ -9999 -1
+ processed Max totalcatch by area 
+ -1
+
+Read list of fleet ID and assignment to allocation group;  end with fleet ID=-9999
+fishing fleets not assigned to allocation group are processed normally
+ -9999 -1
+ Processed Fleet allocation group assignments 
+ 0 0
+2 # basis for input Fcast catch:  -1= read with each obs; 2=dead catch; 3=retained catch; 99=input Hrate(F); -1=read fleet/time specific (bio/num units are from fleetunits; note new codes in SSV3.20)
+# yr seas fleet catch
+ -9999 1 1 0
+Now fill H4010_scale_vec
+H4010_scale:  0.75 0.75 0.75 0.75 0.75
+ done reading forecast 
+
+Finished creating STD containers and indexes 
+
+ Begin reading control file 
+1 N growth patterns 
+1  N platoons (1, 3 or 5)
+  do not read sd_ratio or platoon_distr
+4  # Recruitment distribution method; where: 2=parms for main effects for GP, Area, Settle timing; 3=one parm for each Settle event
+1  # future option for recr_dist_area: 1 is hardwired to do global SRR; 2 in future will do area-specific SRR
+1 Number of settlement events: GP/area/month to read (>=0) 
+0  # unused option 
+ settlement pattern as read 
+GPat  Month  Area Age
+* 1 1 1 1*
+Now calculate the number of unique settle timings, which will dictate the number of recr_dist_timing parameters 
+N settle timings: 1
+ unique_settle_times: 
+ 1 1
+settle events use these settle_times:  1
+Calculated assignments in which settlement occurs 
+Settle_event / Month / Seas / Seas_from_spawn / time_from_seas_start / age_at_settle
+1 / 1  /  1 / 1 / 0  / 1
+
+MORPH_INDEXING
+g Sex GP Settlement Season Platoon Platoon% Sex*GP Sex*GP*settle_time Used(0/1) SettleTime_frac_yr
+1   1  1       1       1       1       100       1        1               1       0
+calen_age is elapsed years since beginning of year in which spawning occurred
+real_age is elapsed years since settlement
+g  s  subseas  ALK_idx settle_time age@settle age real_age calen_age
+1 1 1 1 1 1 0 0 0
+1 1 1 1 1 1 1 0 1
+1 1 1 1 1 1 2 1 2
+1 1 1 1 1 1 3 2 3
+1 1 2 2 1 1 0 0 0.5
+1 1 2 2 1 1 1 0.5 1.5
+1 1 2 2 1 1 2 1.5 2.5
+1 1 2 2 1 1 3 2.5 3.5
+ only 1 area, so no read of do_migration or migr_firstage 
+0 N_Block_Designs
+1  timevarying parameter constraint method
+ 0 0 0 0 0  timevarying parameter autogenerate (0) or read (1) for each parm type
+0 natM_type
+1 growth model 
+ 0 999 -998 0 # growth specifications: AFIX1 AFIX2 LINF_decay placeholder  age-specific_K_ages
+ N_growparms  5
+g a seas subseas ALK_idx real_age calen_age lin_grow first_grow_age
+1 0 1 1 1 0 0 1 0
+1 0 1 2 2 0 0.5 1 0
+1 1 1 1 1 0 1 1 0
+1 1 1 2 2 0.5 1.5 -1 1
+1 2 1 1 1 1 2 -2 1
+1 2 1 2 2 1.5 2.5 -2 1
+1 3 1 1 1 2 3 -2 1
+1 3 1 2 2 2.5 3.5 -2 1
+0  SD_add_to_LAA
+0  CV_depvar
+5  Maturity_Option
+ fecundity and weight at age to be read from file:  wtatage.ss
+1  First_Mature_Age
+1  Fecundity option
+0  Hermaphro_Option 
+1  MGparm_def
+ Biology base parameter setup 14
+1  0.01 0.5 0.2 0.2 0.4 0 -2 0 0 0 0 0 0 0 NatM_p_1_Fem_GP_1
+2  10 60 27.688 27.688 0.25 0 -3 0 0 0 0 0 0 0 L_at_Amin_Fem_GP_1
+3  40 120 80 80 0.25 0 -3 0 0 0 0 0 0 0 L_at_Amax_Fem_GP_1
+4  0.01 1 0.18 0.18 0.25 0 -3 0 0 0 0 0 0 0 VonBert_K_Fem_GP_1
+5  0.05 0.25 0.1 0.1 0.25 0 -4 0 0 0 0 0 0 0 CV_young_Fem_GP_1
+6  0.05 0.25 0.1 0.1 0.25 0 -4 0 0 0 0 0 0 0 CV_old_Fem_GP_1
+7  -3 3 2.5e-005 2.5e-005 0.25 0 -3 0 0 0 0 0 0 0 Wtlen_1_Fem_GP_1
+8  -3 4 3 3 0.25 0 -3 0 0 0 0 0 0 0 Wtlen_2_Fem_GP_1
+9  1 5 2.25 2.25 0.25 0 -3 0 0 0 0 0 0 0 Mat50%_Fem_GP_1
+10  -6 6 -3 -3 0.25 0 -3 0 0 0 0 0 0 0 Mat_slope_Fem_GP_1
+11  -3 3 1 1 0.8 0 -3 0 0 0 0 0 0 0 Eggs/kg_inter_Fem_GP_1
+12  -3 3 0 0 0.8 0 -3 0 0 0 0 0 0 0 Eggs/kg_slope_wt_Fem_GP_1
+13  0.1 10 1 1 0.8 0 -3 0 0 0 0 0 0 0 CohortGrowDev
+14  0.001 0.999 0.5 0.5 0.5 0 -3 0 0 0 0 0 0 0 FracFemale_GP_1
+mgparm_type for each parm: 1=M; 2=growth; 3=wtlen,mat,fec,hermo; 4=recr&femfrac; 5=migr; 6=ageerror; 7=catchmult
+ 1 2 2 2 2 2 3 3 3 3 3 3 2 4
+Now read env, block/trend, and dev adjustments to MGparms 
+MG_active  0 0 0 0 0 0 0 0
+3 #_SR_function: 1=NA; 2=Ricker(2 parms); 3=BevHolt(2); 4=SCAA(2); 5=Hockey(3); 6=B-H_flattop(2); 7=Survival(3); 8=Shepherd(3); 9=Ricker_Power(3) 
+1  # 0/1 to use steepness in initial equ recruitment calculation
+0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
+ SR parms 
+ 3 10 6.90775 6.90775 0.25 0 1 0 0 0 0 0 0 0
+ 0.21 0.99 0.75 0.75 0.25 0 -3 0 0 0 0 0 0 0
+ 0.0001 2 0.2 0.2 0.25 0 -3 0 0 0 0 0 0 0
+ -99 99 0 0 0 0 -1 0 0 0 0 0 0 0
+ -99 99 0 0 0 0 -1 0 0 0 0 0 0 0
+ Do recruitment_autocorr: 0
+SR_Npar and N_SRparm2 and N_SRparm3:  2 5 5
+SR_parm_RD:  6.90775 0.75 0.2 0 0
+1 do_recdev
+1 recdev_start
+30 recdev_end
+2 recdev_PH
+1 recdev_adv
+#_start of advanced SR options
+-12 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
+2 #_recdev_early_phase
+-5 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
+1 #_lambda for Fcast_recr_like occurring before endyr+1
+-999 #_last_early_yr_nobias_adj_in_MPD
+-11 #_first_yr_fullbias_adj_in_MPD
+30 #_last_yr_fullbias_adj_in_MPD
+31 #_first_recent_yr_nobias_adj_in_MPD
+0 #_max_bias_adj_in_MPD
+ #_NOTE: biasadjustment forced to 0.0 after year recdev_end
+0 # period of cycle in recruitment 
+-15 #min rec_dev
+15 #max rec_dev
+0 #_read_recdevs
+#_end of advanced SR options
+#_recruitment bias adjustment
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0.2 F ballpark is annual F for fleet 1 for specified year
+-2 F_ballpark_yr (<0 to ignore)  
+2 F_Method 
+4 max_harvest_rate 
+ 0.01 2 0 initial F value, F phase, N_detailed Fsetups to read 
+ detailed F_setups 
+
+ ready to read init_F setup for: 1 fleet x season with initial equilibrium catch
+ initial equil F parameter setup
+ 0 1 0.01 0.01 0.2 0 1
+ N F parameters 30
+# read Q setup only for fleets with survey/CPUE/effort observations, end with fleet_ID<0 #  fleet_ID link_type link_info  extra_se(0/1)   biasadj(0/1)  float(0/1)
+q setup 
+ 0 0 0 0 0
+ 1 0 0 0 0
+q setup 
+ 0 0 0 0 0
+ 1 0 0 0 0
+q setup parms 
+ 0 0 0 0 0
+ 1 0 0 0 0
+fleet 2 base index 1
+Q_Npar and Q_Npar2:  1 1
+Q_parm_RD: 
+1 -7.96044 LnQ_base_SURVEY1(2)
+#
+ selex types 
+ 0 0 0 0
+ 0 0 0 0
+ 12 0 0 0
+ 12 0 0 0
+1 nsel 0
+2 nsel 0
+#Now count parameters for variance of composition data; CANNOT be time-varying
+ selex and composition base parameters 
+1 ##  0 12 2 2 1 0 2 0 0 0 0 0 0 0 ## Age_inflection_FISHERY1(1)
+2 ##  0 12 2.94444 2.94444 1 0 2 0 0 0 0 0 0 0 ## Age_95%width_FISHERY1(1)
+3 ##  0 12 1.5 1.5 1 0 2 0 0 0 0 0 0 0 ## Age_inflection_SURVEY1(2)
+4 ##  0 12 1.47222 1.47222 1 0 2 0 0 0 0 0 0 0 ## Age_95%width_SURVEY1(2)
+ now read 0/1 for 2D_AR
+0  #_ 0/1 to request experimental 2D_AR selectivity smoother options  
+N_selparm: 4 with timevary: 4 with TV and 2D_AR: 4 timevary parm range for sel: 0 0 0
+0 TG_custom (need to read even if no tag data )  1
+ read var_adjust list until -9999
+ -9999 1 0
+ number of variance adjustment records = 0
+4 max_lambda_phase 
+1 sd_offset (adds log(s)); needed if variance parameters are estimated 
+ read lambda changes list until -9999
+ number of lambda change records = 1
+1 N lambda changes 
+ lambda changes 
+ 9 1 1 0 1
+0 # (0/1) read specs for reporting stdev for selectivity, size, and numbers
+999  If you see 999, we got to the end of the control file successfully! 
+N parameters: 107
+Parameters plus derived quant: 345
+Adjust the phases 
+ requested turn_off phase: 8
+ParCount 107   Active parameters: 79
+Turn_off_phase 8
+ max_phase 2
+345
+parm 107 covar 79
+parm 144 covar 116
+parm 181 covar 153
+parm 216 covar 188
+parm 251 covar 223
+parm 285 covar 257
+parm 302 covar 274
+Active parameters plus derived quantities:  317
+ N_WTage_max 12
+ 1 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 2 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 3 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 4 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 5 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 6 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 7 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 8 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 9 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 10 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 11 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 12 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 13 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 14 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 15 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 16 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 17 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 18 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 19 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 20 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 21 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 22 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 23 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 24 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 25 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 26 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 27 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 28 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 29 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 30 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 31 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 32 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 33 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 34 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 35 1 1 1 1 -2 0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463 6.02622 6.91692 7.72489 8.44611 9.08185 9.63669
+ 1 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 2 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 3 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 4 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 5 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 6 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 7 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 8 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 9 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 10 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 11 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 12 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 13 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 14 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 15 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 16 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 17 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 18 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 19 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 20 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 21 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 22 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 23 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 24 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 25 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 26 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 27 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 28 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 29 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 30 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 31 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 32 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 33 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 34 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 35 1 1 1 1 -1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 1 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 2 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 3 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 4 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 5 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 6 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 7 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 8 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 9 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 10 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 11 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 12 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 13 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 14 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 15 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 16 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 17 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 18 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 19 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 20 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 21 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 22 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 23 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 24 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 25 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 26 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 27 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 28 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 29 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 30 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 31 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 32 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 33 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 34 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 35 1 1 1 1 0 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 1 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 2 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 3 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 4 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 5 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 6 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 7 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 8 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 9 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 10 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 11 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 12 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 13 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 14 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 15 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 16 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 17 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 18 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 19 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 20 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 21 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 22 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 23 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 24 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 25 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 26 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 27 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 28 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 29 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 30 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 31 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 32 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 33 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 34 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 35 1 1 1 1 1 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 1 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 2 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 3 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 4 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 5 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 6 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 7 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 8 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 9 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 10 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 11 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 12 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 13 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 14 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 15 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 16 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 17 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 18 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 19 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 20 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 21 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 22 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 23 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 24 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 25 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 26 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 27 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 28 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 29 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 30 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 31 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 32 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 33 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 34 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ 35 1 1 1 1 2 0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647 6.02623 6.91692 7.72489 8.44611 9.08185 9.63669
+ -9999 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ N_WTage_rd 175
+year 1 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 2 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 3 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 4 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 5 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 6 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 7 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 8 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 9 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 10 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 11 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 12 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 13 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 14 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 15 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 16 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 17 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 18 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 19 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 20 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 21 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 22 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 23 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 24 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 25 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 26 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 27 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 28 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 29 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 30 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 31 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 32 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 33 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 34 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 35 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -2  0 0.0121931 0.383808 1.86201 3.01914 4.05415 5.06463
+year 1 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 2 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 3 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 4 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 5 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 6 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 7 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 8 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 9 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 10 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 11 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 12 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 13 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 14 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 15 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 16 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 17 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 18 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 19 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 20 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 21 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 22 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 23 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 24 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 25 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 26 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 27 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 28 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 29 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 30 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 31 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 32 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 33 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 34 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 35 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet -1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 1 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 2 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 3 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 4 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 5 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 6 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 7 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 8 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 9 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 10 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 11 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 12 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 13 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 14 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 15 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 16 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 17 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 18 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 19 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 20 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 21 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 22 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 23 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 24 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 25 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 26 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 27 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 28 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 29 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 30 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 31 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 32 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 33 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 34 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 35 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 0  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 1 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 2 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 3 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 4 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 5 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 6 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 7 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 8 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 9 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 10 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 11 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 12 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 13 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 14 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 15 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 16 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 17 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 18 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 19 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 20 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 21 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 22 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 23 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 24 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 25 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 26 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 27 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 28 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 29 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 30 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 31 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 32 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 33 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 34 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 35 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 1  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 1 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 2 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 3 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 4 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 5 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 6 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 7 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 8 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 9 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 10 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 11 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 12 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 13 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 14 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 15 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 16 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 17 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 18 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 19 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 20 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 21 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 22 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 23 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 24 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 25 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 26 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 27 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 28 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 29 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 30 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 31 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 32 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 33 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 34 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+year 35 s 1 sex 1 gp 1 bs 1 morph 1 pop/fleet 2  0 0.530655 1.19633 2.05827 3.03499 4.05521 5.0647
+ fill benchmark years with mean 
+finished reading empirical wt-at-age.ss
+now in PARAMETER_SECTION 
+ now dimension the selectivity arrays 4
+ 0 0 0 0
+ 12 12 12 12
+ 2 2 2 2
+ OK after dimension the selectivity arrays 
+ check 0 
+ OK after dimension the 2dar arrays 
+end of parameter section
+ do variance adjustment for surveys 
+ survey stderr has been set-up 
+ discard stderr has been set-up 
+ mean bodywt stderr has been set-up 
+ length comp var adjust has been set-up 
+ age comp var adjust has been set-up 
+ setup stderr for mean size-at-age: 
+ set parms to init values in CTL file 
+ MGparms read from ctl  0.2 27.688 80 0.18 0.1 0.1 2.5e-005 3 2.25 -3 1 0 1 0.5
+ SRR_parms read from ctl  6.90775 0.75 0.2 0 0
+ rec_devs read from ctl  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ Q_parms read from ctl  -7.96044
+ initF_parms read from ctl  0.01
+ Fmort_parms have been reset 
+ selex_parms read from ctl  2 2.94444 1.5 1.47222
+
+ now check MGparm bounds and priors and do jitter if requested 
+ MG_parms after check  0.2 27.688 80 0.18 0.1 0.1 2.5e-005 3 2.25 -3 1 0 1 0.5
+
+ now check SR_parm bounds and priors and do jitter if requested 
+ SRR_parms after check  6.90775 0.75 0.2 0 0
+
+ now check recdev bounds and priors and do jitter if requested 
+ rec_devs after check  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+ now check Qparm bounds and priors and do jitter if requested 
+ Q_parms after check  -7.96044
+
+ now check init_F parm bounds and priors and do jitter if requested 
+ initF_parms after check  0.01
+
+ now check F parm bounds and priors and do jitter if requested 
+ F_parms after check  0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
+
+ now check sel_parm bounds and priors and do jitter if requested 
+ selex_parms after check   2 2.94444 1.5 1.47222
+ ready to evaluate once 
+
+**********************
+number of parameters with timevary:  0
+ did MG setup
+ did growth1
+GROWTH,  yr= 1
+sex: 1 GP: 1 Lmin: 27.688 Linf: 80 VBK_temp: -0.18 VBK@age:  0.18
+  settlement: 1 g: 1
+  L@A initial_year (w/o lin):  27.688 27.688 36.3053 43.5031 49.5153 54.537 58.7315 plusgroup: 72.7773
+  adjusted size at maxage 72.7773  using decay of: -998
+  seas: 1  size@t+1:   27.688 0 36.3053 43.5031 49.5153 54.537 58.7315 plusgroup: 72.7773
+ did growth2 in prelim calcs
+ 27.688 27.688 36.3053 43.5031 49.5153 54.537 58.7315 62.2351 65.1615 67.6058 69.6475 71.3529 72.7773
+ready to do natmort 
+Natmort 1 1 1 0.2 surv  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+Natmort seas:1 sex:1 Gpat:1 sex*Gpat:1 settlement:1 gpi:1 M:  0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2
+ did natmort 
+wtlen2 
+ 0.0289406 0.0380219 0.0488281 0.0615094 0.0762156 0.0930969 0.112303 0.133984 0.158291 0.185372 0.215378 0.248459 0.284766 0.324447 0.367653 0.414534 0.465241 0.519922 0.578728 0.641809 0.709316 0.781397 0.858203 0.939884 1.02659 1.11847 1.21568 1.31836 1.42667 1.54075 1.66075 1.78683 1.91914 2.05782 2.20303 2.35491 2.51362 2.6793 2.8521 3.03218 3.21969 3.41477 3.61758 3.82826 4.04697 4.27385 4.50905 4.75273 5.00504 5.26612 5.53613 5.81521 6.10352 6.4012 6.7084 7.02528 7.35199 7.68867 8.03548 8.39256 8.76007 9.13815 9.52695 9.92663 10.3373 10.7592 11.1924 11.6371 12.0934 12.5615 13.0415 13.5336 14.0379 14.5546 15.0838 15.6257 16.1804 16.748 17.3289 17.9229
+wtlen2^2  0.00083756 0.00144566 0.00238419 0.0037834 0.00580882 0.00866703 0.012612 0.0179518 0.0250559 0.0343627 0.0463877 0.0617321 0.0810915 0.105266 0.135169 0.171839 0.216449 0.270319 0.334926 0.411919 0.503129 0.610581 0.736513 0.883383 1.05389 1.25098 1.47787 1.73807 2.03537 2.3739 2.7581 3.19278 3.6831 4.23463 4.85333 5.5456 6.31826 7.17863 8.13449 9.19414 10.3664 11.6607 13.0869 14.6556 16.3779 18.2658 20.3316 22.5885 25.0504 27.732 30.6487 33.8167 37.2529 40.9753 45.0027 49.3546 54.0518 59.1157 64.5689 70.4351 76.7387 83.5057 90.7628 98.5381 106.861 115.761 125.27 135.422 146.251 157.791 170.081 183.158 197.062 211.836 227.52 244.161 261.804 280.497 300.289 321.232
+wtlen2:firstdiff  0.008275 0.009925 0.011725 0.013675 0.015775 0.018025 0.020425 0.022975 0.025675 0.028525 0.031525 0.034675 0.037975 0.041425 0.045025 0.048775 0.052675 0.056725 0.060925 0.065275 0.069775 0.074425 0.079225 0.084175 0.089275 0.094525 0.099925 0.105475 0.111175 0.117025 0.123025 0.129175 0.135475 0.141925 0.148525 0.155275 0.162175 0.169225 0.176425 0.183775 0.191275 0.198925 0.206725 0.214675 0.222775 0.231025 0.239425 0.247975 0.256675 0.265525 0.274525 0.283675 0.292975 0.302425 0.312025 0.321775 0.331675 0.341725 0.351925 0.362275 0.372775 0.383425 0.394225 0.405175 0.416275 0.427525 0.438925 0.450475 0.462175 0.474025 0.486025 0.498175 0.510475 0.522925 0.535525 0.548275 0.561175 0.574225 0.587425
+process maturity fecundity using option: 5
+gp: 1 matlen:  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+gp: 1 matage:  1 1 1 1 1 1 1 1 1 1 1 1 1
+age-fecundity read from wtatage.ss
+with lingrow; subseas: 1 sex: 1 gp: 1 g: 1
+size  27.688 27.688 36.3053 43.5031 49.5153 54.537 58.7315 @nages 72.7773
+CV    0.1 0.1 0.1 0.1 0.1 0.1 0.1 @nages 0.1
+sd    2.7688 2.7688 3.63053 4.35031 4.95153 5.4537 5.87315 @nages 7.27773
+with lingrow; subseas: 2 sex: 1 gp: 1 g: 1
+size  27.688 32.1904 40.0661 46.6444 52.139 56.7286 60.5621 @nages 73.399
+CV    0.1 0.1 0.1 0.1 0.1 0.1 0.1 @nages 0.1
+sd    2.7688 3.21904 4.00661 4.66444 5.2139 5.67286 6.05621 @nages 7.3399
+ spawn 
+ fecundity ok 
+do recrdist: 
+ femfrac  0.5
+recruitment distribution in year: 1
+GP Seas Area Use? female_recr_dist male
+1 1 1 1 1
+ made the age_age' key 
+
+**********************
+number of parameters with timevary:  0
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+sel-len-r  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ dead  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+sel-len-r  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ dead  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ age selex parms for fleet: 1 
+ 2 2.94444
+sel-age-ret  0.119203 0.268941 0.5 0.731059 0.880797 0.952574 0.982014 0.993307 0.997527 0.999089 0.999665 0.999877 0.999955
+ dead  0.119203 0.268941 0.5 0.731059 0.880797 0.952574 0.982014 0.993307 0.997527 0.999089 0.999665 0.999877 0.999955
+ age selex parms for fleet: 2 
+ 1.5 1.47222
+sel-age-ret  0.0474258 0.268941 0.731059 0.952574 0.993307 0.999089 0.999877 0.999983 0.999998 1 1 1 1
+ dead  0.0474258 0.268941 0.731059 0.952574 0.993307 0.999089 0.999877 0.999983 0.999998 1 1 1 1
+ init age comp for styr 1
+ 0 993.597 811.303 660.926 537.179 435.948 353.54 286.626 232.35 188.344 152.67 123.752 529.586
+
+
+************************************
+ year, seas 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+sel-len-r  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ dead  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+sel-len-r  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ dead  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ age selex parms for fleet: 1 
+ 2 2.94444
+sel-age-ret  0.119203 0.268941 0.5 0.731059 0.880797 0.952574 0.982014 0.993307 0.997527 0.999089 0.999665 0.999877 0.999955
+ dead  0.119203 0.268941 0.5 0.731059 0.880797 0.952574 0.982014 0.993307 0.997527 0.999089 0.999665 0.999877 0.999955
+ age selex parms for fleet: 2 
+ 1.5 1.47222
+sel-age-ret  0.0474258 0.268941 0.731059 0.952574 0.993307 0.999089 0.999877 0.999983 0.999998 1 1 1 1
+ dead  0.0474258 0.268941 0.731059 0.952574 0.993307 0.999089 0.999877 0.999983 0.999998 1 1 1 1
+1 Recruits, dist, surv, result993.598 1 1 993.598
+1 1 1 area & morph 
+N-at-age  0 993.597 811.303 660.926 537.179 435.948 353.54
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.201129 0.202546 0.204734 0.206922 0.20834 0.209019 0.209298
+1 N_surv:  0 993.598 811.419 661.102 537.388 436.152 353.72
+yr 1, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.506403 1.36578 3.2375 6.745 12.3509 20.2176 28.9157 36.6941 41.7014 43.2354 42.6529 41.9041 43.505 48.621 57.0002 66.6467 75.6239 82.4969 86.4955 88.1597 88.4409 88.5049 89.2023 90.672 92.6337 94.6366 96.2054 97.1167 97.4495 97.2938 96.9177 96.4924 96.1062 95.7489 95.4115 95.0473 94.6387 94.1872 93.704 93.1995 92.6743 92.1154 91.5023 90.7714 89.9045 88.8296 87.4857 85.8101 83.7432 81.2336 78.2543 74.7543 70.7832 66.3543 61.5277 56.3873 51.0357 45.5964 40.1601 34.8808 29.8489 25.1556 20.8708 17.0473 13.6855 10.8138 8.40199 6.41776 4.82344 3.55285 8.25483
+ sampled  age   0 266.991 592.901 629.31 533.355 435.403 353.423 286.528 232.305 188.298 152.639 123.728 529.48
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.055034 0.12495 0.144926 0.134938 0.07501 0.070016 0.060028 0.094986 0.0450459 0.05004 0.0350579 0.109968
+expected  0 266.991 592.901 629.31 533.355 435.403 353.423 286.528 232.305 188.298 152.639 123.728 529.48
+exp with ageerr  266.991 592.901 629.31 533.355 435.403 353.423 286.528 232.305 188.298 152.639 123.728 529.48
+yr 1, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.333359 0.803602 1.76031 3.50393 6.33778 10.6901 16.1352 22.2612 28.1796 33.1302 36.2856 37.7971 38.4612 39.1427 40.7401 43.6716 47.5958 51.9735 56.2651 59.947 63.0382 65.6389 67.9934 70.3597 72.792 75.2445 77.6707 79.8372 81.721 83.3053 84.6167 85.6997 86.5947 87.3268 87.9111 88.3324 88.6097 88.7292 88.6867 88.4729 88.071 87.4547 86.5886 85.4377 83.9299 82.0528 79.7505 76.9942 73.7698 70.0818 65.9567 61.4491 56.6079 51.5483 46.3595 41.1513 36.0332 31.1159 26.4627 22.1803 18.3064 14.8733 11.8921 9.35918 7.23662 5.50752 4.12129 10.0296
+ sampled  age   0 241.708 366.617 436.289 427.002 374.65 313.149 256.792 209.069 169.724 137.66 111.609 477.648
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.065022 0.09998 0.114962 0.134938 0.12495 0.080004 0.089992 0.0350579 0.0350579 0.0450459 0.0200759 0.154914
+expected  0 241.708 366.617 436.289 427.002 374.65 313.149 256.792 209.069 169.724 137.66 111.609 477.648
+exp with ageerr  241.708 366.617 436.289 427.002 374.65 313.149 256.792 209.069 169.724 137.66 111.609 477.648
+
+************************************
+ year, seas 2 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+2 Recruits, dist, surv, result993.641 1 1 993.641
+1 1 1 area & morph 
+N-at-age  0 993.598 811.419 661.102 537.388 436.152 353.72
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.203253 0.207338 0.213643 0.219948 0.224034 0.225992 0.226796
+1 N_surv:  0 993.641 807.541 655.332 530.574 429.528 347.929
+yr 2, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.506403 1.36578 3.2375 6.745 12.3509 20.2177 28.9158 36.6944 41.7019 43.2364 42.6546 41.9069 43.5092 48.627 57.0083 66.6569 75.6361 82.511 86.5112 88.177 88.4598 88.5256 89.225 90.6968 92.6608 94.6659 96.2367 97.1498 97.4843 97.3303 96.9556 96.5316 96.1467 95.7906 95.4542 95.0909 94.6831 94.2322 93.7495 93.2455 92.7206 92.1619 91.549 90.818 89.951 88.8758 87.5314 85.855 83.7872 81.2764 78.2956 74.7938 70.8207 66.3895 61.5603 56.4172 51.0628 45.6206 40.1814 34.8993 29.8648 25.169 20.8819 17.0564 13.6928 10.8196 8.40645 6.42117 4.82601 3.55474 8.25922
+ sampled  age   0 266.992 592.986 629.477 533.563 435.607 353.602 286.678 232.428 188.398 152.72 123.794 529.761
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.065022 0.134938 0.109968 0.09998 0.104974 0.080004 0.065022 0.070016 0.0250699 0.0400519 0.0350579 0.169896
+expected  0 266.992 592.986 629.477 533.563 435.607 353.602 286.678 232.428 188.398 152.72 123.794 529.761
+exp with ageerr  266.992 592.986 629.477 533.563 435.607 353.602 286.678 232.428 188.398 152.72 123.794 529.761
+yr 2, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.332589 0.801745 1.75624 3.49583 6.32314 10.6649 16.0969 22.2076 28.1106 33.046 36.189 37.6895 38.3414 39.0082 40.586 43.4923 47.3877 51.7346 55.9946 59.6462 62.7076 65.2787 67.6035 69.9391 72.3404 74.7624 77.1588 79.2979 81.1567 82.7185 84.01 85.0752 85.9546 86.6731 87.2457 87.6575 87.9272 88.041 87.9948 87.7792 87.3776 86.7638 85.9025 84.7592 83.262 81.3988 79.1141 76.3791 73.18 69.5211 65.4288 60.9571 56.1545 51.1353 45.988 40.8215 35.7444 30.8665 26.2505 22.0024 18.1596 14.7541 11.7967 9.28413 7.17858 5.46335 4.08824 9.94912
+ sampled  age   0 241.15 365.097 433.672 423.949 371.773 310.678 254.744 207.396 168.363 136.556 110.714 473.817
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.055034 0.114962 0.129944 0.12495 0.129944 0.09998 0.065022 0.055034 0.0250699 0.0200759 0.05004 0.129944
+expected  0 241.15 365.097 433.672 423.949 371.773 310.678 254.744 207.396 168.363 136.556 110.714 473.817
+exp with ageerr  241.15 365.097 433.672 423.949 371.773 310.678 254.744 207.396 168.363 136.556 110.714 473.817
+
+************************************
+ year, seas 3 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+3 Recruits, dist, surv, result992.229 1 1 992.229
+1 1 1 area & morph 
+N-at-age  0 993.641 807.541 655.332 530.574 429.528 347.929
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.205339 0.212047 0.222396 0.232746 0.239453 0.242668 0.243987
+1 N_surv:  0 992.229 803.783 646.516 519.255 417.593 336.978
+yr 3, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.506425 1.36584 3.23764 6.74529 12.3515 20.2169 28.9132 36.6876 41.6869 43.2067 42.5989 41.8149 43.3684 48.4266 56.7385 66.3171 75.2298 82.0429 85.9893 87.6039 87.8348 87.8435 88.4781 89.8798 91.772 93.7069 95.2123 96.066 96.3458 96.1422 95.7213 95.2542 94.8292 94.4365 94.0676 93.6761 93.2443 92.7736 92.2746 91.7576 91.2229 90.6576 90.0415 89.3114 88.4496 87.3848 86.0569 84.4038 82.367 79.8958 76.9633 73.5192 69.6125 65.2559 60.5084 55.4526 50.1894 44.84 39.4937 34.3019 29.3534 24.738 20.5243 16.7642 13.4582 10.6342 8.26243 6.31116 4.74332 3.49383 8.1177
+ sampled  age   0 267.003 590.152 623.983 526.797 428.99 347.813 281.848 228.469 185.177 150.105 121.673 520.683
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.070016 0.109968 0.159908 0.144926 0.089992 0.089992 0.05004 0.05004 0.065022 0.0300639 0.0150819 0.12495
+expected  0 267.003 590.152 623.983 526.797 428.99 347.813 281.848 228.469 185.177 150.105 121.673 520.683
+exp with ageerr  267.003 590.152 623.983 526.797 428.99 347.813 281.848 228.469 185.177 150.105 121.673 520.683
+yr 3, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.331848 0.799961 1.75233 3.48805 6.30906 10.6393 16.0571 22.1505 28.0337 32.9449 36.0621 37.5324 38.1446 38.7624 40.28 43.1142 46.9313 51.1961 55.3714 58.9393 61.9148 64.3977 66.631 68.8702 71.1721 73.4937 75.7897 77.8333 79.6016 81.0786 82.2915 83.2843 84.0977 84.7569 85.2772 85.6439 85.8757 85.9588 85.8892 85.6576 85.2475 84.6333 83.7804 82.6549 81.1862 79.3626 77.1297 74.459 71.337 67.7678 63.7768 59.4166 54.7343 49.8413 44.8238 39.7877 34.8388 30.0843 25.5852 21.4447 17.6993 14.38 11.4976 9.04871 6.99654 5.3248 3.98456 9.69678
+ sampled  age   0 240.613 361.822 427.248 415.483 363.204 303.079 248.369 202.161 164.1 133.094 107.906 461.798
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.109968 0.109968 0.109968 0.094986 0.09998 0.09998 0.084998 0.07501 0.0250699 0.0400519 0.0150819 0.134938
+expected  0 240.613 361.822 427.248 415.483 363.204 303.079 248.369 202.161 164.1 133.094 107.906 461.798
+exp with ageerr  240.613 361.822 427.248 415.483 363.204 303.079 248.369 202.161 164.1 133.094 107.906 461.798
+
+************************************
+ year, seas 4 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+4 Recruits, dist, surv, result989.438 1 1 989.438
+1 1 1 area & morph 
+N-at-age  0 992.229 803.783 646.516 519.255 417.593 336.978
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.207273 0.216409 0.230506 0.244603 0.253739 0.258118 0.259914
+1 N_surv:  0 989.438 799.147 638.31 506.232 402.887 322.592
+yr 4, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.505706 1.3639 3.23304 6.73571 12.3339 20.1871 28.8696 36.6299 41.6164 43.1243 42.4979 41.6887 43.2037 48.2082 56.4484 65.9478 74.7758 81.4979 85.3514 86.8646 86.9849 86.8709 87.3698 88.6296 90.38 92.1767 93.5519 94.284 94.4478 94.135 93.6089 93.0402 92.5179 92.0338 91.5803 91.1121 90.6119 90.0808 89.5293 88.9675 88.3956 87.801 87.164 86.4226 85.5597 84.5055 83.2014 81.5871 79.6053 77.2066 74.3649 71.0308 67.2516 63.0393 58.4505 53.5648 48.4793 43.3113 38.1464 33.1313 28.3514 23.8933 19.8233 16.1916 12.9984 10.2709 7.98008 6.09548 4.58121 3.37441 7.84021
+ sampled  age   0 266.624 587.405 615.589 515.559 417.07 336.866 272.509 220.748 178.872 144.98 117.515 502.88
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.094986 0.134938 0.09998 0.129944 0.109968 0.070016 0.05004 0.07501 0.0250699 0.060028 0.0200759 0.129944
+expected  0 266.624 587.405 615.589 515.559 417.07 336.866 272.509 220.748 178.872 144.98 117.515 502.88
+exp with ageerr  266.624 587.405 615.589 515.559 417.07 336.866 272.509 220.748 178.872 144.98 117.515 502.88
+yr 4, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.330681 0.797146 1.74617 3.47578 6.28686 10.6005 15.9978 22.0669 27.9245 32.8074 35.8988 37.3421 37.9194 38.4938 39.9543 42.7141 46.4447 50.6118 54.6772 58.1289 60.9775 63.3246 65.4134 67.4991 69.6418 71.802 73.9347 75.8204 77.4358 78.766 79.8387 80.6988 81.3877 81.9316 82.3467 82.6193 82.7686 82.7814 82.6541 82.3777 81.9367 81.3062 80.4527 79.3434 77.9097 76.1406 73.9828 71.4089 68.4053 64.9754 61.1432 56.959 52.4671 47.7745 42.9634 38.1352 33.3911 28.8336 24.5211 20.5525 16.9627 13.7815 11.019 8.67199 6.70521 5.10306 3.81862 9.29289
+ sampled  age   0 239.766 358.736 419.108 403.844 350.507 291.308 238.293 193.821 157.288 127.556 103.412 442.557
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.07501 0.14992 0.129944 0.080004 0.109968 0.080004 0.060028 0.05004 0.065022 0.0450459 0.0450459 0.109968
+expected  0 239.766 358.736 419.108 403.844 350.507 291.308 238.293 193.821 157.288 127.556 103.412 442.557
+exp with ageerr  239.766 358.736 419.108 403.844 350.507 291.308 238.293 193.821 157.288 127.556 103.412 442.557
+
+************************************
+ year, seas 5 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+5 Recruits, dist, surv, result985.424 1 1 985.424
+1 1 1 area & morph 
+N-at-age  0 989.438 799.147 638.31 506.232 402.887 322.592
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.205839 0.213175 0.224494 0.235813 0.243148 0.246664 0.248106
+1 N_surv:  0 985.424 799.481 638.455 504.219 396.964 314.817
+yr 5, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.504283 1.36007 3.22395 6.71676 12.2992 20.1293 28.786 36.5218 41.4891 42.9838 42.342 41.5115 42.99 47.9394 56.1032 65.5187 74.2595 80.8917 84.6586 86.0793 86.0986 85.8685 86.2313 87.3398 88.9284 90.5557 91.7595 92.3203 92.3111 91.8284 91.1341 90.4003 89.7179 89.0808 88.483 87.8803 87.2558 86.611 85.9563 85.3022 84.6494 83.9861 83.2937 82.5119 81.6252 80.5659 79.2775 77.7019 75.784 73.476 70.7523 67.5646 63.9583 59.9433 55.5732 50.9231 46.0848 41.1696 36.2581 31.49 26.946 22.7082 18.8397 15.388 12.3531 9.76081 7.58372 5.79267 4.35361 3.20674 7.45054
+ sampled  age   0 265.874 584.018 607.775 502.628 402.383 322.484 259.761 210.023 170.053 137.793 111.678 477.874
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.0350579 0.164902 0.184878 0.119956 0.094986 0.065022 0.07501 0.07501 0.060028 0.0350579 0.0200759 0.070016
+expected  0 265.874 584.018 607.775 502.628 402.383 322.484 259.761 210.023 170.053 137.793 111.678 477.874
+exp with ageerr  265.874 584.018 607.775 502.628 402.383 322.484 259.761 210.023 170.053 137.793 111.678 477.874
+yr 5, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.330265 0.796144 1.74397 3.47141 6.27896 10.5867 15.9768 22.0373 27.8859 32.7588 35.8412 37.2749 37.8387 38.3961 39.8337 42.561 46.2522 50.3716 54.3778 57.7621 60.53 62.7841 64.7674 66.7331 68.7433 70.7598 72.737 74.4621 75.912 77.0741 77.9784 78.6722 79.1991 79.5875 79.8554 79.9908 80.0141 79.9134 79.6862 79.3248 78.8147 78.1326 77.2464 76.1248 74.7009 72.9647 70.8642 68.3723 65.4752 62.1757 58.4958 54.4831 50.179 45.6856 41.081 36.4614 31.9235 27.5651 23.4411 19.6467 16.2147 13.1734 10.5326 8.28911 6.40905 4.87762 3.64989 8.88212
+ sampled  age   0 239.465 357.7 415.537 395.718 340.025 280.453 228.449 185.466 150.396 121.932 98.8426 422.979
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.0400519 0.14992 0.109968 0.094986 0.114962 0.084998 0.05004 0.05004 0.0350579 0.055034 0.0450459 0.169896
+expected  0 239.465 357.7 415.537 395.718 340.025 280.453 228.449 185.466 150.396 121.932 98.8426 422.979
+exp with ageerr  239.465 357.7 415.537 395.718 340.025 280.453 228.449 185.466 150.396 121.932 98.8426 422.979
+
+************************************
+ year, seas 6 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+6 Recruits, dist, surv, result982.749 1 1 982.749
+1 1 1 area & morph 
+N-at-age  0 985.424 799.481 638.455 504.219 396.964 314.817
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.210389 0.223439 0.243576 0.263714 0.276764 0.28302 0.285585
+1 N_surv:  0 982.749 788.107 626.649 490.457 382.316 299.115
+yr 6, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.502237 1.35455 3.21087 6.68952 12.2493 20.0492 28.6728 36.3813 41.3362 42.8383 42.2216 41.4263 42.9409 47.9207 56.1056 65.5344 74.282 80.9138 84.6766 86.0872 86.0918 85.8412 86.1746 87.245 88.7858 90.3525 91.4827 91.9565 91.8449 91.2484 90.4288 89.5598 88.7342 87.9481 87.1977 86.4411 85.6639 84.8695 84.0708 83.2799 82.4997 81.72 80.9241 80.0534 79.0941 77.9805 76.6578 75.0698 73.1626 70.8896 68.2256 65.1221 61.6232 57.737 53.5141 49.0259 44.3603 39.6236 34.8923 30.3009 25.9265 21.8477 18.1248 14.8035 11.8833 9.38938 7.29496 5.57199 4.18772 3.08446 7.16625
+ sampled  age   0 264.795 584.261 607.914 500.63 396.467 314.712 251.625 202.603 163.743 132.583 107.425 459.609
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.05004 0.144926 0.204854 0.109968 0.070016 0.07501 0.065022 0.065022 0.0350579 0.0200759 0.0400519 0.119956
+expected  0 264.795 584.261 607.914 500.63 396.467 314.712 251.625 202.603 163.743 132.583 107.425 459.609
+exp with ageerr  264.795 584.261 607.914 500.63 396.467 314.712 251.625 202.603 163.743 132.583 107.425 459.609
+yr 6, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.327303 0.789003 1.72833 3.44027 6.22264 10.4918 15.8336 21.84 27.6363 32.4652 35.5197 36.9402 37.4967 38.046 39.465 42.157 45.8 49.8607 53.7989 57.1129 59.804 61.9754 63.8685 65.7321 67.6292 69.522 71.3626 72.9449 74.2442 75.2488 75.9897 76.5155 76.8716 77.0885 77.1866 77.1567 77.0217 76.7723 76.4084 75.925 75.31 74.5426 73.5934 72.4335 70.9986 69.2804 67.2286 64.817 62.0317 58.8746 55.3655 51.5486 47.4613 43.2003 38.838 34.4646 30.1709 26.0488 22.1493 18.5625 15.3189 12.4449 9.94971 7.83012 6.0539 4.60722 3.44747 8.38917
+ sampled  age   0 237.317 354.583 410.112 387.858 329.255 268.836 217.322 175.69 142.201 115.203 93.3612 399.463
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.065022 0.114962 0.134938 0.134938 0.070016 0.065022 0.07501 0.065022 0.0300639 0.0450459 0.0300639 0.169896
+expected  0 237.317 354.583 410.112 387.858 329.255 268.836 217.322 175.69 142.201 115.203 93.3612 399.463
+exp with ageerr  237.317 354.583 410.112 387.858 329.255 268.836 217.322 175.69 142.201 115.203 93.3612 399.463
+
+************************************
+ year, seas 7 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+7 Recruits, dist, surv, result976.898 1 1 976.898
+1 1 1 area & morph 
+N-at-age  0 982.749 788.107 626.649 490.457 382.316 299.115
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.210436 0.223546 0.243776 0.264006 0.277116 0.2834 0.285977
+1 N_surv:  0 976.898 785.883 617.61 481.247 371.75 287.967
+yr 7, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.500874 1.35087 3.20216 6.67136 12.2161 19.9909 28.5859 36.2629 41.1843 42.6478 41.9733 41.0967 42.4958 47.3272 55.3369 64.5904 73.1799 79.6806 83.3478 84.6842 84.6244 84.3015 84.541 85.4977 86.9105 88.3393 89.3298 89.665 89.4119 88.6747 87.7095 86.6886 85.7046 84.755 83.8372 82.9111 81.9636 80.9997 80.0337 79.08 78.1438 77.2182 76.2897 75.3042 74.2515 73.0704 71.7108 70.1202 68.2486 66.0521 63.5071 60.5659 57.2703 53.6257 49.6779 45.4917 41.1475 36.743 32.3471 28.0848 24.0261 20.2433 16.7918 13.7135 11.0072 8.69652 6.75625 5.16026 3.87817 2.85628 6.63566
+ sampled  age   0 264.076 575.949 596.672 486.966 381.837 299.015 236.528 188.957 152.058 122.887 99.4938 425.502
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.080004 0.144926 0.094986 0.114962 0.139932 0.084998 0.0450459 0.060028 0.0450459 0.0300639 0.0400519 0.119956
+expected  0 264.076 575.949 596.672 486.966 381.837 299.015 236.528 188.957 152.058 122.887 99.4938 425.502
+exp with ageerr  264.076 575.949 596.672 486.966 381.837 299.015 236.528 188.957 152.058 122.887 99.4938 425.502
+yr 7, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.326397 0.78682 1.72355 3.43075 6.20543 10.4598 15.7834 21.7667 27.536 32.3305 35.3467 36.7203 37.2157 37.6904 39.0204 41.6096 45.1455 49.0999 52.9332 56.1501 58.7441 60.8166 62.6049 64.3514 66.1196 67.872 69.5587 70.9823 72.1164 72.9504 73.5156 73.8612 74.0334 74.0642 73.9755 73.7604 73.444 73.0196 72.4902 71.854 71.1027 70.2193 69.1786 67.9555 66.4902 64.7771 62.769 60.4412 57.7806 54.7878 51.4803 47.8981 44.0739 40.097 36.0328 31.964 27.9735 24.1458 20.5265 17.1995 14.192 11.528 9.21568 7.2519 5.60631 4.26633 3.19222 7.76718
+ sampled  age   0 236.661 349.505 402.472 377.208 317.047 255.379 204.244 163.825 132.028 106.758 86.4518 369.749
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.094986 0.07501 0.114962 0.109968 0.17489 0.05004 0.065022 0.070016 0.0350579 0.0300639 0.0450459 0.134938
+expected  0 236.661 349.505 402.472 377.208 317.047 255.379 204.244 163.825 132.028 106.758 86.4518 369.749
+exp with ageerr  236.661 349.505 402.472 377.208 317.047 255.379 204.244 163.825 132.028 106.758 86.4518 369.749
+
+************************************
+ year, seas 8 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+8 Recruits, dist, surv, result971.396 1 1 971.396
+1 1 1 area & morph 
+N-at-age  0 976.898 785.883 617.61 481.247 371.75 287.967
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.221714 0.248991 0.291082 0.333172 0.360449 0.373525 0.378887
+1 N_surv:  0 971.396 761.577 587.412 442.608 335.604 255.877
+yr 8, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.497892 1.34283 3.18309 6.63164 12.1434 19.8729 28.4181 36.0522 40.9498 42.4138 41.7552 40.9021 42.3151 47.1408 55.1183 64.3206 72.842 79.2576 82.8282 84.0528 83.8694 83.4126 83.5103 84.3265 85.607 86.9137 87.7942 88.0289 87.6763 86.8406 85.7707 84.6356 83.5271 82.4428 81.3811 80.3033 79.1976 78.0704 76.9375 75.8153 74.7115 73.6223 72.5379 71.4088 70.2292 68.9432 67.5057 65.8692 63.988 61.8218 59.3489 56.5233 53.3847 49.9364 46.2194 42.2928 38.2294 34.1187 30.0223 26.056 22.283 18.7693 15.5653 12.7094 10.1992 8.05694 6.25857 4.77962 3.59186 2.64507 6.144
+ sampled  age   0 262.504 574.324 588.065 477.821 371.284 287.871 224.642 177.549 141.76 114.072 92.1808 393.799
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.07501 0.184878 0.139932 0.114962 0.09998 0.07501 0.060028 0.0350579 0.05004 0.0350579 0.0350579 0.094986
+expected  0 262.504 574.324 588.065 477.821 371.284 287.871 224.642 177.549 141.76 114.072 92.1808 393.799
+exp with ageerr  262.504 574.324 588.065 477.821 371.284 287.871 224.642 177.549 141.76 114.072 92.1808 393.799
+yr 8, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.320513 0.772635 1.69248 3.3689 6.09355 10.2694 15.4949 21.3666 27.0251 31.7173 34.6578 35.9751 36.4137 36.8186 38.0465 40.4902 43.8477 47.5986 51.2091 54.1993 56.5577 58.3893 59.9316 61.4243 62.9368 64.4375 65.8752 67.0659 67.9791 68.6026 68.965 69.1131 69.0913 68.9312 68.655 68.2573 67.7641 67.171 66.4834 65.7024 64.8235 63.8344 62.715 61.4456 59.9731 58.2959 56.3721 54.1804 51.7089 48.9581 45.9427 42.6975 39.2494 35.6775 32.0378 28.4022 24.8429 21.434 18.2136 15.2564 12.585 10.2202 8.16844 6.42677 4.96749 3.7797 2.82779 6.87877
+ sampled  age   0 232.394 340.731 383.842 355.805 295.428 235.305 185.56 147.225 117.714 94.7718 76.5987 327.251
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.055034 0.189872 0.080004 0.119956 0.139932 0.084998 0.070016 0.05004 0.05004 0.0200759 0.0350579 0.104974
+expected  0 232.394 340.731 383.842 355.805 295.428 235.305 185.56 147.225 117.714 94.7718 76.5987 327.251
+exp with ageerr  232.394 340.731 383.842 355.805 295.428 235.305 185.56 147.225 117.714 94.7718 76.5987 327.251
+
+************************************
+ year, seas 9 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+9 Recruits, dist, surv, result956.749 1 1 956.749
+1 1 1 area & morph 
+N-at-age  0 971.396 761.577 587.412 442.608 335.604 255.877
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.212626 0.228487 0.252962 0.277436 0.293297 0.3009 0.304019
+1 N_surv:  0 956.749 772.975 591.363 445.096 330.097 248.398
+yr 9, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.495088 1.33527 3.16516 6.59429 12.075 19.7526 28.2385 35.8067 40.6335 42.0148 41.2288 40.1975 41.3575 45.8566 53.4415 62.2449 70.3933 76.478 79.7788 80.7635 80.3459 79.6271 79.4121 79.8736 80.7752 81.6954 82.2034 82.0897 81.4085 80.2725 78.922 77.5247 76.1721 74.8637 73.5976 72.3343 71.0593 69.7757 68.4964 67.2357 66.0012 64.7909 63.5981 62.3793 61.1337 59.8133 58.3811 56.7979 55.0256 53.0307 50.7957 48.2791 45.5169 42.5096 39.2909 35.9093 32.425 28.9124 25.4203 22.047 18.8434 15.864 13.1501 10.7335 8.61036 6.79991 5.28082 4.03205 3.02962 2.23051 5.17929
+ sampled  age   0 261.026 556.561 559.312 439.457 335.184 255.792 197.081 153.501 121.205 96.7543 77.8464 331.628
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.104974 0.164902 0.244806 0.065022 0.07501 0.060028 0.065022 0.0400519 0.0300639 0.0150819 0.00509389 0.129944
+expected  0 261.026 556.561 559.312 439.457 335.184 255.792 197.081 153.501 121.205 96.7543 77.8464 331.628
+exp with ageerr  261.026 556.561 559.312 439.457 335.184 255.792 197.081 153.501 121.205 96.7543 77.8464 331.628
+yr 9, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.321861 0.775884 1.69959 3.38307 6.11918 10.3081 15.5508 21.438 27.1043 31.7855 34.6946 35.9547 36.3062 36.6037 37.7081 40.0144 43.2322 46.842 50.3053 53.1464 55.3423 56.9957 58.341 59.6121 60.8816 62.1214 63.2798 64.1882 64.8171 65.1585 65.2451 65.1263 64.8489 64.4454 63.9389 63.3241 62.6268 61.843 60.9785 60.0363 59.0144 57.904 56.6896 55.3564 53.8573 52.1952 50.3331 48.253 45.9452 43.41 40.6599 37.7251 34.6268 31.4347 28.1957 24.9711 21.8228 18.8143 15.9765 13.3749 11.0274 8.95141 7.15167 5.62508 4.34639 3.3063 2.47307 6.013
+ sampled  age   0 233.371 336.256 374.86 337.795 276.003 216.598 168.712 131.931 104.325 83.3246 67.0541 285.67
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.109968 0.119956 0.204854 0.094986 0.080004 0.060028 0.055034 0.070016 0.0250699 0.0150819 0.0250699 0.139932
+expected  0 233.371 336.256 374.86 337.795 276.003 216.598 168.712 131.931 104.325 83.3246 67.0541 285.67
+exp with ageerr  233.371 336.256 374.86 337.795 276.003 216.598 168.712 131.931 104.325 83.3246 67.0541 285.67
+
+************************************
+ year, seas 10 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+10 Recruits, dist, surv, result950.988 1 1 950.988
+1 1 1 area & morph 
+N-at-age  0 956.749 772.975 591.363 445.096 330.097 248.398
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.215383 0.234706 0.264524 0.294341 0.313665 0.322927 0.326726
+1 N_surv:  0 950.988 756.6 593.314 440.578 325.26 238.999
+yr 10, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.487622 1.31513 3.11743 6.49485 11.8929 19.4644 27.8352 35.3157 40.1194 41.5656 40.9333 40.1189 41.5264 46.2729 54.0819 63.0668 71.3406 77.4852 80.7835 81.7128 81.2074 80.3881 80.0736 80.4455 81.2669 82.1073 82.5285 82.3138 81.5093 80.231 78.7174 77.1377 75.5865 74.0659 72.5784 71.0877 69.5832 68.0709 66.5663 65.086 63.6393 62.2257 60.8404 59.4422 58.0335 56.5699 55.0185 53.3446 51.5146 49.4987 47.2823 44.8253 42.164 39.2969 36.2542 33.0793 29.8258 26.5607 23.3253 20.2097 17.2578 14.5177 12.0259 9.81018 7.86517 6.20854 4.81958 3.67854 2.76327 2.03363 4.71924
+ sampled  age   0 257.09 564.891 563.074 441.927 329.684 248.315 188.734 145.264 113.069 89.2728 71.2573 301.556
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.109968 0.144926 0.154914 0.14992 0.05004 0.070016 0.07501 0.065022 0.0350579 0.0450459 0.0200759 0.080004
+expected  0 257.09 564.891 563.074 441.927 329.684 248.315 188.734 145.264 113.069 89.2728 71.2573 301.556
+exp with ageerr  257.09 564.891 563.074 441.927 329.684 248.315 188.734 145.264 113.069 89.2728 71.2573 301.556
+yr 10, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.316061 0.761903 1.66897 3.32211 6.00891 10.1293 15.285 21.0805 26.6696 31.3097 34.2302 35.5576 36.0218 36.4571 37.7003 40.1248 43.4292 47.0874 50.5594 53.377 55.5202 57.1008 58.3603 59.5355 60.7027 61.834 62.8722 63.6531 64.1415 64.3279 64.2443 63.9411 63.4667 62.8568 62.1375 61.307 60.3947 59.3997 58.3313 57.1952 55.9927 54.7184 53.3601 51.9069 50.3156 48.593 46.7053 44.6377 42.3818 39.9385 37.3191 34.551 31.6511 28.6832 25.6875 22.7182 19.8295 17.0774 14.487 12.1176 9.98331 8.09842 6.46634 5.08353 3.9259 2.98522 2.2321 5.42259
+ sampled  age   0 229.166 339.406 374.355 336.424 268.654 208.017 159.818 123.494 96.2633 76.0444 60.71 256.936
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.139932 0.134938 0.119956 0.169896 0.070016 0.080004 0.05004 0.055034 0.05004 0.0400519 0.0200759 0.070016
+expected  0 229.166 339.406 374.355 336.424 268.654 208.017 159.818 123.494 96.2633 76.0444 60.71 256.936
+exp with ageerr  229.166 339.406 374.355 336.424 268.654 208.017 159.818 123.494 96.2633 76.0444 60.71 256.936
+
+************************************
+ year, seas 11 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+11 Recruits, dist, surv, result943.667 1 1 943.667
+1 1 1 area & morph 
+N-at-age  0 950.988 756.6 593.314 440.578 325.26 238.999
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.217704 0.239942 0.274258 0.308574 0.330812 0.341472 0.345844
+1 N_surv:  0 943.667 748.117 575.119 435.785 316.485 231.17
+yr 11, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.484687 1.30721 3.09867 6.45575 11.8213 19.3423 27.6561 35.078 39.8273 41.2209 40.5258 39.6194 40.8942 45.4704 53.0924 61.9124 70.0814 76.208 79.5844 80.67 80.3683 79.7593 79.623 80.119 81.0005 81.8369 82.2006 81.8876 80.9531 79.5297 77.8602 76.1185 74.401 72.7103 71.0472 69.3747 67.6813 65.9732 64.267 62.5814 60.9287 59.3122 57.7312 56.149 54.5726 52.9625 51.2909 49.5277 47.644 45.6137 43.4249 41.0395 38.4931 35.7826 32.9345 29.9866 26.9858 23.9911 21.0359 18.2013 15.5239 13.0451 10.7956 8.79926 7.04887 5.56041 4.31383 3.29073 2.47092 1.81745 4.21348
+ sampled  age   0 255.542 552.924 564.932 437.442 324.853 238.919 179.103 135.952 104.561 81.3783 64.2449 268.281
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.080004 0.234818 0.22483 0.080004 0.084998 0.0400519 0.05004 0.07501 0.0350579 0.0100879 0.0100879 0.07501
+expected  0 255.542 552.924 564.932 437.442 324.853 238.919 179.103 135.952 104.561 81.3783 64.2449 268.281
+exp with ageerr  255.542 552.924 564.932 437.442 324.853 238.919 179.103 135.952 104.561 81.3783 64.2449 268.281
+yr 11, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.313369 0.755414 1.65475 3.29381 5.95774 10.0386 15.1457 20.8827 26.4084 30.9842 33.8419 35.1053 35.4975 35.8503 37.0004 39.3279 42.547 46.146 49.5924 52.4237 54.6082 56.2447 57.5579 58.7661 59.9359 61.0348 62.0019 62.6845 63.0501 63.0953 62.8571 62.3896 61.7435 60.956 60.0541 59.0373 57.9357 56.7505 55.4935 54.1739 52.7966 51.3608 49.8591 48.2857 46.6021 44.8195 42.9082 40.8561 38.6567 36.3111 33.8294 31.236 28.5436 25.8097 23.0679 20.3646 17.7463 15.2616 12.9292 10.802 8.89018 7.20495 5.74812 4.51569 3.48478 2.64822 1.97905 4.80175
+ sampled  age   0 227.214 330.675 373.061 330.319 262.408 198.348 150.285 114.524 88.2067 68.6861 54.2352 226.495
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.129944 0.139932 0.179884 0.109968 0.144926 0.0450459 0.0400519 0.0350579 0.05004 0.0400519 0.0150819 0.070016
+expected  0 227.214 330.675 373.061 330.319 262.408 198.348 150.285 114.524 88.2067 68.6861 54.2352 226.495
+exp with ageerr  227.214 330.675 373.061 330.319 262.408 198.348 150.285 114.524 88.2067 68.6861 54.2352 226.495
+
+************************************
+ year, seas 12 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+12 Recruits, dist, surv, result934.994 1 1 934.994
+1 1 1 area & morph 
+N-at-age  0 943.667 748.117 575.119 435.785 316.485 231.17
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.219561 0.244132 0.282048 0.319963 0.344535 0.356313 0.361144
+1 N_surv:  0 934.994 739.254 564.258 417.637 308.776 221.62
+yr 12, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.480955 1.29715 3.07481 6.40605 11.7303 19.1923 27.4406 34.8023 39.5093 40.8821 40.1699 39.2408 40.4634 44.9479 52.4394 61.1055 69.1118 75.0763 78.3002 79.2399 78.7987 78.0571 77.7997 78.1999 79.0236 79.845 80.2364 79.983 79.119 77.7635 76.1397 74.4102 72.6662 70.9118 69.1524 67.3575 65.5223 63.6584 61.7872 59.9308 58.1043 56.314 54.5623 52.8169 51.0886 49.3435 47.5591 45.7114 43.7763 41.7324 39.5714 37.2572 34.8252 32.2707 29.6165 26.8951 24.1465 21.4216 18.7461 16.1923 13.7891 11.5712 9.56393 7.78698 6.2312 4.911 3.80692 2.90192 2.17772 1.60058 3.70562
+ sampled  age   0 253.575 546.724 547.607 432.683 316.089 231.092 169.063 126.544 95.9764 73.8053 57.435 234.677
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.080004 0.229824 0.184878 0.154914 0.084998 0.09998 0.0200759 0.0100879 0.0100879 0.0150819 0.0250699 0.084998
+expected  0 253.575 546.724 547.607 432.683 316.089 231.092 169.063 126.544 95.9764 73.8053 57.435 234.677
+exp with ageerr  253.575 546.724 547.607 432.683 316.089 231.092 169.063 126.544 95.9764 73.8053 57.435 234.677
+yr 12, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.310332 0.748093 1.63872 3.26189 5.9 9.94007 14.9962 20.6749 26.1425 30.662 33.4764 34.7043 35.0591 35.3638 36.4457 38.6795 41.7851 45.256 48.5657 51.2615 53.3133 54.8259 56.0281 57.1396 58.2315 59.2726 60.1965 60.8528 61.1984 61.2207 60.9484 60.4291 59.7101 58.8277 57.8108 56.6626 55.417 54.08 52.6676 51.1932 49.6662 48.0902 46.4624 44.7817 43.0152 41.1781 39.2452 37.2079 35.0619 32.8091 30.4586 28.0323 25.5388 23.0299 20.5325 18.0857 15.7285 13.5021 11.4191 9.52628 7.82979 6.33793 5.05091 3.96428 3.05626 2.32072 1.73306 4.19763
+ sampled  age   0 225.012 325.755 359.674 324.616 253.551 190.474 140.832 105.822 80.3741 61.8396 48.1323 196.679
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.09998 0.159908 0.189872 0.144926 0.060028 0.134938 0.0350579 0.0350579 0.055034 0.0400519 9.98801e-005 0.0450459
+expected  0 225.012 325.755 359.674 324.616 253.551 190.474 140.832 105.822 80.3741 61.8396 48.1323 196.679
+exp with ageerr  225.012 325.755 359.674 324.616 253.551 190.474 140.832 105.822 80.3741 61.8396 48.1323 196.679
+
+************************************
+ year, seas 13 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+13 Recruits, dist, surv, result925.461 1 1 925.461
+1 1 1 area & morph 
+N-at-age  0 934.994 739.254 564.258 417.637 308.776 221.62
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.214637 0.233024 0.261395 0.289767 0.308154 0.316967 0.320582
+1 N_surv:  0 925.461 740.641 569.208 422.312 306.881 224.898
+yr 13, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.476535 1.28523 3.04655 6.34717 11.6225 19.015 27.1864 34.4782 39.1376 40.4904 39.7701 38.8297 40.0139 44.4224 51.798 60.334 68.2104 74.056 77.1787 78.0253 77.4899 76.6408 76.2549 76.5091 77.1777 77.8442 78.0923 77.7148 76.7468 75.3144 73.6373 71.8752 70.115 68.3551 66.5936 64.7926 62.9401 61.0425 59.1177 57.1871 55.2679 53.37 51.5007 49.6345 47.788 45.9343 44.0573 42.1393 40.1619 38.1087 35.9747 33.7273 31.4011 28.9909 26.5163 24.0049 21.4906 19.0169 16.6023 14.3105 12.1635 10.1896 8.40907 6.83752 5.46413 4.30162 3.33115 2.53691 1.90244 1.3969 3.22842
+ sampled  age   0 251.244 540.247 537.266 414.664 308.389 221.546 161.042 117.616 87.9571 66.6995 51.2852 202.968
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.080004 0.159908 0.184878 0.139932 0.144926 0.070016 0.070016 0.0200759 0.0350579 0.0400519 0.0200759 0.0350579
+expected  0 251.244 540.247 537.266 414.664 308.389 221.546 161.042 117.616 87.9571 66.6995 51.2852 202.968
+exp with ageerr  251.244 540.247 537.266 414.664 308.389 221.546 161.042 117.616 87.9571 66.6995 51.2852 202.968
+yr 13, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.309124 0.745181 1.63234 3.24919 5.87703 9.90182 14.9388 20.5963 26.0442 30.5486 33.3559 34.5843 34.9427 35.2525 36.3355 38.5632 41.6544 45.1024 48.3797 51.0353 53.0374 54.4908 55.6251 56.6596 57.6682 58.6225 59.4563 60.0285 60.2961 60.2484 59.9145 59.3404 58.5705 57.6372 56.5649 55.3527 54.0312 52.6046 51.089 49.4996 47.8492 46.1459 44.3927 42.5941 40.7235 38.8013 36.8075 34.7373 32.5895 30.3672 28.0796 25.7469 23.3753 21.0119 18.6785 16.4087 14.2353 12.1937 10.2912 8.56991 7.03219 5.68386 4.52357 3.54627 2.73069 2.07145 1.54551 3.73517
+ sampled  age   0 224.136 325.085 357.975 316.496 252.011 186.132 136.77 100.285 75.1055 56.9843 43.8236 173.449
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.094986 0.114962 0.164902 0.209848 0.139932 0.05004 0.080004 0.0350579 0.0200759 0.0200759 0.0250699 0.0450459
+expected  0 224.136 325.085 357.975 316.496 252.011 186.132 136.77 100.285 75.1055 56.9843 43.8236 173.449
+exp with ageerr  224.136 325.085 357.975 316.496 252.011 186.132 136.77 100.285 75.1055 56.9843 43.8236 173.449
+
+************************************
+ year, seas 14 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+14 Recruits, dist, surv, result922.299 1 1 922.299
+1 1 1 area & morph 
+N-at-age  0 925.461 740.641 569.208 422.312 306.881 224.898
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.222079 0.249814 0.292611 0.335408 0.363143 0.376438 0.381891
+1 N_surv:  0 922.299 720.884 552.75 407.01 293.713 210.613
+yr 14, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.471676 1.27212 3.01549 6.28246 11.504 18.8249 26.918 34.1457 38.777 40.1494 39.4947 38.6454 39.9262 44.4222 51.8721 60.4688 68.3985 74.2945 77.4692 78.3716 77.8951 77.1067 76.7795 77.0852 77.7934 78.4825 78.7347 78.3429 77.3421 75.8649 74.1328 72.3089 70.4827 68.6543 66.8231 64.9514 63.0268 61.0543 59.0498 57.0323 55.0168 53.0118 51.0245 49.03 47.048 45.0554 43.0413 40.9933 38.8991 36.7475 34.5379 32.241 29.8938 27.4911 25.0519 22.6013 20.1697 17.7962 15.4945 13.323 11.2991 9.44637 7.78142 6.31703 5.04011 3.96247 3.06475 2.33142 1.74679 1.28115 2.95463
+ sampled  age   0 248.682 541.261 541.979 419.306 306.496 224.823 160.78 116.728 85.1903 63.7016 48.3012 184.113
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.065022 0.239812 0.154914 0.12495 0.129944 0.094986 0.05004 0.0450459 9.98801e-005 0.0100879 0.0250699 0.060028
+expected  0 248.682 541.261 541.979 419.306 306.496 224.823 160.78 116.728 85.1903 63.7016 48.3012 184.113
+exp with ageerr  248.682 541.261 541.979 419.306 306.496 224.823 160.78 116.728 85.1903 63.7016 48.3012 184.113
+yr 14, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.303517 0.731664 1.60273 3.19026 5.77043 9.72347 14.6705 20.228 25.5817 30.0127 32.7811 34.0044 34.3792 34.7113 35.8063 38.0257 41.0916 44.5031 47.7405 50.3594 52.3285 53.7518 54.8554 55.8544 56.8214 57.7282 58.5063 59.0211 59.2291 59.1208 58.7261 58.0919 57.2634 56.2732 55.1458 53.88 52.5051 51.0241 49.4516 47.802 46.0876 44.3171 42.4954 40.6297 38.6977 36.7236 34.6921 32.6028 30.4579 28.2629 26.0282 23.7737 21.5041 19.263 17.0686 14.9495 12.9336 11.0509 9.30462 7.73193 6.33233 5.10917 4.05967 3.17817 2.4437 1.85154 1.37992 3.32614
+ sampled  age   0 220.071 320.882 353.387 311.838 243.544 183.512 132.62 96.6536 70.6389 52.848 40.079 152.781
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.065022 0.164902 0.144926 0.194866 0.129944 0.094986 0.055034 0.0450459 0.0300639 0.0150819 9.98801e-005 0.060028
+expected  0 220.071 320.882 353.387 311.838 243.544 183.512 132.62 96.6536 70.6389 52.848 40.079 152.781
+exp with ageerr  220.071 320.882 353.387 311.838 243.544 183.512 132.62 96.6536 70.6389 52.848 40.079 152.781
+
+************************************
+ year, seas 15 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+15 Recruits, dist, surv, result912.029 1 1 912.029
+1 1 1 area & morph 
+N-at-age  0 922.299 720.884 552.75 407.01 293.713 210.613
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.223633 0.25332 0.299129 0.344938 0.374625 0.388855 0.394692
+1 N_surv:  0 912.029 715.906 534.509 391.493 279.839 199.088
+yr 15, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.470064 1.26778 3.00518 6.26099 11.4647 18.7534 26.8091 33.9922 38.5703 39.8735 39.1117 38.1113 39.1835 43.4188 50.5724 58.8808 66.5635 72.2757 75.3413 76.1901 75.6915 74.8824 74.5144 74.7557 75.3825 75.9844 76.1553 75.6943 74.6339 73.1081 71.3319 69.4652 67.5965 65.7271 63.8572 61.951 59.9966 57.9991 55.9738 53.9393 51.9095 49.8923 47.8943 45.8913 43.9029 41.9078 39.8973 37.8619 35.7928 33.6824 31.5335 29.3204 27.0805 24.8098 22.5261 20.2519 18.0136 15.8451 13.7554 11.7962 9.97963 8.32439 6.84296 5.54486 4.41602 3.46634 2.67716 2.03389 1.52226 1.11495 2.56479
+ sampled  age   0 247.833 526.822 526.308 404.112 293.345 210.542 153.456 109.53 79.4423 57.967 43.3393 158.112
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.055034 0.159908 0.219836 0.129944 0.109968 0.12495 0.080004 0.0250699 0.05004 9.98801e-005 0.00509389 0.0400519
+expected  0 247.833 526.822 526.308 404.112 293.345 210.542 153.456 109.53 79.4423 57.967 43.3393 158.112
+exp with ageerr  247.833 526.822 526.308 404.112 293.345 210.542 153.456 109.53 79.4423 57.967 43.3393 158.112
+yr 15, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.301972 0.72794 1.59457 3.17402 5.74106 9.6681 14.5834 20.1004 25.4055 29.7747 32.4725 33.6088 33.872 34.0686 35.0048 37.0478 39.9364 43.182 46.2714 48.7687 50.6351 51.968 52.9855 53.8945 54.7661 55.5733 56.2481 56.6648 56.7802 56.586 56.1124 55.4061 54.512 53.4628 52.2832 50.9726 49.56 48.0484 46.4523 44.7857 43.0607 41.2863 39.468 37.6139 35.7039 33.7635 31.78 29.7551 27.6929 25.6004 23.4883 21.3755 19.2658 17.1992 15.1903 13.2636 11.4418 9.75019 8.18831 6.78851 5.54775 4.46727 3.54316 2.76931 2.12586 1.60846 1.19722 2.87667
+ sampled  age   0 218.951 311.356 341.63 298.923 231.742 170.829 125.815 90.1444 65.4729 47.7984 35.7433 130.408
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.0450459 0.169896 0.14992 0.109968 0.164902 0.12495 0.060028 0.0250699 0.05004 0.0100879 0.0150819 0.07501
+expected  0 218.951 311.356 341.63 298.923 231.742 170.829 125.815 90.1444 65.4729 47.7984 35.7433 130.408
+exp with ageerr  218.951 311.356 341.63 298.923 231.742 170.829 125.815 90.1444 65.4729 47.7984 35.7433 130.408
+
+************************************
+ year, seas 16 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+16 Recruits, dist, surv, result901.087 1 1 901.087
+1 1 1 area & morph 
+N-at-age  0 912.029 715.906 534.509 391.493 279.839 199.088
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.221028 0.247442 0.288201 0.32896 0.355374 0.368036 0.373229
+1 N_surv:  0 901.087 712.108 536.651 384.671 274.402 193.674
+yr 16, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.46483 1.25366 2.97172 6.19127 11.337 18.5458 26.5136 33.6203 38.1539 39.454 38.7128 37.7431 38.8257 43.0332 50.1103 58.3072 65.849 71.3935 74.2729 74.9135 74.1891 73.1417 72.5316 72.5452 72.9735 73.415 73.4677 72.9264 71.8119 70.251 68.4475 66.5547 64.6587 62.7607 60.8622 58.929 56.9505 54.9321 52.8894 50.8406 48.8 46.7757 44.7747 42.7746 40.7951 38.8168 36.8328 34.8357 32.8184 30.7755 28.7113 26.6023 24.4851 22.3558 20.2308 18.1301 16.0767 14.1003 12.2062 10.4403 8.81083 7.33256 6.01471 4.86427 3.86648 3.02983 2.33635 1.77239 1.32491 0.969019 2.22254
+ sampled  age   0 245.073 523.185 508.94 388.705 279.488 199.021 141.881 103.196 73.581 53.3564 38.9272 135.274
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.09998 0.179884 0.169896 0.14992 0.070016 0.080004 0.089992 0.0350579 0.0250699 0.0450459 9.98801e-005 0.055034
+expected  0 245.073 523.185 508.94 388.705 279.488 199.021 141.881 103.196 73.581 53.3564 38.9272 135.274
+exp with ageerr  245.073 523.185 508.94 388.705 279.488 199.021 141.881 103.196 73.581 53.3564 38.9272 135.274
+yr 16, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.299452 0.721865 1.58126 3.14753 5.69315 9.58895 14.4649 19.9391 25.2054 29.5446 32.231 33.3724 33.6488 33.8591 34.7973 36.8199 39.6634 42.8366 45.8257 48.2013 49.9265 51.1074 51.9691 52.7248 53.453 54.1315 54.6917 55.012 55.0449 54.7789 54.2407 53.4743 52.5229 51.4187 50.1862 48.8255 47.3661 45.812 44.1782 42.4794 40.7285 38.9355 37.1069 35.2521 33.3526 31.4349 29.488 27.5147 25.5199 23.5109 21.4983 19.5 17.5182 15.5901 13.7277 11.9518 10.2819 8.7392 7.32075 6.05525 4.93778 3.96803 3.14123 2.45098 1.8782 1.41893 1.05466 2.52523
+ sampled  age   0 217.123 310.817 332.857 290.138 222.96 163.112 117.512 85.8019 61.2649 44.4486 32.4344 112.718
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.169896 0.129944 0.104974 0.184878 0.080004 0.114962 0.060028 0.055034 0.0450459 0.0150819 0.00509389 0.0350579
+expected  0 217.123 310.817 332.857 290.138 222.96 163.112 117.512 85.8019 61.2649 44.4486 32.4344 112.718
+exp with ageerr  217.123 310.817 332.857 290.138 222.96 163.112 117.512 85.8019 61.2649 44.4486 32.4344 112.718
+
+************************************
+ year, seas 17 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+17 Recruits, dist, surv, result894.607 1 1 894.607
+1 1 1 area & morph 
+N-at-age  0 901.087 712.108 536.651 384.671 274.402 193.674
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.241257 0.293082 0.373053 0.453024 0.504849 0.529692 0.539881
+1 N_surv:  0 894.607 672.176 490.378 341.151 232.186 161.564
+yr 17, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.459253 1.23862 2.93607 6.11699 11.201 18.3253 26.2002 33.2271 37.7168 39.0193 38.3196 37.4067 38.5374 42.77 49.8469 58.0336 65.5685 71.1191 74.0241 74.7036 74.0228 73.0101 72.4126 72.4089 72.7866 73.1446 73.087 72.4172 71.1642 69.4673 67.5366 65.5311 63.5388 61.5608 59.5962 57.6073 55.5797 53.5156 51.4284 49.3351 47.2495 45.1803 43.1357 41.0946 39.0786 37.0702 35.0645 33.0559 31.0394 29.0112 26.9765 24.913 22.857 20.8044 18.7701 16.7723 14.8313 12.9738 11.2022 9.55868 8.04859 6.68395 5.47169 4.41703 3.50448 2.74167 2.11089 1.59905 1.19389 0.871897 1.99367
+ sampled  age   0 242.133 520.409 510.979 381.932 274.057 193.609 137.026 97.5058 70.8535 50.5106 36.6224 119.56
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.119956 0.244806 0.12495 0.12495 0.089992 0.109968 0.055034 0.0350579 0.0250699 0.0250699 0.0200759 0.0250699
+expected  0 242.133 520.409 510.979 381.932 274.057 193.609 137.026 97.5058 70.8535 50.5106 36.6224 119.56
+exp with ageerr  242.133 520.409 510.979 381.932 274.057 193.609 137.026 97.5058 70.8535 50.5106 36.6224 119.56
+yr 17, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.289481 0.69783 1.52861 3.04273 5.50359 9.2671 13.9778 19.2644 24.3461 28.5227 31.0941 32.1606 32.3747 32.5132 33.3431 35.209 37.8632 40.8324 43.6178 45.8071 47.3582 48.3715 49.0623 49.6345 50.1664 50.6408 50.9948 51.1211 50.9781 50.5599 49.8961 49.0319 48.0103 46.8622 45.6102 44.2522 42.8145 41.2984 39.7164 38.0813 36.405 34.697 32.964 31.2157 29.4361 27.6511 25.8513 24.0403 22.223 20.4063 18.5995 16.818 15.0628 13.3659 11.7364 10.1909 8.74481 7.41515 6.19707 5.11484 4.16248 3.33862 2.63822 2.05517 1.57222 1.18602 0.880327 2.10033
+ sampled  age   0 209.894 297.018 315.36 265.97 202.871 146.916 104.991 74.975 54.5519 38.9079 28.2147 92.1167
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.129944 0.184878 0.109968 0.119956 0.129944 0.080004 0.080004 0.0350579 0.0200759 0.0100879 0.0400519 0.060028
+expected  0 209.894 297.018 315.36 265.97 202.871 146.916 104.991 74.975 54.5519 38.9079 28.2147 92.1167
+exp with ageerr  209.894 297.018 315.36 265.97 202.871 146.916 104.991 74.975 54.5519 38.9079 28.2147 92.1167
+
+************************************
+ year, seas 18 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+18 Recruits, dist, surv, result864.585 1 1 864.585
+1 1 1 area & morph 
+N-at-age  0 894.607 672.176 490.378 341.151 232.186 161.564
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.235028 0.27903 0.346927 0.414825 0.458826 0.479918 0.488569
+1 N_surv:  0 864.585 676.786 475.132 323.873 215.616 143.685
+yr 18, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.455951 1.22971 2.91495 6.073 11.1204 18.1789 25.9776 32.9138 37.2956 38.4582 37.5362 36.3119 37.0093 40.6944 47.1327 54.6792 61.6308 66.6897 69.2216 69.6063 68.6675 67.3836 66.4706 66.1168 66.1352 66.1532 65.8017 64.8931 63.4483 61.5993 59.5416 57.4272 55.3437 53.2979 51.2938 49.2992 47.3023 45.3046 43.3169 41.3524 39.4212 37.5283 35.6784 33.8498 32.0606 30.2937 28.544 26.8066 25.0772 23.3527 21.6379 19.9128 18.2088 16.5209 14.8602 13.2403 11.6762 10.188 8.77525 7.47105 6.27758 5.203 4.25155 3.42641 2.71392 2.12006 1.63005 1.23321 0.919762 0.670787 1.52959
+ sampled  age   0 240.391 491.226 466.92 338.722 231.895 161.51 112.838 79.5616 56.521 41.053 29.2595 90.4627
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.104974 0.184878 0.259788 0.089992 0.065022 0.07501 0.05004 0.055034 0.0350579 0.0250699 0.0200759 0.0350579
+expected  0 240.391 491.226 466.92 338.722 231.895 161.51 112.838 79.5616 56.521 41.053 29.2595 90.4627
+exp with ageerr  240.391 491.226 466.92 338.722 231.895 161.51 112.838 79.5616 56.521 41.053 29.2595 90.4627
+yr 18, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.289329 0.697463 1.52781 3.04113 5.50069 9.25252 13.95 19.2135 24.2573 28.3646 30.8388 31.7674 31.7916 31.6966 32.2535 33.8152 36.1598 38.8269 41.3232 43.2472 44.5448 45.3112 45.754 46.0698 46.3401 46.5529 46.6499 46.5353 46.1698 45.55 44.7068 43.6866 42.5339 41.2819 39.9552 38.5541 37.1048 35.6085 34.0765 32.5193 30.9465 29.3651 27.78 26.1989 24.6055 23.0233 21.4429 19.867 18.2992 16.7448 15.2111 13.7104 12.2414 10.831 9.4844 8.21413 7.03133 5.94882 4.96058 4.08612 3.31908 2.65749 2.09655 1.63082 1.24565 0.938427 0.695684 1.6545
+ sampled  age   0 209.783 283.827 293.32 240.926 175.619 125.468 88.5332 62.6517 44.5673 32.3865 23.0867 71.3821
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.134938 0.19986 0.179884 0.094986 0.065022 0.07501 0.05004 0.070016 0.0450459 0.0400519 0.0100879 0.0350579
+expected  0 209.783 283.827 293.32 240.926 175.619 125.468 88.5332 62.6517 44.5673 32.3865 23.0867 71.3821
+exp with ageerr  209.783 283.827 293.32 240.926 175.619 125.468 88.5332 62.6517 44.5673 32.3865 23.0867 71.3821
+
+************************************
+ year, seas 19 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+19 Recruits, dist, surv, result845.016 1 1 845.016
+1 1 1 area & morph 
+N-at-age  0 864.585 676.786 475.132 323.873 215.616 143.685
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.236085 0.281414 0.351361 0.421307 0.466636 0.488364 0.497276
+1 N_surv:  0 845.016 652.516 476.274 311.776 203.104 132.308
+yr 19, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.440649 1.18844 2.81713 5.8692 10.7472 17.5803 25.1325 31.8673 36.161 37.3865 36.6568 35.7052 36.6807 40.5935 47.1731 54.776 61.6966 66.6356 68.9714 69.0889 67.834 66.2065 64.9442 64.261 63.9857 63.7509 63.1877 62.102 60.5031 58.5167 56.3297 54.0907 51.8869 49.7264 47.6159 45.5257 43.446 41.3802 39.3403 37.341 35.3935 33.5035 31.6762 29.8907 28.1641 26.4793 24.8307 23.2128 21.6206 20.0501 18.505 16.965 15.4583 13.9784 12.5336 11.1342 9.79174 8.52208 7.32211 6.22006 5.21568 4.31463 3.51941 2.83193 2.23944 1.747 1.34151 1.01372 0.755338 0.550172 1.2515
+ sampled  age   0 232.324 494.595 452.403 321.567 215.346 143.636 99.086 69.0073 48.5869 34.5037 25.0561 73.0641
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.0450459 0.289752 0.219836 0.204854 0.055034 0.0250699 0.060028 0.0350579 0.0250699 0.0100879 0.0150819 0.0150819
+expected  0 232.324 494.595 452.403 321.567 215.346 143.636 99.086 69.0073 48.5869 34.5037 25.0561 73.0641
+exp with ageerr  232.324 494.595 452.403 321.567 215.346 143.636 99.086 69.0073 48.5869 34.5037 25.0561 73.0641
+yr 19, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.279302 0.673291 1.47486 2.93573 5.31005 8.94019 13.4841 18.5826 23.4818 27.4961 29.9588 30.959 31.1148 31.1794 31.8828 33.5435 35.9258 38.5629 40.9621 42.7371 43.8409 44.3845 44.5893 44.6624 44.6968 44.6877 44.5785 44.2774 43.7421 42.9667 41.9798 40.8264 39.5509 38.1872 36.7613 35.2755 33.7574 32.2101 30.6459 29.0764 27.5117 25.9592 24.4237 22.9122 21.4087 19.935 18.4808 17.0474 15.6368 14.2524 12.8991 11.5863 10.3107 9.09482 7.94136 6.85943 5.85713 4.9443 4.11364 3.38181 2.74196 2.19168 1.72633 1.34099 1.02275 0.769553 0.569836 1.35128
+ sampled  age   0 202.513 285.177 283.345 227.901 162.454 111.138 77.4298 54.1206 38.1559 27.1093 19.6899 57.4192
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.089992 0.239812 0.17489 0.214842 0.065022 0.070016 0.055034 0.0200759 9.98801e-005 0.0150819 0.0300639 0.0250699
+expected  0 202.513 285.177 283.345 227.901 162.454 111.138 77.4298 54.1206 38.1559 27.1093 19.6899 57.4192
+exp with ageerr  202.513 285.177 283.345 227.901 162.454 111.138 77.4298 54.1206 38.1559 27.1093 19.6899 57.4192
+
+************************************
+ year, seas 20 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+20 Recruits, dist, surv, result827.477 1 1 827.477
+1 1 1 area & morph 
+N-at-age  0 845.016 652.516 476.274 311.776 203.104 132.308
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.237222 0.283979 0.356129 0.428278 0.475035 0.497448 0.506641
+1 N_surv:  0 827.477 636.114 457.011 310.355 193.882 123.503
+yr 20, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.430676 1.16155 2.75337 5.73636 10.504 17.1786 24.5549 31.1269 35.304 36.4682 35.708 34.708 35.5737 39.3023 45.6451 53.0213 59.7859 64.6824 67.1083 67.4228 66.4262 65.0587 64.0028 63.4411 63.1901 62.8858 62.1781 60.8957 59.0694 56.8474 54.4313 51.9804 49.588 47.2649 45.0164 42.8105 40.6341 38.4877 36.3813 34.3284 32.3402 30.423 28.5829 26.8003 25.0936 23.4463 21.8537 20.3105 18.8117 17.3528 15.9362 14.5408 13.192 11.8811 10.6135 9.39628 8.23736 7.14899 6.12552 5.19107 4.34325 3.58566 2.91939 2.34538 1.85149 1.44236 1.10616 0.83489 0.621523 0.452131 1.02615
+ sampled  age   0 227.066 476.858 453.49 309.556 202.849 132.264 87.3568 60.0658 41.7705 29.3986 20.873 59.3522
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.09998 0.14992 0.264782 0.119956 0.14992 0.0400519 0.0350579 0.0350579 0.0250699 0.0300639 0.00509389 0.0450459
+expected  0 227.066 476.858 453.49 309.556 202.849 132.264 87.3568 60.0658 41.7705 29.3986 20.873 59.3522
+exp with ageerr  227.066 476.858 453.49 309.556 202.849 132.264 87.3568 60.0658 41.7705 29.3986 20.873 59.3522
+yr 20, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.272647 0.657248 1.43972 2.86579 5.18353 8.72416 13.1565 18.1272 22.8987 26.8025 29.1824 30.1262 30.2374 30.2562 30.9013 32.491 34.8064 37.3983 39.7864 41.5922 42.7564 43.3738 43.6434 43.7503 43.7749 43.7077 43.494 43.0538 42.3556 41.4058 40.2441 38.9239 37.4953 35.9954 34.4516 32.8664 31.2665 29.6544 28.0417 26.4398 24.8588 23.3066 21.7882 20.3114 18.8603 17.4566 16.0895 14.7595 13.4675 12.2148 11.0042 9.84252 8.72379 7.66721 6.6725 5.74579 4.89245 4.1197 3.41902 2.80478 2.26965 1.8109 1.42405 1.10465 0.841148 0.632122 0.467534 1.10557
+ sampled  age   0 197.688 274.334 283.107 218.541 152.39 101.9 67.9687 46.9032 32.6601 22.9978 16.3312 46.4402
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.104974 0.14992 0.209848 0.169896 0.119956 0.0450459 0.065022 0.0200759 0.0200759 0.0300639 0.0150819 0.05004
+expected  0 197.688 274.334 283.107 218.541 152.39 101.9 67.9687 46.9032 32.6601 22.9978 16.3312 46.4402
+exp with ageerr  197.688 274.334 283.107 218.541 152.39 101.9 67.9687 46.9032 32.6601 22.9978 16.3312 46.4402
+
+************************************
+ year, seas 21 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+21 Recruits, dist, surv, result811.284 1 1 811.284
+1 1 1 area & morph 
+N-at-age  0 827.477 636.114 457.011 310.355 193.882 123.503
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.25447 0.322892 0.428474 0.534056 0.602478 0.635277 0.648729
+1 N_surv:  0 811.284 599.137 414.43 267.91 169.905 102.717
+yr 21, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.421737 1.13744 2.69622 5.61729 10.286 16.8208 24.0424 30.4747 34.5589 35.6882 34.9222 33.9138 34.721 38.3201 44.4709 51.6255 58.1774 62.8975 65.2003 65.4375 64.3976 63.0061 61.937 61.378 61.1544 60.9084 60.2909 59.1207 57.4105 55.2905 52.9442 50.5202 48.1094 45.7277 43.3896 41.0751 38.7828 36.5226 34.3116 32.1678 30.1048 28.1298 26.2489 24.4429 22.7289 21.091 19.5243 18.0237 16.5841 15.2009 13.8758 12.5868 11.3576 10.1774 9.04912 7.97684 6.96545 6.02385 5.14397 4.34642 3.62681 2.98691 2.42652 1.94575 1.53289 1.19221 0.912955 0.688124 0.511756 0.371683 0.841332
+ sampled  age   0 222.353 464.871 435.148 308.144 193.639 123.462 79.6903 52.4563 36.0139 25.0345 17.616 48.0671
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.060028 0.154914 0.189872 0.234818 0.104974 0.104974 0.0300639 0.060028 0.0200759 9.98801e-005 0.00509389 0.0350579
+expected  0 222.353 464.871 435.148 308.144 193.639 123.462 79.6903 52.4563 36.0139 25.0345 17.616 48.0671
+exp with ageerr  222.353 464.871 435.148 308.144 193.639 123.462 79.6903 52.4563 36.0139 25.0345 17.616 48.0671
+yr 21, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.262101 0.631826 1.38403 2.75494 4.98303 8.38284 12.6394 17.4098 21.9828 25.7068 27.9546 28.8038 28.8305 28.7473 29.2465 30.6366 32.7165 35.06 37.209 38.807 39.7965 40.2721 40.4275 40.4419 40.3958 40.2813 40.0429 39.6012 38.9181 37.9919 36.8537 35.5504 34.1291 32.6272 31.0752 29.4814 27.8764 26.2678 24.6705 23.0979 21.5613 20.0688 18.6255 17.2383 15.8922 14.6066 13.371 12.185 11.048 9.96016 8.92209 7.93816 7.00048 6.12458 5.30761 4.55288 3.86307 3.24283 2.68298 2.19521 1.77215 1.41088 1.10729 0.857518 0.651717 0.489047 0.361223 0.851356
+ sampled  age   0 190.041 258.547 258.753 205.28 136.665 89.2003 58.1058 38.3763 26.3795 18.3456 12.9112 35.2315
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.109968 0.19986 0.179884 0.189872 0.089992 0.089992 0.0250699 0.0300639 0.0300639 0.0250699 0.0100879 0.0200759
+expected  0 190.041 258.547 258.753 205.28 136.665 89.2003 58.1058 38.3763 26.3795 18.3456 12.9112 35.2315
+exp with ageerr  190.041 258.547 258.753 205.28 136.665 89.2003 58.1058 38.3763 26.3795 18.3456 12.9112 35.2315
+
+************************************
+ year, seas 22 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+22 Recruits, dist, surv, result772.276 1 1 772.276
+1 1 1 area & morph 
+N-at-age  0 811.284 599.137 414.43 267.91 169.905 102.717
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.241288 0.293153 0.373185 0.453217 0.505082 0.529943 0.54014
+1 N_surv:  0 772.276 605.143 412.528 263.403 161.672 100.012
+yr 22, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.413484 1.11518 2.64346 5.50737 10.0847 16.4814 23.5478 29.826 33.777 34.7922 33.8791 32.6644 33.1527 36.3108 41.9139 48.5006 54.5246 58.799 60.7609 60.7313 59.4594 57.8271 56.4833 55.6258 55.1073 54.6018 53.789 52.5004 50.7454 48.6451 46.3679 44.0501 41.7731 39.5471 37.3802 35.2472 33.1405 31.0647 29.0328 27.0611 25.1634 23.349 21.6266 19.9815 18.4317 16.9645 15.5765 14.2634 13.0204 11.8429 10.7313 9.6652 8.66341 7.71468 6.81943 5.97888 5.19482 4.47257 3.80268 3.20104 2.66195 2.18552 1.77053 1.41639 1.11302 0.863917 0.660354 0.496909 0.36912 0.267571 0.603844
+ sampled  age   0 218.001 437.849 394.604 266.002 169.692 102.682 64.5341 41.4466 27.2244 18.6793 12.9808 34.0531
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.164902 0.234818 0.144926 0.109968 0.134938 0.060028 0.0400519 0.0250699 0.0150819 0.0200759 0.0250699 0.0250699
+expected  0 218.001 437.849 394.604 266.002 169.692 102.682 64.5341 41.4466 27.2244 18.6793 12.9808 34.0531
+exp with ageerr  218.001 437.849 394.604 266.002 169.692 102.682 64.5341 41.4466 27.2244 18.6793 12.9808 34.0531
+yr 22, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.260622 0.628262 1.37622 2.7394 4.95492 8.33019 12.5568 17.2891 21.8168 25.4819 27.6633 28.4305 28.3487 28.1324 28.4708 29.6756 31.5587 33.7031 35.6558 37.0681 37.8772 38.1761 38.1558 37.9939 37.7758 37.5002 37.1181 36.5585 35.7859 34.7995 33.6289 32.3176 30.9086 29.4353 27.9237 26.3788 24.8279 23.2767 21.7391 20.2287 18.7575 17.335 15.9681 14.6647 13.4122 12.2295 11.1069 10.0436 9.03824 8.08964 7.19689 6.36208 5.57612 4.85093 4.18189 3.56994 3.01566 2.52164 2.07807 1.69465 1.36394 1.08291 0.847785 0.655207 0.496778 0.372111 0.274401 0.644206
+ sampled  age   0 188.969 249.882 243.515 185.219 125.6 77.9087 49.441 31.8657 20.9582 14.3868 9.99952 26.2336
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.129944 0.164902 0.17489 0.154914 0.164902 0.055034 0.055034 0.0300639 0.0200759 0.00509389 0.0100879 0.0350579
+expected  0 188.969 249.882 243.515 185.219 125.6 77.9087 49.441 31.8657 20.9582 14.3868 9.99952 26.2336
+exp with ageerr  188.969 249.882 243.515 185.219 125.6 77.9087 49.441 31.8657 20.9582 14.3868 9.99952 26.2336
+
+************************************
+ year, seas 23 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+23 Recruits, dist, surv, result759.126 1 1 759.126
+1 1 1 area & morph 
+N-at-age  0 772.276 605.143 412.528 263.403 161.672 100.012
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.272537 0.363655 0.504257 0.644859 0.735977 0.779654 0.797569
+1 N_surv:  0 759.126 536.833 365.479 216.469 126.18 74.137
+yr 23, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.393603 1.06156 2.51635 5.24256 9.59979 15.7035 22.4498 28.4662 32.3029 33.3998 32.7457 31.8948 32.7616 36.2451 42.0875 48.8273 54.9272 59.2095 61.1256 61.0066 59.6164 57.8514 56.372 55.3854 54.7486 54.1343 53.2206 51.8363 49.9882 47.7985 45.4357 43.038 40.689 38.4007 36.1822 34.0088 31.872 29.7749 27.7288 25.7478 23.8439 22.0251 20.2995 18.6526 17.1032 15.6399 14.2608 12.9634 11.7445 10.6003 9.53186 8.51907 7.57978 6.70184 5.88415 5.12608 4.4274 3.79117 3.20647 2.68663 2.22468 1.81942 1.46874 1.17147 0.917517 0.71034 0.541692 0.40675 0.301687 0.218154 0.490424
+ sampled  age   0 207.519 442.238 392.793 261.527 161.469 99.9785 59.8288 37.4605 24.0189 15.7698 10.8175 27.2354
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.109968 0.264782 0.229824 0.114962 0.065022 0.07501 0.0400519 0.0450459 0.0150819 0.00509389 0.00509389 0.0300639
+expected  0 207.519 442.238 392.793 261.527 161.469 99.9785 59.8288 37.4605 24.0189 15.7698 10.8175 27.2354
+exp with ageerr  207.519 442.238 392.793 261.527 161.469 99.9785 59.8288 37.4605 24.0189 15.7698 10.8175 27.2354
+yr 23, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.23996 0.578453 1.26712 2.52221 4.56209 7.67531 11.573 15.9417 20.1305 23.5368 25.5938 26.3675 26.3766 26.2762 26.6901 27.8885 29.6841 31.6769 33.4388 34.6485 35.2531 35.3523 35.1378 34.7871 34.391 33.9553 33.437 32.7726 31.9279 30.9016 29.7206 28.4255 27.0563 25.6439 24.2122 22.7645 21.325 19.8967 18.4905 17.117 15.7858 14.5045 13.2787 12.1159 11.0046 9.96241 8.98094 8.05973 7.19769 6.39344 5.64554 4.95493 4.31232 3.72688 3.19299 2.70998 2.27692 1.89472 1.55394 1.26197 1.01184 0.80057 0.624761 0.481592 0.364008 0.27203 0.200175 0.467591
+ sampled  age   0 173.987 237.509 222.179 164.184 106.922 67.6524 40.8291 25.6434 16.4606 10.8118 7.41763 18.6763
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.09998 0.209848 0.194866 0.139932 0.129944 0.084998 0.05004 0.0400519 9.98801e-005 0.0100879 0.0150819 0.0250699
+expected  0 173.987 237.509 222.179 164.184 106.922 67.6524 40.8291 25.6434 16.4606 10.8118 7.41763 18.6763
+exp with ageerr  173.987 237.509 222.179 164.184 106.922 67.6524 40.8291 25.6434 16.4606 10.8118 7.41763 18.6763
+
+************************************
+ year, seas 24 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+24 Recruits, dist, surv, result700.064 1 1 700.064
+1 1 1 area & morph 
+N-at-age  0 759.126 536.833 365.479 216.469 126.18 74.137
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.265735 0.348309 0.475727 0.603146 0.68572 0.725302 0.741536
+1 N_surv:  0 700.064 535.853 333.606 199.949 109.041 61.0936
+yr 24, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.386901 1.04348 2.47351 5.1533 9.43633 15.4118 22.0106 27.8576 31.503 32.3638 31.3574 30.0069 30.1797 32.7924 37.6488 43.4395 48.7494 52.484 54.1323 53.9636 52.6476 50.9701 49.51 48.4499 47.6627 46.8606 45.7661 44.2384 42.2966 40.0647 37.7052 35.3517 33.0853 30.9199 28.8631 26.8893 24.9862 23.151 21.3884 19.7058 18.1097 16.6035 15.1909 13.8561 12.6132 11.4501 10.3637 9.35041 8.40691 7.52957 6.71872 5.95746 5.26 4.61568 4.02277 3.47971 2.98513 2.54017 2.13504 1.77897 1.46549 1.19281 0.958683 0.761737 0.594199 0.45851 0.348595 0.261034 0.193238 0.139267 0.311491
+ sampled  age   0 203.986 392.317 347.994 214.927 126.021 74.1119 45.0322 26.7676 16.7137 10.7073 7.02727 16.954
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.109968 0.264782 0.204854 0.134938 0.065022 0.07501 0.0450459 0.0300639 0.0400519 0.0100879 0.00509389 0.0150819
+expected  0 203.986 392.317 347.994 214.927 126.021 74.1119 45.0322 26.7676 16.7137 10.7073 7.02727 16.954
+exp with ageerr  203.986 392.317 347.994 214.927 126.021 74.1119 45.0322 26.7676 16.7137 10.7073 7.02727 16.954
+yr 24, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.237583 0.572722 1.25456 2.49723 4.5169 7.58312 11.4242 15.716 19.8047 23.0733 24.9577 25.5082 25.2276 24.7786 24.7946 25.5695 26.9599 28.5998 30.0817 31.0964 31.5729 31.5867 31.3009 30.8691 30.3718 29.8161 29.1674 28.3765 27.4209 26.3081 25.071 23.753 22.3951 21.0279 19.6734 18.3337 17.028 15.7562 14.5247 13.3398 12.2069 11.1302 10.1121 9.15725 8.25342 7.41514 6.63362 5.90753 5.23514 4.61452 4.04374 3.5228 3.04307 2.61139 2.2221 1.87373 1.56463 1.29472 1.05578 0.853148 0.680886 0.53642 0.416973 0.320344 0.241218 0.179731 0.131895 0.306079
+ sampled  age   0 172.264 213.478 200.555 137.954 85.4594 51.3909 31.5003 18.7838 11.7423 7.52564 4.93989 11.9186
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.12495 0.19986 0.204854 0.184878 0.07501 0.0400519 0.060028 0.0250699 0.0350579 0.0100879 0.0100879 0.0300639
+expected  0 172.264 213.478 200.555 137.954 85.4594 51.3909 31.5003 18.7838 11.7423 7.52564 4.93989 11.9186
+exp with ageerr  172.264 213.478 200.555 137.954 85.4594 51.3909 31.5003 18.7838 11.7423 7.52564 4.93989 11.9186
+
+************************************
+ year, seas 25 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+25 Recruits, dist, surv, result661.288 1 1 661.288
+1 1 1 area & morph 
+N-at-age  0 700.064 535.853 333.606 199.949 109.041 61.0936
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.272702 0.364027 0.50495 0.645873 0.737198 0.780975 0.79893
+1 N_surv:  0 661.288 486.455 323.406 174.878 95.6661 49.9364
+yr 25, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.356799 0.962295 2.28106 4.75235 8.70216 14.2298 20.3381 25.7773 29.2277 30.1744 29.486 28.5857 29.1927 32.1209 37.1259 42.913 48.0887 51.5781 52.8968 52.3275 50.5669 48.432 46.5371 45.1056 44.0395 43.0642 41.8998 40.3869 38.5159 36.3822 34.1232 31.8569 29.6588 27.5449 25.5296 23.5956 21.738 19.9592 18.2668 16.6696 15.1735 13.7803 12.4914 11.2901 10.1867 9.16733 8.22706 7.3608 6.56371 5.83114 5.16228 4.54056 3.97823 3.46465 2.99741 2.57428 2.19319 1.85427 1.54825 1.2824 1.05049 0.850515 0.680197 0.53813 0.417772 0.32112 0.243261 0.18155 0.134056 0.0962526 0.213887
+ sampled  age   0 188.115 391.601 317.646 198.525 108.904 61.0729 35.3052 21.3225 12.6424 7.88779 5.05138 11.3119
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.119956 0.254794 0.234818 0.144926 0.080004 0.070016 0.0200759 0.0350579 0.0100879 0.0200759 9.98801e-005 0.0100879
+expected  0 188.115 391.601 317.646 198.525 108.904 61.0729 35.3052 21.3225 12.6424 7.88779 5.05138 11.3119
+exp with ageerr  188.115 391.601 317.646 198.525 108.904 61.0729 35.3052 21.3225 12.6424 7.88779 5.05138 11.3119
+yr 25, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.217484 0.524272 1.14843 2.28597 4.13479 6.95267 10.4811 14.4328 18.2157 21.2712 23.0929 23.7312 23.6455 23.434 23.6569 24.5536 25.9632 27.5218 28.8381 29.631 29.8496 29.5932 29.0442 28.373 27.6751 26.9668 26.2161 25.3713 24.401 23.3019 22.0963 20.8191 19.5064 18.1872 16.8843 15.6021 14.3622 13.1661 12.0213 10.9339 9.90848 8.94767 8.05225 7.22447 6.45161 5.74487 5.09471 4.49847 3.95328 3.45629 3.00473 2.59772 2.22667 1.897 1.60293 1.34256 1.11389 0.916347 0.742579 0.596824 0.473892 0.371559 0.287531 0.220058 0.164957 0.122478 0.0895868 0.206232
+ sampled  age   0 157.691 210.247 179.592 124.565 72.0733 41.3017 24.0791 14.5875 8.65883 5.40465 3.46168 7.7523
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.159908 0.214842 0.169896 0.209848 0.060028 0.065022 0.060028 0.0350579 0.0150819 0.00509389 9.98801e-005 0.00509389
+expected  0 157.691 210.247 179.592 124.565 72.0733 41.3017 24.0791 14.5875 8.65883 5.40465 3.46168 7.7523
+exp with ageerr  157.691 210.247 179.592 124.565 72.0733 41.3017 24.0791 14.5875 8.65883 5.40465 3.46168 7.7523
+
+************************************
+ year, seas 26 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+26 Recruits, dist, surv, result620.921 1 1 620.921
+1 1 1 area & morph 
+N-at-age  0 661.288 486.455 323.406 174.878 95.6661 49.9364
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.275983 0.371429 0.518712 0.665994 0.76144 0.807193 0.825958
+1 N_surv:  0 620.921 456.122 289.58 166.154 81.6668 42.6775
+yr 26, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.337035 0.908994 2.15471 4.48912 8.22014 13.4334 19.1922 24.3074 27.5238 28.3441 27.5814 26.5675 26.9308 29.4569 33.9417 39.2138 43.9975 47.3051 48.6868 48.3823 47.0046 45.2668 43.6951 42.4651 41.4684 40.4498 39.1656 37.4951 35.4615 33.1855 30.8203 28.4927 26.2803 24.1973 22.2499 20.4127 18.6711 17.0191 15.4576 13.9914 12.6245 11.3586 10.1957 9.12043 8.14321 7.251 6.43861 5.70052 5.03117 4.4251 3.88015 3.38047 2.9355 2.53474 2.17504 1.8535 1.56745 1.31629 1.09129 0.898323 0.73157 0.589045 0.46865 0.369115 0.28507 0.218215 0.164667 0.12245 0.0901775 0.0644648 0.142217
+ sampled  age   0 177.696 355.501 307.934 173.632 95.5458 49.9195 27.471 15.774 9.50027 5.62796 3.51005 7.28034
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.104995 0.264835 0.2998 0.1 0.09001 0.065035 0.0250749 0.0200799 0.0250749 0.00509491 0 0
+expected  0 177.696 355.501 307.934 173.632 95.5458 49.9195 27.471 15.774 9.50027 5.62796 3.51005 7.28034
+exp with ageerr  177.696 355.501 307.934 173.632 95.5458 49.9195 27.471 15.774 9.50027 5.62796 3.51005 7.28034
+yr 26, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.204725 0.493515 1.08106 2.15186 3.89221 6.53863 9.85323 13.5603 17.099 19.9406 21.6022 22.1292 21.9524 21.6426 21.7366 22.4736 23.7199 25.1462 26.3892 27.1829 27.4646 27.3083 26.8638 26.2718 25.6105 24.8925 24.0925 23.1741 22.1222 20.9485 19.6865 18.3781 17.0619 15.7664 14.5109 13.2964 12.1383 11.0343 9.98827 9.00342 8.08263 7.22754 6.4384 5.71703 5.05086 4.45016 3.90515 3.41254 2.96876 2.5702 2.21341 1.89658 1.61136 1.36161 1.14163 0.949179 0.78205 0.639399 0.514617 0.411258 0.324797 0.253375 0.195145 0.148762 0.110958 0.0820756 0.0598226 0.136505
+ sampled  age   0 148.44 189.668 172.546 107.795 62.5164 33.3662 18.5157 10.6642 6.42993 3.81065 2.37698 4.93041
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.154914 0.154914 0.2498 0.129944 0.129944 0.080004 0.0250699 0.0250699 0.00509389 0.0100879 0.0100879 0.0250699
+expected  0 148.44 189.668 172.546 107.795 62.5164 33.3662 18.5157 10.6642 6.42993 3.81065 2.37698 4.93041
+exp with ageerr  148.44 189.668 172.546 107.795 62.5164 33.3662 18.5157 10.6642 6.42993 3.81065 2.37698 4.93041
+
+************************************
+ year, seas 27 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+27 Recruits, dist, surv, result582.945 1 1 582.945
+1 1 1 area & morph 
+N-at-age  0 620.921 456.122 289.58 166.154 81.6668 42.6775
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.286127 0.394317 0.561263 0.728208 0.836398 0.888259 0.90953
+1 N_surv:  0 582.945 418.588 260.212 139.802 71.9893 33.5954
+yr 27, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.316462 0.853507 2.02318 4.21509 7.71837 12.6131 18.0201 22.8223 25.8409 26.6088 25.8817 24.917 25.2377 27.5783 31.7443 36.6309 41.037 44.0309 45.1942 44.7552 43.3005 41.5145 39.9076 38.6617 37.6861 36.7429 35.596 34.1164 32.3055 30.2569 28.0989 25.942 23.8584 21.8674 19.9847 18.1977 16.5032 14.9032 13.4037 12.011 10.7284 9.55546 8.49122 7.51884 6.64506 5.85594 5.14517 4.50656 3.9342 3.42246 2.96885 2.55788 2.19801 1.87873 1.59647 1.34789 1.12992 0.941345 0.774102 0.632719 0.511875 0.409625 0.324048 0.254029 0.195034 0.148641 0.111707 0.0827508 0.0607827 0.0432357 0.0946576
+ sampled  age   0 166.849 333.333 275.727 164.97 81.5641 42.6629 21.8553 11.9427 6.83778 4.1145 2.43646 4.67054
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.104985 0.179902 0.239836 0.239836 0.0750175 0.0250724 0.0650285 0.0350614 0.0200779 0.0100889 0.0050944 0
+expected  0 166.849 333.333 275.727 164.97 81.5641 42.6629 21.8553 11.9427 6.83778 4.1145 2.43646 4.67054
+exp with ageerr  166.849 333.333 275.727 164.97 81.5641 42.6629 21.8553 11.9427 6.83778 4.1145 2.43646 4.67054
+yr 27, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.19018 0.458451 1.00425 1.99897 3.61567 6.07275 9.15039 12.5914 15.8738 18.5013 20.0289 20.4946 20.2962 19.963 19.9925 20.6053 21.6804 22.9125 23.9659 24.5983 24.7549 24.5109 24.0118 23.3939 22.7346 22.0468 21.3053 20.471 19.5224 18.4625 17.3155 16.1162 14.8993 13.6927 12.5182 11.3808 10.2991 9.27433 8.31183 7.41543 6.58737 5.82806 5.13629 4.51202 3.94275 3.43605 2.98223 2.57741 2.21765 1.89907 1.61796 1.37222 1.15369 0.965534 0.802141 0.661139 0.540287 0.438542 0.350205 0.278046 0.218258 0.169302 0.12971 0.0984716 0.0730237 0.0537991 0.0390653 0.0883081
+ sampled  age   0 137.893 174.429 150.305 99.1384 51.539 27.5127 14.2073 7.78612 4.46267 2.68637 1.591 3.04997
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.154914 0.159908 0.259788 0.209848 0.094986 0.05004 0.0300639 0.0150819 0.0100879 0.0100879 9.98801e-005 0.00509389
+expected  0 137.893 174.429 150.305 99.1384 51.539 27.5127 14.2073 7.78612 4.46267 2.68637 1.591 3.04997
+exp with ageerr  137.893 174.429 150.305 99.1384 51.539 27.5127 14.2073 7.78612 4.46267 2.68637 1.591 3.04997
+
+************************************
+ year, seas 28 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+28 Recruits, dist, surv, result536.171 1 1 536.171
+1 1 1 area & morph 
+N-at-age  0 582.945 418.588 260.212 139.802 71.9893 33.5954
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.362878 0.56748 0.883197 1.19891 1.40352 1.50159 1.54182
+1 N_surv:  0 536.171 330.502 173.069 78.4595 34.3537 16.0374
+yr 28, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.297106 0.801304 1.89944 3.95729 7.24629 11.8376 16.9084 21.4058 24.2189 24.9037 24.1582 23.1645 23.3479 25.4023 29.149 33.5742 37.5616 40.2447 41.2335 40.7326 39.282 37.5121 35.8961 34.6084 33.5727 32.5768 31.41 29.9581 28.2254 26.3001 24.3001 22.3261 20.4417 18.6602 16.9906 15.4152 13.9258 12.5203 11.2017 9.9752 8.84475 7.81169 6.87699 6.02714 5.26924 4.5912 3.98723 3.45127 2.97729 2.55937 2.19434 1.86815 1.58702 1.34134 1.12741 0.941857 0.781582 0.64519 0.52532 0.425774 0.341742 0.27147 0.213296 0.166262 0.126781 0.0961279 0.0719003 0.0530305 0.0388524 0.0274657 0.0596484
+ sampled  age   0 156.644 305.902 247.762 138.805 71.8983 33.5837 17.1807 8.73114 4.75561 2.71999 1.63597 2.82525
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.139932 0.229824 0.244806 0.159908 0.09998 0.0350579 0.0350579 0.0300639 0.0150819 9.98801e-005 9.98801e-005 0.0100879
+expected  0 156.644 305.902 247.762 138.805 71.8983 33.5837 17.1807 8.73114 4.75561 2.71999 1.63597 2.82525
+exp with ageerr  156.644 305.902 247.762 138.805 71.8983 33.5837 17.1807 8.73114 4.75561 2.71999 1.63597 2.82525
+yr 28, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.164875 0.397451 0.870627 1.733 3.13459 5.25557 7.91351 10.8776 13.69 15.905 17.1394 17.4143 17.0656 16.5595 16.3328 16.5892 17.2438 18.0479 18.7202 19.0578 19.0087 18.6332 18.0522 17.3817 16.6928 16.0035 15.2994 14.5529 13.7472 12.8834 11.9779 11.055 10.1382 9.24555 8.39012 7.57199 6.8023 6.07905 5.40426 4.77954 4.20589 3.68338 3.21108 2.78898 2.4078 2.07295 1.777 1.51675 1.28891 1.09025 0.917698 0.769309 0.639198 0.529079 0.434902 0.354833 0.287189 0.231165 0.1828 0.14401 0.112222 0.0864617 0.0658269 0.0497236 0.0366272 0.0268574 0.0194169 0.0434323
+ sampled  age   0 119.546 138.917 110.783 66.1588 35.4856 16.8129 8.64997 4.40485 2.40098 1.37363 0.826263 1.42696
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.179902 0.194886 0.234842 0.114974 0.0949955 0.0750175 0.0400559 0.0250724 0.0100889 0.0150834 0.0150834 0
+expected  0 119.546 138.917 110.783 66.1588 35.4856 16.8129 8.64997 4.40485 2.40098 1.37363 0.826263 1.42696
+exp with ageerr  119.546 138.917 110.783 66.1588 35.4856 16.8129 8.64997 4.40485 2.40098 1.37363 0.826263 1.42696
+
+************************************
+ year, seas 29 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+29 Recruits, dist, surv, result385.301 1 1 385.301
+1 1 1 area & morph 
+N-at-age  0 536.171 330.502 173.069 78.4595 34.3537 16.0374
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.417274 0.690205 1.11136 1.53252 1.80545 1.93628 1.98994
+1 N_surv:  0 385.301 268.876 108.772 37.3814 12.8988 4.95517
+yr 29, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.273267 0.737009 1.74703 3.63976 6.66486 10.865 15.4982 19.5719 22.0409 22.4664 21.425 20.013 19.5163 20.5965 23.1288 26.2946 29.1436 30.9296 31.32 30.4607 28.7916 26.8364 25.0048 23.4748 22.2195 21.0918 19.9327 18.6459 17.2206 15.71 14.1931 12.7399 11.3952 10.1668 9.05896 8.05374 7.13849 6.30413 5.54533 4.85894 4.2421 3.69124 3.20362 2.76772 2.38655 2.05098 1.75662 1.49931 1.27517 1.08059 0.91363 0.766279 0.641952 0.535188 0.443876 0.36608 0.300065 0.244949 0.197056 0.158082 0.125662 0.0989231 0.0770729 0.0596825 0.0450907 0.0339734 0.0252625 0.018532 0.0135311 0.00949627 0.0204233
+ sampled  age   0 144.075 241.529 164.788 77.8998 34.3101 16.0318 7.18655 3.62075 1.8291 0.994228 0.56819 0.931577
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.094986 0.239812 0.194866 0.154914 0.12495 0.055034 0.070016 0.0250699 0.0250699 0.00509389 0.00509389 0.00509389
+expected  0 144.075 241.529 164.788 77.8998 34.3101 16.0318 7.18655 3.62075 1.8291 0.994228 0.56819 0.931577
+exp with ageerr  144.075 241.529 164.788 77.8998 34.3101 16.0318 7.18655 3.62075 1.8291 0.994228 0.56819 0.931577
+yr 29, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.143535 0.346007 0.757938 1.50869 2.72886 4.55949 6.8558 9.40327 11.7942 13.6149 14.5351 14.5536 13.9496 13.1401 12.5168 12.2793 12.391 12.6638 12.8722 12.851 12.549 12.0086 11.324 10.5906 9.87246 9.19318 8.54886 7.92151 7.297 6.67151 6.05136 5.44837 4.87461 4.33878 3.84641 3.39381 2.98514 2.61512 2.28149 1.98204 1.71467 1.47724 1.26755 1.08438 0.921513 0.781629 0.660158 0.555184 0.464868 0.387487 0.32146 0.265789 0.217603 0.177728 0.144218 0.116219 0.0929618 0.0740612 0.0578699 0.045155 0.0348726 0.0266427 0.0201264 0.0151164 0.0110318 0.00804263 0.00578335 0.0127713
+ sampled  age   0 104.072 99.7008 64.7015 31.9761 14.4593 6.83005 3.07518 1.55178 0.78436 0.426436 0.243721 0.3996
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.19988 0.219858 0.159924 0.15493 0.129957 0.070023 0.0250724 0.0200779 0.0100889 9.98901e-005 0.0100889 0
+expected  0 104.072 99.7008 64.7015 31.9761 14.4593 6.83005 3.07518 1.55178 0.78436 0.426436 0.243721 0.3996
+exp with ageerr  104.072 99.7008 64.7015 31.9761 14.4593 6.83005 3.07518 1.55178 0.78436 0.426436 0.243721 0.3996
+
+************************************
+ year, seas 30 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+1  sel-len 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+30 Recruits, dist, surv, result241.301 1 1 241.301
+1 1 1 area & morph 
+N-at-age  0 385.301 268.876 108.772 37.3814 12.8988 4.95517
+survival  0.904837 0.904837 0.904837 0.904837 0.904837 0.904837 0.904837
+1 natM:    0.2 0.2 0.2 0.2 0.2 0.2 0.2
+1 Z:       0.676812 1.27577 2.2 3.12423 3.72319 4.0103 4.12806
+1 N_surv:  0 241.301 107.583 29.7923 4.78276 0.903017 0.23383
+yr 30, seas: 1, fleet:2
+ sampled  size  0 0 0 0 0 0 0 0 0 0.196373 0.529623 1.25544 2.61557 4.78944 7.82083 11.168 14.1316 15.974 16.3973 15.8268 15.0709 15.0459 16.2 18.3818 20.9405 23.1141 24.3084 24.2731 23.1389 21.2886 19.1803 17.1856 15.4909 14.1072 12.9347 11.8486 10.761 9.64416 8.51993 7.43333 6.42735 5.53006 4.74311 4.067 3.48397 2.97978 2.54241 2.16285 1.83441 1.55164 1.30955 1.10436 0.927327 0.779232 0.653568 0.547096 0.456978 0.380787 0.316453 0.262868 0.216178 0.178057 0.146011 0.119172 0.0967729 0.0781472 0.0629661 0.0498643 0.0395045 0.0310307 0.0241547 0.0186219 0.0142991 0.0106789 0.00798106 0.00588998 0.00429053 0.0031218 0.00216641 0.00460015
+ sampled  age   0 103.534 196.491 103.566 37.1141 12.8822 4.95333 2.19155 0.962535 0.481137 0.242388 0.13161 0.198434
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.119956 0.209848 0.264782 0.12495 0.129944 0.05004 0.0400519 0.0150819 0.00509389 0.0100879 0.00509389 0.0250699
+expected  0 103.534 196.491 103.566 37.1141 12.8822 4.95333 2.19155 0.962535 0.481137 0.242388 0.13161 0.198434
+exp with ageerr  103.534 196.491 103.566 37.1141 12.8822 4.95333 2.19155 0.962535 0.481137 0.242388 0.13161 0.198434
+yr 30, seas: 1, fleet:1
+ sampled  size  0 0 0 0 0 0 0 0 0 0 0 0 0.0806819 0.194493 0.426043 0.848045 1.53391 2.56163 3.85097 5.28023 6.61948 7.6299 8.13048 8.11563 7.73761 7.23138 6.8139 6.5948 6.55427 6.5861 6.56425 6.3998 6.06809 5.60052 5.05895 4.50672 3.98908 3.52619 3.11926 2.75786 2.43039 2.12895 1.85059 1.59586 1.36649 1.16354 0.987333 0.833774 0.703461 0.592057 0.497078 0.416281 0.347726 0.289738 0.240849 0.200164 0.165061 0.136394 0.112388 0.0923413 0.0756389 0.0617514 0.0502289 0.0408099 0.032748 0.0263059 0.021007 0.0166709 0.0131411 0.0103453 0.00795138 0.00613152 0.00468248 0.0035398 0.00264768 0.00197391 0.00142372 0.00103018 0.000735605 0.00159713
+ sampled  age   0 58.4999 54.307 24.3233 8.62755 3.00758 1.15938 0.513626 0.225683 0.112827 0.0568434 0.0308649 0.0465361
+Lbin  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ obs  0.139946 0.139946 0.294776 0.19988 0.104985 0.0400559 0.0400559 0.0100889 0.0100889 0.0100889 0.0100889 0
+expected  0 58.4999 54.307 24.3233 8.62755 3.00758 1.15938 0.513626 0.225683 0.112827 0.0568434 0.0308649 0.0465361
+exp with ageerr  58.4999 54.307 24.3233 8.62755 3.00758 1.15938 0.513626 0.225683 0.112827 0.0568434 0.0308649 0.0465361

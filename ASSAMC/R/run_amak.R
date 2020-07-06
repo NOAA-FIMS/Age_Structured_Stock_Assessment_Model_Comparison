@@ -49,8 +49,13 @@ run_amak <- function(maindir=maindir, subdir="AMAK", om_sim_num=NULL){
   }
 
   for (om_sim in 1:om_sim_num){
+    # setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
+    # system(paste(file.path(maindir, "em_input", "amak.exe"), " amak.dat", sep = ""), show.output.on.console = FALSE)
+    #
     setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
-    system(paste(file.path(maindir, "em_input", "amak.exe"), " amak.dat", sep = ""), show.output.on.console = FALSE)
+    file.copy(file.path(maindir, "em_input", "amak.exe"), file.path(maindir,"output", subdir, paste("s", om_sim, sep=""), "amak.exe"), overwrite = T)
+    system(paste(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "amak.exe"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "amak.dat"), sep = " "), show.output.on.console = FALSE)
+    file.remove(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "amak.exe"))
   }
 }
 

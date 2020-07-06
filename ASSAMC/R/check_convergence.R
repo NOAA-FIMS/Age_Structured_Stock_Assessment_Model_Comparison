@@ -23,7 +23,7 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow){
     jpeg(file=file.path(maindir, "figure", "Gradient.jpg"))
     par(mfrow=c(plot_nrow, plot_ncol))
     xlim = c(0, max(convergence_measures$gradient, na.rm = T))
-    bins <- seq(0, max(convergence_measures$gradient, na.rm = T)*1.05, by=0.0005)
+    bins <- seq(0, max(convergence_measures$gradient, na.rm = T)*1.1, by=0.0005)
 
     for (em_id in 1:length(em_names)){
       hist(convergence_measures$gradient[,em_id], xlim=xlim, xlab = "Gradient", main="", col=col[em_id+1], breaks = bins)
@@ -50,6 +50,6 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow){
     dev.off()
   }
 
-  om_sim_num <<- length(keep_sim_id)
-  save(keep_sim_id, om_sim_num, file=file.path(maindir, "output", "keep_sim_id.RData"))
+  keep_sim_num <<- length(keep_sim_id)
+  save(keep_sim_id, om_sim_num, keep_sim_num, file=file.path(maindir, "output", "keep_sim_id.RData"))
 }

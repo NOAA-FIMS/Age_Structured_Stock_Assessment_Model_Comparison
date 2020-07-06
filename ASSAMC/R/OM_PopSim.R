@@ -71,7 +71,7 @@ popsim<-function(x){
   selex.D=rep(0,nages) #selex of discards. not used here (set to 0), but required as input for msy calculations
   msy=msy_calcs(steep=h, R0=R0, M=M.age, wgt=W.mt, prop.f=prop.f, selL=selex_fleet$fleet1, selD=selex.D, selZ=selex_fleet$fleet1, mat.f=mat.age, mat.m=NULL, sigma=0, maxF=1.0, step=0.001)
 
-  return(list(yr=1:nyr, SSB=SSB, abundance=abundance, biomass.mt=biomass.mt, N.age=N.age, L.age=L.age, L.knum=L.knum, L.mt=L.mt, msy=msy, f=f, FAA=FAA))
+  return(list(year=year, SSB=SSB, abundance=abundance, biomass.mt=biomass.mt, N.age=N.age, L.age=L.age, L.knum=L.knum, L.mt=L.mt, msy=msy, f=f, FAA=FAA))
 } #end popsim
 
 #####################################################################################

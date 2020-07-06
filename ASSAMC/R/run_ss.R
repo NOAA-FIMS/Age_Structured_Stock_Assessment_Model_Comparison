@@ -18,7 +18,7 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL){
     } #incomplement
     if(modify_input == "partial") {
       ss_data$catch <- as.data.frame(rbind(c(-999, 1, 1, em_input$L.obs$fleet1[1]/om_input$nages, sqrt(log(1+em_input$cv.L$fleet1^2))),
-                                           cbind(om_input$yr,
+                                           cbind(om_input$year,
                                                  rep(1, times=om_input$nyr),
                                                  rep(1, times=om_input$nyr),
                                                  em_input$L.obs$fleet1,
@@ -26,7 +26,7 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL){
                                      )
       names(ss_data$catch) <- c("year", "seas", "fleet", "catch", "catch_se")
 
-      ss_data$CPUE <- as.data.frame(cbind(om_input$yr, rep(1, times=om_input$nyr), rep(2, times=om_input$nyr), em_input$survey.obs$survey1, rep(sqrt(log(1+em_input$cv.survey$survey1^2)), times=length(em_input$survey.obs$survey1))))
+      ss_data$CPUE <- as.data.frame(cbind(om_input$year, rep(1, times=om_input$nyr), rep(2, times=om_input$nyr), em_input$survey.obs$survey1, rep(sqrt(log(1+em_input$cv.survey$survey1^2)), times=length(em_input$survey.obs$survey1))))
       names(ss_data$CPUE) <- c("year", "seas", "index", "obs", "se_log")
       ss_data$agecomp[, 9:ncol(ss_data$agecomp)] <- rbind(cbind(rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)), em_input$L.age.obs$fleet1), cbind(rep(em_input$n.survey$survey1, length(em_input$survey.obs$survey1)), em_input$survey.age.obs$survey1))
 
@@ -52,7 +52,12 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL){
   }
 
   for (om_sim in 1:om_sim_num){
+    # setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
+    # system(paste(file.path(maindir, "em_input", "ss.exe"), " data.ss", sep = ""), show.output.on.console = FALSE)
+
     setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
-    system(paste(file.path(maindir, "em_input", "ss.exe"), " data.ss", sep = ""), show.output.on.console = FALSE)
+    file.copy(file.path(maindir, "em_input", "ss.exe"), file.path(maindir,"output", subdir, paste("s", om_sim, sep=""), "ss.exe"), overwrite = T)
+    system(paste(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "ss.exe"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "data.ss"), sep = " "), show.output.on.console = FALSE)
+    file.remove(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "ss.exe"))
   }
 }
