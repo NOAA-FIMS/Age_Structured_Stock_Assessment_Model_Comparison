@@ -2,6 +2,7 @@
 read_plot_data <- function(em_names){
   library(PBSadmb)
   library(r4ss)
+  library(jsonlite)
 
   ## OM
   subdir = "OM"
@@ -168,6 +169,43 @@ read_plot_data <- function(em_names){
     names(ss_list) <- c("biomass", "abundance", "ssb", "recruit", "Ftot", "landing", "survey", "msy", "fmsy", "ssbmsy", "fratio", "ssbratio", "agecomp")
     ss_list <<- ss_list
     save(ss_list, file=file.path(maindir, "output", "ss_output.RData"))
+  }
+  
+  ## MAS
+  if ("MAS" %in% em_names){
+    mas_biomass <- mas_abundance <- mas_ssb <- mas_recruit <- mas_Ftot <- mas_Fmul <- mas_landing <- mas_survey <- matrix(NA, nrow=om_input$nyr, ncol=keep_sim_num)
+    mas_msy <- mas_fmsy <- mas_ssbmsy <- matrix(NA, nrow=1, ncol=keep_sim_num)
+    mas_fratio <- mas_ssbratio <- matrix(NA, nrow=om_input$nyr, ncol=keep_sim_num)
+    mas_agecomp <- list()
+    
+    subdir = "MAS"
+    for (om_sim in 1:keep_sim_num){
+      mas_output <- read_json(file.path(maindir, "output",  subdir, paste("s", keep_sim_id[om_sim], sep=""), paste("s", keep_sim_id[om_sim], ".json", sep="")))
+      popdy<-mas_output$population_dynamics
+      pop<-popdy$populations[[1]]
+      flt<-popdy$fleets[[1]]
+      srvy<-popdy$surveys[[1]]
+      
+      mas_biomass[,om_sim] <- unlist(pop$undifferentiated$biomass$values)
+      mas_abundance[,om_sim] <- unlist(pop$undifferentiated$abundance$values)
+      mas_ssb[,om_sim] <- unlist(pop$undifferentiated$spawning_stock_biomass$values)
+      mas_recruit[,om_sim] <- unlist(pop$undifferentiated$recruits$values)
+      mas_Ftot[,om_sim] <- unlist(pop$undifferentiated$fishing_mortality$values)
+      mas_Fmul[,om_sim] <- NA
+      mas_landing[,om_sim] <- unlist(flt$undifferentiated$catch_biomass$values)
+      mas_survey[,om_sim] <- unlist(srvy$undifferentiated$survey_biomass$values)
+      mas_msy[, om_sim] <- pop$MSY$B_msy
+      mas_fmsy[, om_sim] <- round(pop$MSY$F_msy, digits = 3)
+      #mas_fmsy[, om_sim] <- round(pop$females$MSY$F_msy, digits = 3)
+      mas_ssbmsy[, om_sim] <- pop$females$MSY$SSB_msy
+      mas_fratio[, om_sim] <- mas_Ftot[, om_sim]/mas_fmsy[om_sim]
+      mas_ssbratio[, om_sim] <- mas_ssb[,om_sim]/mas_ssbmsy[om_sim]
+      mas_agecomp[[om_sim]] <- apply(matrix(unlist(pop$undifferentiated$numbers_at_age$values), nrow=popdy$nyears, ncol=popdy$nages, byrow = T), 1, function(x) x/sum(x))
+    }
+    mas_list <- list(mas_biomass, mas_abundance, mas_ssb, mas_recruit, mas_Ftot, mas_landing, mas_survey, mas_msy, mas_fmsy, mas_ssbmsy, mas_fratio, mas_ssbratio, mas_agecomp)
+    names(mas_list) <- c("biomass", "abundance", "ssb", "recruit", "Ftot", "landing", "survey", "msy", "fmsy", "ssbmsy", "fratio", "ssbratio", "agecomp")
+    mas_list <<- mas_list
+    save(mas_list, file=file.path(maindir, "output", "mas_output.RData"))
   }
 }
 

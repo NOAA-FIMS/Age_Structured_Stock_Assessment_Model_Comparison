@@ -1,3 +1,8 @@
+# library("rstudioapi")
+# maindir <<- dirname(dirname(getActiveDocumentContext()$path))
+# subdir <<- "MAS"
+
+
 setwd("C:/Users/bai.li/Documents/Github/RMAS-master/")
 devtools::load_all()
 library(RMAS)
@@ -89,6 +94,7 @@ for (y in 0:(nyears))
 
 population$AddNaturalMortality(natural_mortality$id,area1$id,"undifferentiated")
 population$AddMaturity(maturity$id,area1$id, "undifferentiated")
+#population$AddRecruitment(recruitment$id, area1$id)
 population$AddRecruitment(recruitment$id, 1, area1$id)
 population$SetInitialDeviations(initial_deviations$id, area1$id, "undifferentiated")
 population$SetGrowth(growth$id)
@@ -145,6 +151,7 @@ catch_comp<-new(r4mas$AgeCompData)
 catch_comp$values<-as.vector(t(em_input$L.age.obs$fleet1))
 catch_comp$sample_size <-rep(em_input$n.L$fleet1, nyears*nseasons)
 
+
 survey_comp<-new(r4mas$AgeCompData)
 survey_comp$values<-as.vector(t(em_input$survey.age.obs$survey1))
 survey_comp$sample_size<-rep(em_input$n.survey$survey1, times=om_input$nyr)
@@ -199,13 +206,36 @@ mas_model$Run()
 output_file <- file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep=""))
 write(mas_model$GetOutput(), file=toString(output_file))
 #mas_model$Reset()
-
-om_sim <- om_sim+1
+om_sim <<- om_sim+1
 save(om_sim, file=file.path(maindir, "output", subdir, "om_sim.RData"))
-rm(list=setdiff(ls(), c("maindir", "subdir", "om_sim", "om_sim_num")))
-gc()
-library(rstudioapi)
+#gc()
+#rm(list=setdiff(ls(), c("maindir", "subdir", "om_sim", "om_sim_num")))
+
+# .rs.restartR(afterRestartCommand = 'source("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example/em_input/mas.R")')
+
+#install.packages("RDCOMClient", repos = "http://www.omegahat.net/R")
+# if (om_sim <= om_sim_num){
+#   library(RDCOMClient)
+#   wsh <- COMCreate("Wscript.Shell")
+#   wsh$SendKeys("^+{F10}")
+#   source("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example/em_input/mas.R")
+# }
+
+
 if (om_sim <= om_sim_num){
-  restartSession(command='source("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example/em_input/mas.R")')
+  Sys.sleep(0.5)
+  .rs.restartR(afterRestartCommand = 'source("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example/em_input/mas.R")')
 }
+
+# if (om_sim <= om_sim_num){
+#   source("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example/em_input/mas.R")
+# }
+#
+
+
+# gc()
+#library(rstudioapi)
+# if (om_sim <= om_sim_num){
+#   restartSession(command='source("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example/em_input/mas.R")')
+# }
 
