@@ -1,7 +1,7 @@
 ## Aggregate data of biomass, abundance, SSB, recruitment, F (apical F*selectivity), F multiplier, landings, and survey from models to matrix
 read_plot_data <- function(em_names){
-  library(PBSadmb)
-  library(r4ss)
+  #library(PBSadmb)
+  #library(r4ss)
   library(jsonlite)
 
   ## OM

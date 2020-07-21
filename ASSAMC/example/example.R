@@ -1,18 +1,15 @@
-setwd("C:/Users/bai.li/Documents/Github/RMAS-master/")
-devtools::load_all()
-library(RMAS)
-library(Rcpp)
-library(jsonlite)
-library(callr)
+rmas_dir <- "~/Downloads/RMAS-master/src/"
+devtools::load_all(rmas_dir)
 
-setwd("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/")
+setwd("~/Downloads/Age_Structured_Stock_Assessment_Model_Comparison-making-package/ASSAMC/")
+#setwd("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/")
 devtools::load_all()
 ## Need to install packages below:
 ## ASAPplots, r4ss, readxl, RMAS
-maindir <- "C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example"
+maindir <- "~/Downloads/Age_Structured_Stock_Assessment_Model_Comparison-making-package/ASSAMC/example"
 
 om_sim_num <- 160 # total number of iterations per case
-keep_sim_num <- 100 # number of kept iterations per case
+keep_sim_num <- 80 # number of kept iterations per case
 figure_number <- 10 # number of individual iteration to plot
 
 seed_num <- 9924
@@ -99,21 +96,26 @@ sel_survey$survey1$slope.sel <- 2
 #sel_survey$survey2$A50.sel <- 1.5
 #sel_survey$survey2$slope.sel <- 2
 
-#### Run OM ####
+
+#### Base Case ####
+#### Run OM
 run_om(maindir=maindir)
 
-#### Run EMs ####
+#### Run EMs
 # run_em(run_em_names=c("AMAK", "ASAP"))
 # run_em(run_em_names=c("BAM"))
 # run_em(run_em_names=c("SS"))
 run_em(run_em_names=c("MAS"))
 
-#### Plot comparison outputs ####
+#### Plot comparison outputs
 generate_plot(em_names = c("MAS"), plot_ncol=1, plot_nrow=1, plot_color = c("orange"))
 
 # generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"), plot_ncol=2, plot_nrow=2, plot_color = c("orange", "green", "red", "deepskyblue3"))
 #
 # generate_plot(em_names = c("AMAK", "ASAP", "BAM"), plot_ncol=3, plot_nrow=1, plot_color = c("orange", "green", "red"))
 
-
-
+#### Case 1 ####
+logR_sd <- 0.4
+run_om(maindir=maindir)
+run_em(run_em_names=c("MAS"))
+generate_plot(em_names = c("MAS"), plot_ncol=1, plot_nrow=1, plot_color = c("orange"))
