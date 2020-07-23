@@ -1,15 +1,15 @@
-rmas_dir <- "~/Downloads/RMAS-master/src/"
+rmas_dir <- "/Users/Bai/Desktop/RMAS-master/src/"
 devtools::load_all(rmas_dir)
 
-setwd("~/Downloads/Age_Structured_Stock_Assessment_Model_Comparison-making-package/ASSAMC/")
+setwd("/Users/Bai/Desktop/Age_Structured_Stock_Assessment_Model_Comparison-making-package/ASSAMC/")
 #setwd("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/")
 devtools::load_all()
 ## Need to install packages below:
 ## ASAPplots, r4ss, readxl, RMAS
-maindir <- "~/Downloads/Age_Structured_Stock_Assessment_Model_Comparison-making-package/ASSAMC/example"
+maindir <- "/Users/Bai/Desktop/Age_Structured_Stock_Assessment_Model_Comparison-making-package/ASSAMC/example"
 
 om_sim_num <- 160 # total number of iterations per case
-keep_sim_num <- 80 # number of kept iterations per case
+keep_sim_num <- 100 # number of kept iterations per case
 figure_number <- 10 # number of individual iteration to plot
 
 seed_num <- 9924
