@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - master
+      - making-package
   pull_request:
     branches:
-      - master
+      - making-package
 
 name: R-CMD-check
 
