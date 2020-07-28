@@ -1,0 +1,118 @@
+q_1						3.46132e-007						1
+
+
+Estimated Parameters						Initial Value						Phase
+
+Recruitment:
+recruitment_deviations[0]_1						0						1
+recruitment_deviations[1]_1						0						1
+recruitment_deviations[2]_1						0						1
+recruitment_deviations[3]_1						0						1
+recruitment_deviations[4]_1						0						1
+recruitment_deviations[5]_1						0						1
+recruitment_deviations[6]_1						0						1
+recruitment_deviations[7]_1						0						1
+recruitment_deviations[8]_1						0						1
+recruitment_deviations[9]_1						0						1
+recruitment_deviations[10]_1						0						1
+recruitment_deviations[11]_1						0						1
+recruitment_deviations[12]_1						0						1
+recruitment_deviations[13]_1						0						1
+recruitment_deviations[14]_1						0						1
+recruitment_deviations[15]_1						0						1
+recruitment_deviations[16]_1						0						1
+recruitment_deviations[17]_1						0						1
+recruitment_deviations[18]_1						0						1
+recruitment_deviations[19]_1						0						1
+recruitment_deviations[20]_1						0						1
+recruitment_deviations[21]_1						0						1
+recruitment_deviations[22]_1						0						1
+recruitment_deviations[23]_1						0						1
+recruitment_deviations[24]_1						0						1
+recruitment_deviations[25]_1						0						1
+recruitment_deviations[26]_1						0						1
+recruitment_deviations[27]_1						0						1
+recruitment_deviations[28]_1						0						1
+recruitment_deviations[29]_1						0						1
+log_R0_1						6.90776						1
+
+Growth:
+
+NLL Component:
+
+Selectivity:
+logistic_selectivity_a50_2						1.5						2
+logistic_selectivity_slope_2						0.5						2
+logistic_selectivity_a50_1						2						2
+logistic_selectivity_slope_1						1						2
+
+Movement:
+
+Natural Mortality:
+fishing_mortality[6][0]_1						0.0884472						1
+fishing_mortality[0][0]_1						0.00945917						1
+fishing_mortality[2][0]_1						0.0450636						1
+fishing_mortality[3][0]_1						0.0610178						1
+fishing_mortality[4][0]_1						0.0486008						1
+fishing_mortality[5][0]_1						0.0874206						1
+fishing_mortality[8][0]_1						0.109009						1
+fishing_mortality[9][0]_1						0.132704						1
+fishing_mortality[10][0]_1						0.150615						1
+fishing_mortality[11][0]_1						0.161243						1
+fishing_mortality[12][0]_1						0.11664						1
+fishing_mortality[13][0]_1						0.169346						1
+fishing_mortality[7][0]_1						0.186608						1
+fishing_mortality[1][0]_1						0.0272889						1
+fishing_mortality[17][0]_1						0.257248						1
+fishing_mortality[22][0]_1						0.418478						1
+fishing_mortality[27][0]_1						0.431745						1
+fishing_mortality[20][0]_1						0.349101						1
+fishing_mortality[14][0]_1						0.180192						1
+fishing_mortality[23][0]_1						0.345721						1
+fishing_mortality[19][0]_1						0.251462						1
+fishing_mortality[24][0]_1						0.343686						1
+fishing_mortality[26][0]_1						0.308027						1
+fishing_mortality[16][0]_1						0.314573						1
+fishing_mortality[25][0]_1						0.314171						1
+fishing_mortality[21][0]_1						0.254108						1
+fishing_mortality[15][0]_1						0.16124						1
+fishing_mortality[28][0]_1						0.328031						1
+fishing_mortality[18][0]_1						0.254887						1
+fishing_mortality[29][0]_1						0.499675						1
+Configuration Error: Male natural mortality for population 2 in area 2 has not been defined.
+Configuration Error: Female natural mortality for population 2 in area 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+Configuration Error:  Movement model 2 has not been defined.
+q_2						3.32992e-007						1
+
+
+Estimated Parameters						Initial Value						Phase
