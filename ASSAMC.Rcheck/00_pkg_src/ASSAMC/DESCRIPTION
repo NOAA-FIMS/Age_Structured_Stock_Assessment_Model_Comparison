@@ -1,0 +1,23 @@
+Package: ASSAMC
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "First",
+           family = "Last",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+        license
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+URL:
+        https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison
+BugReports: https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/issues
+NeedsCompilation: no
+Packaged: 2020-07-28 16:47:56 UTC; bai.li
+Author: First Last [aut, cre] (<https://orcid.org/YOUR-ORCID-ID>)
+Maintainer: First Last <first.last@example.com>

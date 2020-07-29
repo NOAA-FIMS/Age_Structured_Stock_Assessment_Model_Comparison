@@ -9,3 +9,5 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison
+BugReports: https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/issues
