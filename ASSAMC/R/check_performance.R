@@ -1,4 +1,4 @@
-check_performance <- function (em_names){
+check_performance <- function (em_names, casedir=NULL){
   comparison_var <- c("biomass", "abundance", "ssb", "recruit", "Ftot", "landing", "survey", "msy", "fmsy", "ssbmsy", "fratio", "ssbratio")
   comparison_id <- which(names(om_list) %in% comparison_var)
 
@@ -63,6 +63,6 @@ check_performance <- function (em_names){
   cc_list <<- cc_list
 
   ## Compile performance measure results
-  save(re_list, are_list, cc_list, file=file.path(maindir, "output", "performance_measure.RData"))
+  save(re_list, are_list, cc_list, file=file.path(casedir, "output", "performance_measure.RData"))
 }
 

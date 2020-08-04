@@ -1,7 +1,7 @@
 #Function to write dat file for BAM
 
 BAM.write.dat<-function(fname, nyr, nages, dat.survey, dat.L, parms,
-                     a.lw, b.lw, prop.f, mat.age, M.age, BC){
+                     a.lw, b.lw, prop.f, mat.age, M.age, em_bias_cor){
 
   sink(fname)
 

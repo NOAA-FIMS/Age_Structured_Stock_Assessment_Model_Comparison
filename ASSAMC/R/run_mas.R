@@ -1,8 +1,8 @@
-run_mas = function(maindir=maindir, subdir="MAS", om_sim_num=NULL){
+run_mas = function(maindir=maindir, subdir="MAS", om_sim_num=NULL, casedir=casedir){
   # if(!("RMAS" %in% installed.packages()[,"Package"])) {
   #   remotes::install_github("nmfs-fish-tools/RMAS")
   # }
-  
+
   list_of_packages = c("Rcpp", "jsonlite", "callr")
   missing_packages = list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
   if(length(missing_packages)) install.packages(missing_packages)
@@ -12,15 +12,15 @@ run_mas = function(maindir=maindir, subdir="MAS", om_sim_num=NULL){
   library(jsonlite)
   library(callr)
 
-  setwd(file.path(maindir, "output", subdir))
-  unlink(list.files(file.path(maindir, "output", "MAS"), full.names = TRUE), recursive = TRUE)
-  sapply(1:om_sim_num, function(x) dir.create(file.path(maindir, "output", subdir, paste("s", x, sep=""))))
+  setwd(file.path(casedir, "output", subdir))
+  unlink(list.files(file.path(casedir, "output", "MAS"), full.names = TRUE), recursive = TRUE)
+  sapply(1:om_sim_num, function(x) dir.create(file.path(casedir, "output", subdir, paste("s", x, sep=""))))
 
   for (om_sim in 1:om_sim_num){
     devtools::load_all(rmas_dir)
 
     #load the r4mas module
-    load(file=file.path(maindir, "output", "OM", paste("OM", om_sim, ".RData", sep="")))
+    load(file=file.path(casedir, "output", "OM", paste("OM", om_sim, ".RData", sep="")))
     r4mas = Module("rmas", dyn.load(paste(rmas_dir, "RMAS", .Platform$dynlib.ext, sep = "")))
     nyears=om_input$nyr
     nseasons=1
@@ -205,7 +205,7 @@ run_mas = function(maindir=maindir, subdir="MAS", om_sim_num=NULL){
     mas_model$AddSurvey(survey$id)
     mas_model$AddPopulation(population$id)
     mas_model$Run()
-    output_file = file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep=""))
+    output_file = file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep=""))
     write(mas_model$GetOutput(), file=toString(output_file))
     mas_model$Reset()
     #rm(r4mas, mas_model)

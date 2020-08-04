@@ -1,11 +1,11 @@
-plot_timeseries_all_iterations <- function(em_names, col, plot_nrow, plot_ncol){
+plot_timeseries_all_iterations <- function(em_names, col, plot_nrow, plot_ncol, casedir){
   comparison_var <- c("biomass", "abundance", "ssb", "recruit", "Ftot", "landing", "survey", "fratio", "ssbratio")
   comparison_id <- which(names(om_list) %in% comparison_var)
   title = c("Biomass", "Abundance", "SSB", "Recruitment", "F", "Landings", "Survey Index", "Fratio", "SSBratio")
   light_col <- rgb(t(col2rgb(col)/1.4), maxColorValue = 357)
 
   for (i in 1:length(comparison_id)){
-    jpeg(file=file.path(maindir, "figure", paste(title[i], "_all_iterations.jpg", sep="")), width=200, height=120, units="mm", res=300)
+    jpeg(file=file.path(casedir, "figure", paste(title[i], "_all_iterations.jpg", sep="")), width=200, height=120, units="mm", res=300)
     par(mar=c(4, 4, 0.2, 0.2), mfrow=c(plot_nrow, plot_ncol), oma = c(4, 4, 0.2, 0.2))
 
     ylim=c(min(om_list[[comparison_id[i]]])*0.5, max(om_list[[comparison_id[i]]])*1.5)

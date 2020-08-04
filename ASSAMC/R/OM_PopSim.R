@@ -11,7 +11,7 @@ popsim<-function(x){
 
   nyr=x$nyr; f=x$f; ages=x$ages; nages=x$nages;
   R0=x$R0; h=x$h; Phi.0=x$Phi.0;
-  M.age=x$M.age; W.mt=x$W.mt; mat.age=x$mat.age; prop.f=x$prop.f;
+  M.age=x$M.age; W.mt=x$W.mt; mat.age=x$mat.age; prop.f=x$proportion.female;
   selex_fleet=x$selex_fleet; logR.resid=x$logR.resid;
 
   SSB<-biomass.mt<-abundance<-rep(0,nyr) #quantities of interest (annual)

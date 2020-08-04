@@ -1,30 +1,49 @@
-f_case <- function(f_pattern=1, f_min=0.01, f_max=0.39, f_end=NULL, f_mean=NULL, start_val=NULL, start_year=NULL, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix){
-  
-  ## f_pattern: 1. increase
-  ##            2. decrease
-  ##            3. increase first, then decrease
-  ##            4. decrease first, then increase
-  ##            5. fluctuate around a value 
-  ##            6. ramp + fluctuate around a value
-  ## f_min: min value for the main shape of fishing mortality
-  ## f_max: max value for the main shape of fishing mortality
-  ## f_end: ending F for patterns 3 and 4
-  ## f_mean: F value for patterns 5 and 6
-  ## start_val: starting F for pattern 6
-  ## start_year: starting year for f_mean
-  ## nyr: number of years
-  ## om_sim_num: number of iterations per case
-  
+#' Compute fishing mortality rate over years.
+#'
+#' @param f_pattern A pattern of fishing mortality rate.
+#' f_pattern: 1. increase
+#'            2. decrease
+#'            3. increase first, then decrease
+#'            4. decrease first, then increase
+#'            5. constantly fluctuate around a value
+#'            6. customized pattern
+#' @param start_val start value of the main shape of fishing mortality
+#' @param middle_val middle value of the main shape of fishing mortality for case 3 and 4
+#' @param end_val end value of the main shape of fishing mortality for case 3 and 4
+#' @param f_val customized annual value of the main shape of fishing mortality
+#' @param start_year start year for the start value of fishing mortality
+#' @param middle_year middle year for the middle value of fishing mortality
+#' @param nyr totla number of years
+#' @param om_sim_num total iteration numbers
+#' @param f_dev_matrix F deviations-at-age per iteration
+#' @return A matrix of fishing mortality rate \code{f_matrix} over years (column) for each iteartion (row)
+#' @examples
+#' f_case(f_pattern=1, start_val=0.01, middle_val=NULL, end_val=0.39, f_val=NULL, start_year=1, middle_year=NULL, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
+#' f_case(f_pattern=3, start_val=0.01, middle_val=0.39, end_val=0.19, f_val=NULL, start_year=1, middle_year=24, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
+#' f_case(f_pattern=5, start_val=0.01, middle_val=NULL, end_val=NULL, f_val=NULL, start_year=1, middle_year=NULL, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
+#' f_case(f_pattern=6, f_val=rnorm(n=30, mean=1, sd=0.3), nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
+#' @export
+
+
+f_case <- function(f_pattern=1,
+                   start_val=0.01, middle_val=0.39, end_val=NULL,
+                   f_val=NULL,
+                   start_year=NULL, middle_year=NULL,
+                   nyr=30,
+                   om_sim_num=160,
+                   f_dev_matrix=f_dev_matrix){
+
   f_matrix <- matrix(NA, nrow=om_sim_num, ncol=nyr)
-  
+
   for(om_sim in 1:om_sim_num){
-    if(f_pattern == 1) f_matrix[om_sim,]=seq(f_min, f_max, length=nyr)*exp(f_dev_matrix[om_sim,])
-    if(f_pattern == 2) f_matrix[om_sim,]=seq(f_max, f_min, length=nyr)*exp(f_dev_matrix[om_sim,])
-    if(f_pattern == 3) f_matrix[om_sim,]=c(seq(f_min, f_max, length=round(nyr/5*4)), seq(f_max, f_end, length=nyr-round(nyr/5*4)))*exp(f_dev_matrix[om_sim,])
-    if(f_pattern == 4) f_matrix[om_sim,]=c(seq(f_max, f_min, length=round(nyr/5*4)), seq(f_min, f_end, length=nyr-round(nyr/5*4)))*exp(f_dev_matrix[om_sim,])
-    if(f_pattern == 5) f_matrix[om_sim,]=seq(f_mean, f_mean, length=nyr)*exp(f_dev_matrix[om_sim,])
-    if(f_pattern == 6) f_matrix[om_sim,]=c(rep(start_val, length=start_year-1), rep(f_mean, length=nyr-start_year+1))*exp(f_dev_matrix[om_sim,])
+    if(f_pattern %in% c(1,2)) f_matrix[om_sim,] <- seq(start_val, end_val, length=nyr)*exp(f_dev_matrix[om_sim,])
+
+    if(f_pattern %in% c(3,4)) f_matrix[om_sim,] <- c(seq(start_val, middle_val, length=middle_year), seq(middle_val, end_val, length=nyr-middle_year))*exp(f_dev_matrix[om_sim,])
+
+    if(f_pattern == 5) f_matrix[om_sim,] <- rep(start_val, length=nyr)*exp(f_dev_matrix[om_sim,])
+
+    if(f_pattern == 6) f_matrix[om_sim,] <- f_curve*exp(f_dev_matrix[om_sim,])
   }
-  
+
   return(f_matrix)
 }

@@ -1,4 +1,4 @@
-plot_stock_status_determination <- function(em_names, col){
+plot_stock_status_determination <- function(em_names, col, casedir){
   comparison_var <- c("fratio", "ssbratio")
   comparison_id <- which(names(om_list) %in% comparison_var)
 
@@ -19,7 +19,7 @@ plot_stock_status_determination <- function(em_names, col){
   }
   colnames(overfishing_accuracy) <- em_names
   rownames(overfishing_accuracy) <- year
-  write.csv(overfishing_accuracy, file=file.path(maindir, "output", "overfishing_accuracy.csv"))
+  write.csv(overfishing_accuracy, file=file.path(casedir, "output", "overfishing_accuracy.csv"))
 
   overfished_data <- list()
   overfished_accuracy <- matrix(NA, nrow=length(year), ncol=length(em_names))
@@ -38,6 +38,6 @@ plot_stock_status_determination <- function(em_names, col){
   }
   colnames(overfished_accuracy) <- em_names
   rownames(overfished_accuracy) <- year
-  write.csv(overfished_accuracy, file=file.path(maindir, "output", "overfished_accuracy.csv"))
+  write.csv(overfished_accuracy, file=file.path(casedir, "output", "overfished_accuracy.csv"))
 
 }

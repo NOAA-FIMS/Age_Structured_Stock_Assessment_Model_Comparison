@@ -1,16 +1,16 @@
-run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL){
+run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL, casedir=casedir){
   if(!("r4ss" %in% installed.packages()[,"Package"])) install.packages("r4ss")
   library(r4ss)
 
-  setwd(file.path(maindir, "output", subdir))
-  unlink(list.files(file.path(maindir, "output", "SS"), full.names = TRUE), recursive = TRUE)
-  sapply(1:om_sim_num, function(x) dir.create(file.path(maindir, "output", subdir, paste("s", x, sep=""))))
+  setwd(file.path(casedir, "output", subdir))
+  unlink(list.files(file.path(casedir, "output", "SS"), full.names = TRUE), recursive = TRUE)
+  sapply(1:om_sim_num, function(x) dir.create(file.path(casedir, "output", subdir, paste("s", x, sep=""))))
 
   ss_data <- SS_readdat_3.30(file.path(maindir, "em_input", "data.ss"), verbose=FALSE)
 
   modify_input = "partial"
   for (om_sim in 1:om_sim_num){
-    load(file=file.path(maindir,"output", "OM", paste("OM", om_sim, ".RData", sep="")))
+    load(file=file.path(casedir,"output", "OM", paste("OM", om_sim, ".RData", sep="")))
     #ss_ctl <- SS_readctl_3.30(file.path(maindir, "em_input", "control.ss"), verbose=FALSE, nseas=1, N_areas=1, Nages=om_input$nages, Ngenders=1, Npopbins=NA, Nfleet=om_input$fleet_num, Nsurveys=om_input$survey_num, Do_AgeKey=FALSE, N_tag_groups=NA, N_CPUE_obs=c(0,0,9,12))
 
     if(modify_input == "all") {
@@ -42,22 +42,22 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL){
       # }
 
     }
-    SS_writedat_3.30(datlist = ss_data, outfile = file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "data.ss"), overwrite = T, verbose = FALSE)
+    SS_writedat_3.30(datlist = ss_data, outfile = file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "data.ss"), overwrite = T, verbose = FALSE)
     #SS_writectl_3.30(ctllist = ss_ctl, outfile = file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "control.ss"), overwrite = T, verbose = F)
 
-    file.copy(file.path(maindir, "em_input", "control.ss"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "control.ss"), overwrite = T)
-    file.copy(file.path(maindir, "em_input", "starter.ss"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "starter.ss"), overwrite = T)
-    file.copy(file.path(maindir, "em_input", "forecast.ss"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "forecast.ss"), overwrite = T)
-    file.copy(file.path(maindir, "em_input", "wtatage.ss"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "wtatage.ss"), overwrite = T)
+    file.copy(file.path(maindir, "em_input", "control.ss"), file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "control.ss"), overwrite = T)
+    file.copy(file.path(maindir, "em_input", "starter.ss"), file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "starter.ss"), overwrite = T)
+    file.copy(file.path(maindir, "em_input", "forecast.ss"), file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "forecast.ss"), overwrite = T)
+    file.copy(file.path(maindir, "em_input", "wtatage.ss"), file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "wtatage.ss"), overwrite = T)
   }
 
   for (om_sim in 1:om_sim_num){
     # setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
     # system(paste(file.path(maindir, "em_input", "ss.exe"), " data.ss", sep = ""), show.output.on.console = FALSE)
 
-    setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
-    file.copy(file.path(maindir, "em_input", "ss.exe"), file.path(maindir,"output", subdir, paste("s", om_sim, sep=""), "ss.exe"), overwrite = T)
-    system(paste(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "ss.exe"), file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "data.ss"), sep = " "), show.output.on.console = FALSE)
-    file.remove(file.path(maindir, "output", subdir, paste("s", om_sim, sep=""), "ss.exe"))
+    setwd(file.path(casedir, "output", subdir, paste("s", om_sim, sep="")))
+    file.copy(file.path(maindir, "em_input", "ss.exe"), file.path(casedir,"output", subdir, paste("s", om_sim, sep=""), "ss.exe"), overwrite = T)
+    system(paste(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "ss.exe"), file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "data.ss"), sep = " "), show.output.on.console = FALSE)
+    file.remove(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "ss.exe"))
   }
 }

@@ -1,4 +1,4 @@
-plot_agecomp_individual_iteration <- function(em_names, col){
+plot_agecomp_individual_iteration <- function(em_names, col, casedir){
   comparison_var <- c("agecomp")
   comparison_id <- which(names(om_list) %in% comparison_var)
 
@@ -9,7 +9,7 @@ plot_agecomp_individual_iteration <- function(em_names, col){
   ncol <- 3
 
   for(j in 1:length(real_figure_id)){
-    jpeg(file=file.path(maindir, "figure", paste("Fig", j, "_agecomp_last.jpg", sep="")), width=205, height=75, units="mm", res=300)
+    jpeg(file=file.path(casedir, "figure", paste("Fig", j, "_agecomp_last.jpg", sep="")), width=205, height=75, units="mm", res=300)
 
     par(mar=c(0.7, 4, 0.2, 0.2), mfrow=c(nrow, ncol), oma = c(4, 4, 0.2, 0.2))
 

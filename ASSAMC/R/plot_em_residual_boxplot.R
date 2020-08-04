@@ -1,6 +1,6 @@
-plot_em_residual_boxplot <- function(em_names, col){
+plot_em_residual_boxplot <- function(em_names, col, casedir){
   for(i in 1:length(em_names)){
-    jpeg(file=file.path(maindir, "figure", paste(em_names[i], "_residual_boxplot.jpg"), sep=""), width=170, height=160, units="mm", res=300)
+    jpeg(file=file.path(casedir, "figure", paste(em_names[i], "_residual_boxplot.jpg"), sep=""), width=170, height=160, units="mm", res=300)
 
     mat=matrix(1:9, ncol=3, nrow=3, byrow = T)
     layout(mat=mat, widths=rep.int(1, ncol(mat)), heights=rep.int(1, nrow(mat)))

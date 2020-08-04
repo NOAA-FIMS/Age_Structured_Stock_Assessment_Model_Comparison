@@ -1,13 +1,18 @@
-run_em <- function(run_em_names=NULL){
-  if (is.null(run_em_names)) stop ("Missing EM information!")
+run_em <- function(em_names=NULL, input_list=NULL){
+  if (is.null(em_names)) stop ("Missing EM information!")
 
-  invisible(sapply(run_em_names, function(x) {
-    if (!file.exists(file.path(maindir, "output", x))) dir.create(file.path(maindir, "output", x))
+  maindir <- input_list$maindir
+  om_sim_num <- input_list$om_sim_num
+  case_name <- input_list$case_name
+  casedir <- file.path(maindir, case_name)
+
+  invisible(sapply(em_names, function(x) {
+    if (!file.exists(file.path(casedir, "output", x))) dir.create(file.path(casedir, "output", x))
   }))
 
-  if("AMAK" %in% run_em_names) run_amak(maindir=maindir, om_sim_num=om_sim_num)
-  if("ASAP" %in% run_em_names) run_asap(maindir=maindir, om_sim_num=om_sim_num)
-  if("BAM" %in% run_em_names) run_bam(maindir=maindir, om_sim_num=om_sim_num)
-  if("SS" %in% run_em_names) run_ss(maindir=maindir, om_sim_num=om_sim_num)
-  if("MAS" %in% run_em_names) run_mas(maindir=maindir, om_sim_num=om_sim_num)
+  if("AMAK" %in% em_names) run_amak(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir)
+  if("ASAP" %in% em_names) run_asap(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir)
+  if("BAM" %in% em_names) run_bam(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir)
+  if("SS" %in% em_names) run_ss(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir)
+  if("MAS" %in% em_names) run_mas(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir)
 }

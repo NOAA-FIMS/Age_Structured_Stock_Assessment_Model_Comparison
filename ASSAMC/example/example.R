@@ -1,48 +1,46 @@
-rmas_dir <- "C:/Users/bai.li/Documents/Github/RMAS-master/src/"
-devtools::load_all(rmas_dir)
+# install.packages("remotes")
+# install.packages("devtools")
+# remotes::install_github(repo="Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison", ref="full-features")
+# library(ASSAMC)
 
 setwd("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/")
-#setwd("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/")
 devtools::load_all()
 ## Need to install packages below:
-## ASAPplots, r4ss, readxl, RMAS
+## ASAPplots, r4ss, readxl, PBSadmb
+#devtools::install_github("cmlegault/ASAPplots", build_vignettes = TRUE)
+library(readxl)
+library(PBSadmb)
+library(ASAPplots)
+library(r4ss)
+
+## Setup working directory
 maindir <- "C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/example"
 
-om_sim_num <- 160 # total number of iterations per case
-keep_sim_num <- 100 # number of kept iterations per case
-figure_number <- 10 # number of individual iteration to plot
+om_sim_num <- 8 # total number of iterations per case
+keep_sim_num <- 4 # number of kept iterations per case
+figure_number <- 4 # number of individual iteration to plot
 
 seed_num <- 9924
 
-year <- 1:30
-
-logf_sd <- 0.2
-f_dev_change <- FALSE
-f_pattern <- 1
-f_min <- 0.01
-f_max <- 0.39
-
-logR_sd <- 0.2
-r_dev_change <- TRUE
-
-em_bias_cor <- FALSE
-
 #### Life-history parameters ####
-ages=1:12           #Age structure of the popn
+year <- 1:30
+ages <- 1:12   #Age structure of the popn
 
-R0=1000000  #Average annual unfished recruitment (scales the popn)
-h=0.75	    #Steepness of the Beverton-Holt spawner-recruit relationship.
-M=0.2       #Age-invariant natural mortality
+median_R0 <- 1000000 #Average annual unfished recruitment (scales the popn)
+median_h <- 0.75 #Steepness of the Beverton-Holt spawner-recruit relationship.
+mean_R0 <- NULL
+mean_h <- NULL
+M <- 0.2       #Age-invariant natural mortality
 
-Linf=800	  #Asymptotic average length
-K=0.18     	#Growth coefficient
-a0=-1.36    #Theoretical age at size 0
-a.lw=0.000000025  #Length-weight coefficient
-b.lw=3.0     	    #Length-weight exponent
-A50.mat=2.25      #Age at 50% maturity
-slope.mat=3       #Slope of maturity ogive
-pattern.mat=1     #Simple logistic maturity
-female.proportion=0.5   #Sex ratio
+Linf <- 800	  #Asymptotic average length
+K <- 0.18     	#Growth coefficient
+a0 <- -1.36    #Theoretical age at size 0
+a.lw <- 0.000000025  #Length-weight coefficient
+b.lw <- 3.0     	    #Length-weight exponent
+A50.mat <- 2.25      #Age at 50% maturity
+slope.mat <- 3       #Slope of maturity ogive
+pattern.mat <- 1     #Simple logistic maturity
+female.proportion <- 0.5   #Sex ratio
 
 #### Fleet settings ####
 fleet_num <- 1
@@ -63,9 +61,8 @@ n.L$fleet1 <- 200
 sel_fleet <- list()
 
 sel_fleet$fleet1$pattern <- 1
-sel_fleet$fleet1$A50.sel <- 2
-sel_fleet$fleet1$slope.sel <- 1
-
+sel_fleet$fleet1$A50.sel1 <- 2
+sel_fleet$fleet1$slope.sel1 <- 1
 
 #### Survey settings ####
 survey_num <- 1
@@ -89,33 +86,176 @@ n.survey$survey1 <- 200
 sel_survey <- list()
 
 sel_survey$survey1$pattern <- 1
-sel_survey$survey1$A50.sel <- 1.5
-sel_survey$survey1$slope.sel <- 2
+sel_survey$survey1$A50.sel1 <- 1.5
+sel_survey$survey1$slope.sel1 <- 2
 
 #sel_survey$survey2$pattern <- 1
 #sel_survey$survey2$A50.sel <- 1.5
 #sel_survey$survey2$slope.sel <- 2
 
+#### Other settings ####
+logf_sd <- 0.2
+f_dev_change <- FALSE
+f_pattern <- 1
+start_val <- 0.01
+middle_val <- NULL
+end_val <- 0.39
+f_val <- NULL
+start_year <- 1
+middle_year <- NULL
 
+logR_sd <- 0.2
+r_dev_change <- TRUE
+
+om_bias_cor <- FALSE
+em_bias_cor <- FALSE
+
+base_case_input <- save_initial_input(base_case=TRUE, case_name = "C0")
 #### Base Case ####
 #### Run OM
-run_om(maindir=maindir)
+run_om(input_list=base_case_input, show_iter_num=F)
 
 #### Run EMs
-# run_em(run_em_names=c("AMAK", "ASAP"))
-# run_em(run_em_names=c("BAM"))
-# run_em(run_em_names=c("SS"))
-run_em(run_em_names=c("MAS"))
-
+run_em(em_names=c("AMAK", "ASAP", "BAM"), input_list=base_case_input)
+# run_em(em_names=c("SS"))
 #### Plot comparison outputs
-generate_plot(em_names = c("MAS"), plot_ncol=1, plot_nrow=1, plot_color = c("orange"))
-
-# generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"), plot_ncol=2, plot_nrow=2, plot_color = c("orange", "green", "red", "deepskyblue3"))
-#
-# generate_plot(em_names = c("AMAK", "ASAP", "BAM"), plot_ncol=3, plot_nrow=1, plot_color = c("orange", "green", "red"))
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"), plot_ncol=2, plot_nrow=2, plot_color = c("orange", "green", "red", "deepskyblue3"), input_list=base_case_input)
+# generate_plot(em_names = c("AMAK"), plot_ncol=1, plot_nrow=1, plot_color = c("orange"))
 
 #### Case 1 ####
-logR_sd <- 0.4
-run_om(maindir=maindir)
-run_em(run_em_names=c("MAS"))
-generate_plot(em_names = c("MAS"), plot_ncol=1, plot_nrow=1, plot_color = c("orange"))
+updated_input <- save_initial_input(base_case=FALSE,
+                                   input_list=base_case_input,
+                                   case_name="C1",
+                                   logR_sd=0.4)
+run_om(input_list=updated_input , show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)
+
+#### Case 2 ####
+updated_input <- save_initial_input(base_case=FALSE,
+                                    input_list=base_case_input,
+                                    case_name="C2",
+                                    logR_sd=0.6)
+run_om(input_list=updated_input, show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)
+
+#### Case 3 ####
+updated_input <- save_initial_input(base_case=FALSE,
+                                    input_list=base_case_input,
+                                    case_name="C3",
+                                    f_dev_change=TRUE)
+run_om(input_list=updated_input, show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)
+
+#### Case 4 ####
+updated_input <- save_initial_input(base_case=FALSE,
+                                    input_list=base_case_input,
+                                    case_name="C4",
+                                    f_pattern=3,
+                                    start_val=0.01,
+                                    middle_val=0.39,
+                                    end_val=0.08,
+                                    f_val=NULL,
+                                    start_year=1,
+                                    middle_year=25)
+run_om(input_list=updated_input, show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)
+
+#### Case 5 ####
+updated_input <- save_initial_input(base_case=FALSE,
+                                    input_list=base_case_input,
+                                    case_name="C5",
+                                    f_pattern=5,
+                                    start_val=0.01,
+                                    middle_val=0.08,
+                                    end_val=NULL,
+                                    f_val=NULL,
+                                    start_year=1,
+                                    middle_year=6)
+run_om(input_list=updated_input, show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)
+
+#### Case 6 ####
+updated_input <- save_initial_input(base_case=FALSE,
+                                    input_list=base_case_input,
+                                    case_name="C6",
+                                    f_pattern=5,
+                                    start_val=0.01,
+                                    middle_val=0.19,
+                                    end_val=NULL,
+                                    f_val=NULL,
+                                    start_year=1,
+                                    middle_year=6)
+run_om(input_list=updated_input, show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)
+
+#### Case 7 ####
+updated_input <- save_initial_input(base_case=FALSE,
+                                    input_list=base_case_input,
+                                    case_name="C7",
+                                    f_pattern=5,
+                                    start_val=0.01,
+                                    middle_val=0.39,
+                                    end_val=NULL,
+                                    f_val=NULL,
+                                    start_year=1,
+                                    middle_year=6)
+run_om(input_list=updated_input, show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)
+
+#### Case 8 ####
+#Define fleet selectivity
+sel_fleet <- list()
+
+sel_fleet$fleet1$pattern <- 2
+sel_fleet$fleet1$A50.sel1 <- 4
+sel_fleet$fleet1$slope.sel1 <- 1
+sel_fleet$fleet1$slope.sel2 <- 0.7
+sel_fleet$fleet1$A50.sel2 <- 11
+
+#Define survey selectivity
+sel_survey <- list()
+
+sel_survey$survey1$pattern <- 2
+sel_survey$survey1$A50.sel1 <- 2
+sel_survey$survey1$slope.sel1 <- 1.5
+sel_survey$survey1$A50.sel2 <- 12
+sel_survey$survey1$slope.sel2 <- 0.37
+updated_input <- save_initial_input(base_case=FALSE,
+                                    input_list=base_case_input,
+                                    case_name="C8",
+                                    sel_fleet=sel_fleet,
+                                    sel_survey=sel_survey)
+run_om(input_list=updated_input, show_iter_num=F)
+run_em(em_names=c("AMAK", "ASAP", "BAM", "SS"), input_list=updated_input)
+generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
+              plot_ncol=2, plot_nrow=2,
+              plot_color = c("orange", "green", "red", "deepskyblue3"),
+              input_list=updated_input)

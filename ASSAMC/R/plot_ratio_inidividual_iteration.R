@@ -1,4 +1,4 @@
-plot_ratio_inidividual_iteration <- function(em_names, col){
+plot_ratio_inidividual_iteration <- function(em_names, col, casedir){
   comparison_var <- c("fratio", "ssbratio")
   comparison_id <- which(names(om_list) %in% comparison_var)
   ylab <- c("F/FMSY", "SSB/SSBMSY")
@@ -8,7 +8,7 @@ plot_ratio_inidividual_iteration <- function(em_names, col){
   ncol <- 3
 
   for (j in 1:length(real_figure_id)){
-    jpeg(file=file.path(maindir, "figure", paste("Fig", real_figure_id[j], "_ratio_inidividual_iteration.jpg", sep="")), width=205, height=75, units="mm", res=300)
+    jpeg(file=file.path(casedir, "figure", paste("Fig", real_figure_id[j], "_ratio_inidividual_iteration.jpg", sep="")), width=205, height=75, units="mm", res=300)
 
     par(mar=c(0.7, 4, 0.2, 0.2), mfrow=c(nrow,ncol), oma = c(4, 4, 0.2, 0.2))
 
