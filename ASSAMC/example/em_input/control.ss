@@ -106,7 +106,7 @@
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
 3	10	6.907755	6.907755	0.25	0	1	0	0	0	0	0	0	0
 0.21	0.99	0.75	0.75	0.25	0	-3	0	0	0	0	0	0	0
-0.0001	2	0.2	0.2	0.25	0	-3	0	0	0	0	0	0	0
+0.0001	2	0.5	0.5	0.25	0	-3	0	0	0	0	0	0	0
 -99	99	0	0	0	0	-1	0	0	0	0	0	0	0
 -99	99	0	0	0	0	-1	0	0	0	0	0	0	0
 #_no timevary SR parameters
@@ -146,7 +146,7 @@
 # if Fmethod=2; read overall start F value; overall phase; N detailed inputs to read
 # if Fmethod=3; read N iterations for tuning for Fmethod 3
 0.01 2 0 # overall start F value; overall phase; N detailed inputs to read
-#5  # N iterations for tuning F in hybrid method (recommend 3 to 7)
+# N iterations for tuning F in hybrid method (recommend 3 to 7)
 #
 #_initial_F_parms; count = 0
 0 1 0.01 0.01 0.2 0 1
@@ -208,16 +208,24 @@
 #Pattern:_27; parm=3+special; cubic spline in age
 #Pattern:_42; parm=2+special+3; // cubic spline; with 2 additional param for scaling (average over bin range)
 #_Pattern Discard Male Special
-12 0 0 0 
-12 0 0 0 
+19 0 0 0 
+19 0 0 0 
 #
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
 # 1   FISHERY1 AgeSelex
-0 12 2 2 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_1_Fishery
-0 12 2.944439 2.944439 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_2_Fishery1 
+0 12 4 4 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_1_Fishery1
+0 12 1 1 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_2_Fishery1 
+0 12 11 11 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_3_Fishery1
+0 12 0.7 0.7 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_4_Fishery1 
+0 12 1 1 1 0 -2 0 0 0 0 0 0 0 # AgeSel_1P_5_Fishery1
+0 12 0 0 1 0 -2 0 0 0 0 0 0 0 # AgeSel_1P_6_Fishery1 
 # 2   SURVEY1 AgeSelex
-0 12 1.5 1.5 1 0 2 0 0 0 0 0 0 0 # AgeSel_2P_1_SURVEY
-0 12 1.472219 1.472219 1 0 2 0 0 0 0 0 0 0 # AgeSel_2P_2_SURVEY1
+0 12 2 2 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_1_Survey1
+0 12 1.5 1.5 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_2_Survey1 
+0 12 12 12 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_3_Survey1
+0 12 0.37 0.37 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_4_Survey1 
+0 12 1 1 1 0 -2 0 0 0 0 0 0 0 # AgeSel_1P_5_Survey1
+0 12 0 0 1 0 -2 0 0 0 0 0 0 0 # AgeSel_1P_6_Survey1
 #_no timevary selex parameters
 #
 0   #  use 2D_AR1 selectivity(0/1):  experimental feature

@@ -259,3 +259,4 @@ generate_plot(em_names = c("AMAK", "ASAP", "BAM", "SS"),
               plot_ncol=2, plot_nrow=2,
               plot_color = c("orange", "green", "red", "deepskyblue3"),
               input_list=updated_input)
+
