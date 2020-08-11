@@ -1,5 +1,5 @@
 ## Aggregate data of biomass, abundance, SSB, recruitment, F (apical F*selectivity), F multiplier, landings, and survey from models to matrix
-read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL){
+read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc_bias_cor=FALSE, SRmodel=1){
   library(PBSadmb)
 
   ## OM
@@ -47,6 +47,7 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL){
       setwd(file.path(casedir, "output", subdir, paste("s", keep_sim_id[om_sim], sep="")))
       amak_output <- readRep("For_R", suffix = ".rep")
       amak_std <- readRep("amak", suffix = ".std")
+
       amak_biomass[,om_sim] <- amak_output$TotBiom[which(amak_output$TotBiom[,1]>=om_input$year[1] & amak_output$TotBiom[,1]<=om_input$year[length(om_input$year)]),2]
       amak_abundance[,om_sim] <- apply(amak_output$N[,2:ncol(amak_output$N)], 1, sum)/1000
       amak_ssb[,om_sim] <- amak_output$SSB[which(amak_output$SSB[,1]>=om_input$year[1] &  amak_output$SSB[,1]<= om_input$year[length(om_input$year)]),2]
@@ -55,17 +56,42 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL){
       amak_Fmul[,om_sim] <- NA
       amak_landing[,om_sim] <- amak_output$Pred_catch_1
       amak_survey[,om_sim] <- amak_output$Obs_Survey_1[,3]
-      amak_msy[, om_sim] <- amak_std$value[which(amak_std$name=="MSY")]
-      amak_fmsy[, om_sim] <- round(amak_std$value[which(amak_std$name=="Fmsy")], digits = 3)
-      amak_ssbmsy[, om_sim] <- amak_std$value[which(amak_std$name=="Bmsy")]
+
+      if(adhoc_bias_cor==TRUE){
+        amak_msy_adhoc=msy_calcs(steep=amak_output$Steep[2],
+                                 R0=exp(amak_std$value[which(amak_std$name=="log_Rzero")]),
+                                 M=amak_output$M,
+                                 wgt=amak_output$wt_a_pop,
+                                 prop.f=om_input$proportion.female,
+                                 selL=amak_output$sel_fsh_1[1,3:ncol(amak_output$sel_fsh_1)],
+                                 selD=rep(0,om_input$nages),
+                                 selZ=amak_output$sel_fsh_1[1,3:ncol(amak_output$sel_fsh_1)],
+                                 mat.f=amak_output$mature_a/om_input$proportion.female,
+                                 mat.m=NULL,
+                                 sigma=amak_output$sigmar,
+                                 maxF=om_output$msy$maxF,
+                                 step=om_output$msy$step,
+                                 om_bias_cor=TRUE,
+                                 bias_cor_method="median_unbiased",
+                                 SRmodel=SRmodel
+                                 )
+        amak_msy[, om_sim] <- amak_msy_adhoc$msy
+        amak_fmsy[, om_sim] <- round(amak_msy_adhoc$Fmsy, digits = 3)
+        amak_ssbmsy[, om_sim] <- amak_msy_adhoc$SSBmsy
+      } else {
+        amak_msy[, om_sim] <- amak_std$value[which(amak_std$name=="MSY")]
+        amak_fmsy[, om_sim] <- round(amak_std$value[which(amak_std$name=="Fmsy")], digits = 3)
+        amak_ssbmsy[, om_sim] <- amak_std$value[which(amak_std$name=="Bmsy")]
+      }
+
       amak_fratio[, om_sim] <- amak_Ftot[, om_sim]/amak_fmsy[om_sim]
       amak_ssbratio[, om_sim] <- amak_ssb[,om_sim]/amak_ssbmsy[om_sim]
       amak_agecomp[[om_sim]] <- apply(amak_output$N[,2:ncol(amak_output$N)]/1000, 1, function(x) x/sum(x))
     }
-    amak_list <- list(amak_biomass, amak_abundance, amak_ssb, amak_recruit, amak_Ftot, amak_landing, amak_survey, amak_msy, amak_fmsy, amak_ssbmsy, amak_fratio, amak_ssbratio, amak_agecomp)
-    names(amak_list) <- c("biomass", "abundance", "ssb", "recruit", "Ftot", "landing", "survey", "msy", "fmsy", "ssbmsy", "fratio", "ssbratio", "agecomp")
-    amak_list <<- amak_list
-    save(amak_list, file=file.path(casedir, "output", "amak_output.RData"))
+      amak_list <- list(amak_biomass, amak_abundance, amak_ssb, amak_recruit, amak_Ftot, amak_landing, amak_survey, amak_msy, amak_fmsy, amak_ssbmsy, amak_fratio, amak_ssbratio, amak_agecomp)
+      names(amak_list) <- c("biomass", "abundance", "ssb", "recruit", "Ftot", "landing", "survey", "msy", "fmsy", "ssbmsy", "fratio", "ssbratio", "agecomp")
+      amak_list <<- amak_list
+      save(amak_list, file=file.path(casedir, "output", "amak_output.RData"))
   }
 
   ## ASAP
@@ -80,6 +106,7 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL){
       asap_output <- dget(file.path(casedir, "output", subdir, paste("s", keep_sim_id[om_sim], sep=""), "asap3.rdat"))
       setwd(file.path(casedir, "output", subdir, paste("s", keep_sim_id[om_sim], sep="")))
       asap_std <- readRep("asap3", suffix = ".std")
+
       asap_biomass[,om_sim] <- asap_output$tot.jan1.B
       asap_abundance[,om_sim] <- apply(asap_output$N.age, 1, sum)
       asap_ssb[,om_sim] <- asap_output$SSB
@@ -88,9 +115,33 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL){
       asap_Fmul[,om_sim] <- asap_output$fleet.Fmult
       asap_landing[,om_sim] <- asap_output$catch.pred
       asap_survey[,om_sim] <- asap_output$index.pred$ind01
-      asap_msy[, om_sim] <- asap_std$value[which(asap_std$name=="MSY")]
-      asap_fmsy[, om_sim] <- round(asap_std$value[which(asap_std$name=="Fmsy_report")], digits = 3)
-      asap_ssbmsy[, om_sim] <- asap_std$value[which(asap_std$name=="SSBmsy_report")]
+
+      if(adhoc_bias_cor==TRUE) {
+        asap_msy_adhoc <- msy_calcs(steep=asap_output$SR.parms$SR.steepness,
+                                    R0=asap_output$SR.parms$SR.R0*1000,
+                                    M=asap_output$M.age,
+                                    wgt=asap_output$WAA.mats$WAA.jan1[1,]/1000,
+                                    prop.f=om_input$proportion.female,
+                                    selL=asap_output$fleet.sel.mats$sel.m.fleet1[1,],
+                                    selD=rep(0,om_input$nages),
+                                    selZ=asap_output$fleet.sel.mats$sel.m.fleet1[1,],
+                                    mat.f=asap_output$maturity[1,]/om_input$proportion.female,
+                                    mat.m=NULL,
+                                    sigma=sqrt(log(asap_output$control.parms$recruit.cv[1]^2+1)),
+                                    maxF=om_output$msy$maxF,
+                                    step=om_output$msy$step,
+                                    om_bias_cor=TRUE,
+                                    bias_cor_method="median_unbiased",
+                                    SRmodel=SRmodel)
+        asap_msy[, om_sim] <- asap_msy_adhoc$msy
+        asap_fmsy[, om_sim] <- round(asap_msy_adhoc$Fmsy, digits = 3)
+        asap_ssbmsy[, om_sim] <- asap_msy_adhoc$SSBmsy
+      } else {
+       asap_msy[, om_sim] <- asap_std$value[which(asap_std$name=="MSY")]
+       asap_fmsy[, om_sim] <- round(asap_std$value[which(asap_std$name=="Fmsy_report")], digits = 3)
+       asap_ssbmsy[, om_sim] <- asap_std$value[which(asap_std$name=="SSBmsy_report")]
+      }
+
       asap_fratio[, om_sim] <- asap_Ftot[, om_sim]/asap_fmsy[om_sim]
       asap_ssbratio[, om_sim] <- asap_ssb[,om_sim]/asap_ssbmsy[om_sim]
       asap_agecomp[[om_sim]] <- apply(asap_output$N.age, 1, function(x) x/sum(x))

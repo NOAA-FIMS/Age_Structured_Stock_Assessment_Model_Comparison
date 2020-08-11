@@ -153,7 +153,7 @@
 1
 1
 # Selectivity Options for each block 1=by age, 2=logisitic, 3=double logistic
-2  
+3  
 # Selectivity Block #1 Data (initial guess; phase; lambda; cv; a50 and slope) [slope = 1/slope'; a50 = a50'*slope'*slope]
 0               0               0               0               
 0               0               0               0               
@@ -167,18 +167,18 @@
 0               0               0               0               
 0               0               0               0               
 0               0               0               0               
-2               2              0               0.5            
-1               2              0               0.5            
-0               0               0               0               
-0               0               0               0               
-0               0               0               0               
-0               0               0               0               
+0               0               0               0            
+0               0               0               0            
+4               2               0               0.5
+1               2               0               0.5
+11              2               0               0.5
+1.428571        2               0               0.5              
 # Fleet Start Age
 1  
 # Fleet End Age
 12  
 # Age Range for Average F [common setting: first full selective age to max age]
-6  12
+7  7
 # Average F report option (1=unweighted, 2=Nweighted, 3=Bweighted)
 1
 # Use Likelihood constants? (1=yes)
@@ -293,7 +293,7 @@
 # Index Selectivity Link to Fleet
 -1  
 # Index Selectivity Options 1=by age, 2=logisitic, 3=double logistic
-2  
+3  
 # Index Start Age
 1  
 # Index End Age
@@ -315,12 +315,12 @@
 0               0               0               0               
 0               0               0               0               
 0               0               0               0               
-1.5             2              1               0.5             
-0.5             2              1               0.5             
-0               0               0               0               
-0               0               0               0               
-0               0               0               0               
-0               0               0               0               
+0               0               0               0            
+0               0               0               0            
+2               2               0               0.5               
+0.6666667       2               0               0.5               
+12              2               0               0.5               
+2.702703        2               0               0.5               
 # Index-1 Data 
 1	1.636678159	0.2	0.085	0.115	0.175	0.13	0.085	0.055	0.075	0.065	0.05	0.025	0.04	0.1	200
 2	1.361204297	0.2	0.065	0.145	0.13	0.135	0.1	0.08	0.08	0.06	0.03	0.045	0.015	0.115	200

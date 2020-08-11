@@ -23,11 +23,12 @@ AMAK_MCP
 #Lo_Len
 27.68796	0.25	-4
 #Sigma_len
-0.1 0.25	-4															
+0.1 0.25	-4
 #Natural_Mortality 
 0.2  0.25  -4 
 # NEW npars_mage
 0
+# ages_M_changes
 # NEW Mage_in
 #0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2
 # phase_Mage
@@ -39,7 +40,7 @@ AMAK_MCP
 #Random_walk_q_phases 
 0
 #catchability 
-3.489976e-07  1 1  
+2.94682990927518e-07  1 1  
 #q_power 
 1  0.2  -4  
 #Random_walk_q_phases 
@@ -47,9 +48,7 @@ AMAK_MCP
 #Nyrs_Random_walk_q
 0
 #Random_walk_q_yrs blank if nyrs==0
-
 #Random_walk_q_sigmas blank if nyrs==0
-
 #q_agemin 
 1 
 #q_agemax 
@@ -59,26 +58,32 @@ AMAK_MCP
 #n_proj_yrs 
 5  
 #Fsh_selopt_1 
-2  
-#Fsh_ph_1 
+3  
+#nages
+12
+#Fsh_ph_1
 2  
 #Fsh_sel_change_1 
 0
-#slope 
-1 
-#inflection 
-2  
-#
+#P1 
+2.944439 
+#P2 
+1.055561 
+#P3
+4.206341
 #Ind_selopt 
-2  
-# Phase Survey
-2  
-#ind_sel_change_1 
-0
-#slope 
-2 
-#inflection 
-1.5  
-# sigma age-age
+3 
+#nages
+12
+#Phase Survey 
+2
+# ind_sel_change_1
+0  
+#P1 
+1.962959
+#P2 
+0.03704067 
+#P3
+11.9209
 #Test  
 123456789  

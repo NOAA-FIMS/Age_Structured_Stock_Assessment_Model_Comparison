@@ -1,4 +1,4 @@
-run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL, casedir=casedir){
+run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL, casedir=casedir, em_bias_cor=em_bias_cor){
   if(!("r4ss" %in% installed.packages()[,"Package"])) install.packages("r4ss")
   library(r4ss)
 
@@ -26,9 +26,22 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL, casedir=casedi
                                      )
       names(ss_data$catch) <- c("year", "seas", "fleet", "catch", "catch_se")
 
-      ss_data$CPUE <- as.data.frame(cbind(om_input$year, rep(1, times=om_input$nyr), rep(2, times=om_input$nyr), em_input$survey.obs$survey1, rep(sqrt(log(1+em_input$cv.survey$survey1^2)), times=length(em_input$survey.obs$survey1))))
-      names(ss_data$CPUE) <- c("year", "seas", "index", "obs", "se_log")
-      ss_data$agecomp[, 9:ncol(ss_data$agecomp)] <- rbind(cbind(rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)), em_input$L.age.obs$fleet1), cbind(rep(em_input$n.survey$survey1, length(em_input$survey.obs$survey1)), em_input$survey.age.obs$survey1))
+      if (om_input$survey_num == 1) {
+       ss_data$CPUE <- as.data.frame(cbind(om_input$year, rep(1, times=om_input$nyr), rep(2, times=om_input$nyr), em_input$survey.obs$survey1, rep(sqrt(log(1+em_input$cv.survey$survey1^2)), times=length(em_input$survey.obs$survey1))))
+       names(ss_data$CPUE) <- c("year", "seas", "index", "obs", "se_log")
+       ss_data$agecomp[, 9:ncol(ss_data$agecomp)] <- rbind(cbind(rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)), em_input$L.age.obs$fleet1), cbind(rep(em_input$n.survey$survey1, length(em_input$survey.obs$survey1)), em_input$survey.age.obs$survey1))
+      }
+      if (om_input$survey_num == 2) {
+        ss_data$CPUE <- as.data.frame(rbind(
+        cbind(om_input$year, rep(1, times=om_input$nyr), rep(2, times=om_input$nyr), em_input$survey.obs$survey1, rep(sqrt(log(1+em_input$cv.survey$survey1^2)), times=length(em_input$survey.obs$survey1))),
+        cbind(om_input$year, rep(1, times=om_input$nyr), rep(3, times=om_input$nyr), em_input$survey.obs$survey2, rep(sqrt(log(1+em_input$cv.survey$survey2^2)), times=length(em_input$survey.obs$survey2)))))
+       names(ss_data$CPUE) <- c("year", "seas", "index", "obs", "se_log")
+       ss_data$agecomp[, 9:ncol(ss_data$agecomp)] <- rbind(
+        cbind(rep(em_input$n.L$fleet1, length(em_input$L.obs$fleet1)), em_input$L.age.obs$fleet1),
+        cbind(rep(em_input$n.survey$survey1, length(em_input$survey.obs$survey1)), em_input$survey.age.obs$survey1),
+        cbind(rep(em_input$n.survey$survey2, length(em_input$survey.obs$survey2)), em_input$survey.age.obs$survey2))
+      }
+
 
       # ss_ctl$Q_parms$INIT <- log(em_input$survey_q$survey1*1000)
       # ss_ctl$Q_parms$PRIOR <- log(em_input$survey_q$survey1*1000)

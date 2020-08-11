@@ -100,12 +100,12 @@
 #_ LO HI INIT PRIOR PR_SD PR_type PHASE
 #_Cond  #_placeholder when no seasonal MG parameters
 #
-3 #_Spawner-Recruitment; Options: 2=Ricker; 3=std_B-H; 4=SCAA; 5=Hockey; 6=B-H_flattop; 7=survival_3Parm; 8=Shepherd_3Parm; 9=RickerPower_3parm
+2 #_Spawner-Recruitment; Options: 2=Ricker; 3=std_B-H; 4=SCAA; 5=Hockey; 6=B-H_flattop; 7=survival_3Parm; 8=Shepherd_3Parm; 9=RickerPower_3parm
 1  # 0/1 to use steepness in initial equ recruitment calculation
 0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
 3	10	6.907755	6.907755	0.25	0	1	0	0	0	0	0	0	0
-0.21	0.99	0.7822135	0.7822135	0.25	0	-3	0	0	0	0	0	0	0
+0.21	0.99	0.75	0.75	0.25	0	-3	0	0	0	0	0	0	0
 0.0001	2	0.6	0.6	0.25	0	-3	0	0	0	0	0	0	0
 -99	99	0	0	0	0	-1	0	0	0	0	0	0	0
 -99	99	0	0	0	0	-1	0	0	0	0	0	0	0
@@ -123,7 +123,7 @@
 -11 #_first_yr_fullbias_adj_in_MPD; begin of plateau
 30 #_last_yr_fullbias_adj_in_MPD
 31 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
-1 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+0 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
 -15 #min rec_dev
 15 #max rec_dev

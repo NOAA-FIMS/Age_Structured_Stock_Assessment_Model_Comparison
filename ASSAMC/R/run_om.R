@@ -3,6 +3,7 @@ run_om <- function(input_list=NULL,
   maindir <- input_list$maindir
   subdir <- "OM"
   case_name <- input_list$case_name
+
   ## Error checks for missing files
   if (is.null(maindir)) stop ("Missing main working directory!")
   if (!file.exists(file.path(maindir, "em_input"))) stop ("Missing estimation model input file!")
@@ -28,6 +29,9 @@ run_om <- function(input_list=NULL,
     set.seed(input_list$seed_num)
   }
 
+  # if (input_list$initial_equilibrium_F==FALSE){
+  #   input_list$year <- (input_list$year[1]-1):input_list$year[length(input_list$year)]
+  # }
   nyr <- length(input_list$year)
   nages <- length(input_list$ages)
 
@@ -47,6 +51,8 @@ run_om <- function(input_list=NULL,
                      nyr=nyr,
                      om_sim_num=input_list$om_sim_num,
                      f_dev_matrix=f_dev_matrix)
+
+
 
   ## Set up R deviations-at-age per iteration
   r_dev_matrix <- r_dev_case(r_dev_change=input_list$r_dev_change,
@@ -73,23 +79,25 @@ run_om <- function(input_list=NULL,
     f <- f_matrix[om_sim,]
 
     ## Selectivity for fleets
-    selex_fleet <- list(as.vector(sapply(1:length(input_list$fleet_num), function(x)
-                               logistic(pattern=input_list$sel_fleet[[x]]$pattern,
-                               x=input_list$ages,
-                               a1=input_list$sel_fleet[[x]]$slope.sel1,
-                               b1=input_list$sel_fleet[[x]]$A50.sel1,
-                               a2=input_list$sel_fleet[[x]]$slope.sel2,
-                               b2=input_list$sel_fleet[[x]]$A50.sel2))))
+    selex_fleet <- sapply(1:input_list$fleet_num, function(x)
+                          logistic(pattern=input_list$sel_fleet[[x]]$pattern,
+                                   x=input_list$ages,
+                                   a1=input_list$sel_fleet[[x]]$slope.sel1,
+                                   b1=input_list$sel_fleet[[x]]$A50.sel1,
+                                   a2=input_list$sel_fleet[[x]]$slope.sel2,
+                                   b2=input_list$sel_fleet[[x]]$A50.sel2))
+    selex_fleet <- lapply(seq_len(ncol(selex_fleet)), function(x) selex_fleet[,x])
     names(selex_fleet) <- paste("fleet", 1:input_list$fleet_num, sep="")
 
     ## Selectivity for surveys
-    selex_survey <- list(as.vector(sapply(1:length(input_list$survey_num), function(x)
-                                logistic(input_list$sel_survey[[x]]$pattern,
-                                input_list$ages,
-                                a1=input_list$sel_survey[[x]]$slope.sel1,
-                                b1=input_list$sel_survey[[x]]$A50.sel1,
-                                a2=input_list$sel_survey[[x]]$slope.sel2,
-                                b2=input_list$sel_survey[[x]]$A50.sel2))))
+    selex_survey <- sapply(1:input_list$survey_num, function(x)
+                           logistic(pattern=input_list$sel_survey[[x]]$pattern,
+                                    x=input_list$ages,
+                                    a1=input_list$sel_survey[[x]]$slope.sel1,
+                                    b1=input_list$sel_survey[[x]]$A50.sel1,
+                                    a2=input_list$sel_survey[[x]]$slope.sel2,
+                                    b2=input_list$sel_survey[[x]]$A50.sel2))
+    selex_survey <- lapply(seq_len(ncol(selex_survey)), function(x) selex_survey[,x])
     names(selex_survey) <- paste("survey", 1:input_list$survey_num, sep="")
 
     ## Compute the number of spawners per recruit of an unfished population (Phi.0)
@@ -106,23 +114,27 @@ run_om <- function(input_list=NULL,
                                  h=input_list$mean_h,
                                  phi=Phi.0,
                                  sigmaR=input_list$logR_sd,
-                                 mean2med=FALSE)$R0BC
+                                 mean2med=TRUE,
+                                 model=input_list$SRmodel)$R0BC
      input_list$median_h <- convertSRparms(R0=input_list$mean_R0,
                                  h=input_list$mean_h,
                                  phi=Phi.0,
                                  sigmaR=input_list$logR_sd,
-                                 mean2med=FALSE)$hBC
+                                 mean2med=TRUE,
+                                 model=input_list$SRmodel)$hBC
     } else {
      input_list$mean_R0 <- convertSRparms(R0=input_list$median_R0,
                                           h=input_list$median_h,
                                           phi=Phi.0,
                                           sigmaR=input_list$logR_sd,
-                                          mean2med=TRUE)$R0BC
+                                          mean2med=FALSE,
+                                          model=input_list$SRmodel)$R0BC
      input_list$mean_h <- convertSRparms(R0=input_list$median_R0,
                                           h=input_list$median_h,
                                           phi=Phi.0,
                                           sigmaR=input_list$logR_sd,
-                                          mean2med=TRUE)$hBC
+                                          mean2med=FALSE,
+                                          model=input_list$SRmodel)$hBC
     }
 
     ## Input data list
@@ -138,12 +150,15 @@ run_om <- function(input_list=NULL,
                      n.survey=input_list$n.survey,
                      logR_sd=input_list$logR_sd,
                      logf_sd=input_list$logf_sd,
-                     R0=input_list$median_R0,
-                     h=input_list$median_h,
+                     om_bias_cor=input_list$om_bias_cor,
+                     bias_cor_method=input_list$bias_cor_method,
+                     R0=ifelse((input_list$om_bias_cor==TRUE & input_list$bias_cor_method == "mean_unbiased"), input_list$mean_R0, input_list$median_R0),
+                     h=ifelse((input_list$om_bias_cor==TRUE & input_list$bias_cor_method == "mean_unbiased"), input_list$mean_h, input_list$median_h),
                      median_R0=input_list$median_R0,
                      median_h=input_list$median_h,
                      mean_R0=input_list$mean_R0,
                      mean_h=input_list$mean_h,
+                     SRmodel=input_list$SRmodel,
                      M=input_list$M,
                      Linf=input_list$Linf,
                      K=input_list$K,
@@ -166,7 +181,8 @@ run_om <- function(input_list=NULL,
                      Phi.0=Phi.0,
                      logR.resid=logR.resid,
                      logf.resid=logf.resid,
-                     f=f)
+                     f=f,
+                     initial_equilibrium_F=input_list$initial_equilibrium_F)
 
     om_output <<- popsim(x=om_input)
 

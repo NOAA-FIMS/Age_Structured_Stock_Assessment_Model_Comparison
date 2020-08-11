@@ -1,6 +1,7 @@
 generate_plot <- function(em_names=NULL,
                           plot_ncol=NULL, plot_nrow=NULL, plot_color=NULL,
-                          input_list=NULL){
+                          input_list=NULL,
+                          adhoc_bias_cor=FALSE){
   if (is.null(em_names)) stop ("Missing EM information!")
   if (plot_ncol*plot_nrow < length(em_names)) stop ("Add more columns or rows to plot all EM outputs!")
   if (length(plot_color) != length(em_names)) stop ("Number of colors doesn't equal to number of EMs")
@@ -14,6 +15,7 @@ generate_plot <- function(em_names=NULL,
   invisible(sapply(c("figure"), function(x) {
     if (!file.exists(file.path(casedir, x))) dir.create(file.path(casedir, x))
   }))
+  unlink(list.files(file.path(casedir, "figure"), full.names = TRUE), recursive = TRUE)
 
   col <- c("black", plot_color)
 
@@ -34,7 +36,7 @@ generate_plot <- function(em_names=NULL,
   real_figure_id <<- keep_sim_id[figure_id]
   write.csv(real_figure_id, file=file.path(casedir, "output", "Real_Figure_ID.csv"))
 
-  read_plot_data(em_names=em_names, casedir=casedir, keep_sim_num=keep_sim_num)
+  read_plot_data(em_names=em_names, casedir=casedir, keep_sim_num=keep_sim_num, adhoc_bias_cor=adhoc_bias_cor, SRmodel=input_list$SRmodel)
 
   check_performance(em_names, casedir=casedir)
 

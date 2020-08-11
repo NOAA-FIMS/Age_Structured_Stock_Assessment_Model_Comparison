@@ -1,4 +1,4 @@
-msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL, mat.m=NULL, sigma=0, maxF=1.0, step=0.01, verbose=FALSE){
+msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL, mat.m=NULL, sigma=0, maxF=1.0, step=0.01, om_bias_cor=FALSE, bias_cor_method=NULL, SRmodel=1, verbose=FALSE){
 
 	## Language:          R
 	## Contains:          Function "msy.calcs"
@@ -57,28 +57,32 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
   	if (!is.null(mat.f) & !is.null(mat.m)){cat("*** MSY NOTE: SSB based on both sexes.\n")}
   }
   ##INITIALIZATION
-  BC=exp(sigma^2/2.0)              #multiplicative bias correction
-	nages=length(wgt)
-	if (length(M)>1){M_age=M}        #natural mortality at age (may be constant)
-	else M_age=rep(M,nages)
-	prop.m=1.0-prop.f                #proportion male
+  if(om_bias_cor==TRUE){
+   BC <- sigma^2/2
+  } else{
+   BC <- 0
+  }             #multiplicative bias correction
+ 	nages=length(wgt)
+ 	if (length(M)>1){M_age=M}        #natural mortality at age (may be constant)
+ 	else M_age=rep(M,nages)
+ 	prop.m=1.0-prop.f                #proportion male
 
   mu.f=rep(0.0,nages)              #proportion females mature at age, initialized at zero
   mu.m=rep(0.0,nages)              #proportion males mature at age, initialized at zero
-	if (is.null(mat.f)){mu.m=mat.m}
-	if (is.null(mat.m)){mu.f=mat.f}
-	if (!is.null(mat.f) & !is.null(mat.m)){mu.f=mat.f; mu.m=mat.m}
-	reprod=wgt*(prop.f*mu.f + prop.m *mu.m) #constant vector multiplied by abundance to get SSB at age
+ 	if (is.null(mat.f)){mu.m=mat.m}
+ 	if (is.null(mat.m)){mu.f=mat.f}
+ 	if (!is.null(mat.f) & !is.null(mat.m)){mu.f=mat.f; mu.m=mat.m}
+ 	reprod=wgt*(prop.f*mu.f + prop.m *mu.m) #constant vector multiplied by abundance to get SSB at age
 
 
-	f=seq(0.0,maxF, by=step)
-	spr=rep(0.0,length(f))   #equilibrium spr at F
-	S_eq=rep(0.0,length(f))  #equilibrium SSB at F
-	R_eq=rep(0.0,length(f))  #equilibrium recruitment at F
-	B_eq=rep(0.0,length(f))  #equilibrium biomass at F
-	L_eq=rep(0.0,length(f))  #equilibrium landings at F
-	D_eq=rep(0.0,length(f))  #equilibrium dead discards at F
-	E_eq=rep(0.0,length(f))  #equilibrium exploitation rate at F (landings only)
+ 	f=seq(0.0,maxF, by=step)
+ 	spr=rep(0.0,length(f))   #equilibrium spr at F
+ 	S_eq=rep(0.0,length(f))  #equilibrium SSB at F
+ 	R_eq=rep(0.0,length(f))  #equilibrium recruitment at F
+ 	B_eq=rep(0.0,length(f))  #equilibrium biomass at F
+ 	L_eq=rep(0.0,length(f))  #equilibrium landings at F
+ 	D_eq=rep(0.0,length(f))  #equilibrium dead discards at F
+ 	E_eq=rep(0.0,length(f))  #equilibrium exploitation rate at F (landings only)
 
   L_age=rep(0.0,nages)     #landings at age
   D_age=rep(0.0,nages)     #dead discards at age
@@ -107,8 +111,28 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
 
 
     spr[i]=sum(N_age*reprod)
-    R_eq[i]=(R0/((5.0*steep-1.0)*spr[i]))*
-            (BC*4.0*steep*spr[i]-spr_F0*(1.-steep))
+
+    if(om_bias_cor==TRUE & bias_cor_method=="median_unbiased"){
+      if(SRmodel==1) {
+        R_eq[i]=(R0/((5.0*steep-1.0)*spr[i]))*
+          (exp(BC)*4.0*steep*spr[i]-spr_F0*(1.-steep))
+      }
+
+      if(SRmodel == 2){
+        R_eq[i]=R0*(1+log(exp(BC)*spr[i]/spr_F0)/steep)/(spr[i]/spr_F0)
+      }
+
+    } else {
+      if (SRmodel == 1) {
+        R_eq[i]=(R0/((5.0*steep-1.0)*spr[i]))*
+          (4.0*steep*spr[i]-spr_F0*(1.-steep))
+      }
+
+      if (SRmodel == 2) {
+        R_eq[i]=R0*(1+log(spr[i]/spr_F0)/steep)/(spr[i]/spr_F0)
+      }
+    }
+
     if (R_eq[i]<0.0000001) R_eq[i]=0.0000001
 
     N_age=R_eq[i]*N_age
@@ -140,7 +164,7 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
 
 	if (F_msy_out==maxF){cat("*** Fmsy reached a bound.\n")}
 
-  return(list(msy=msy_out, Fmsy=F_msy_out, Dmsy=D_msy_out, spr_msy=spr_msy_out, SPRmsy=SR_msy_out, SSBmsy=S_msy_out, Rmsy=R_msy_out, Bmsy=B_msy_out, Emsy=E_msy_out, f_seq=f, L_eq=L_eq, D_eq=D_eq, SSB_eq=S_eq, R_eq=R_eq, spr=spr))
+  return(list(msy=msy_out, Fmsy=F_msy_out, Dmsy=D_msy_out, spr_msy=spr_msy_out, SPRmsy=SR_msy_out, SSBmsy=S_msy_out, Rmsy=R_msy_out, Bmsy=B_msy_out, Emsy=E_msy_out, f_seq=f, L_eq=L_eq, D_eq=D_eq, SSB_eq=S_eq, R_eq=R_eq, spr=spr, maxF=maxF, step=step, sigma=sigma))
 
 }
 

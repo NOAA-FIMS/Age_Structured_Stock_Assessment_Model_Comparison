@@ -1,2 +1,4 @@
 .Rproj.user
-docs
+*.exe
+example/C*
+bias_adjustment/C*

@@ -10,9 +10,15 @@ plot_timeseries_all_iterations <- function(em_names, col, plot_nrow, plot_ncol, 
 
     ylim=c(min(om_list[[comparison_id[i]]])*0.5, max(om_list[[comparison_id[i]]])*1.5)
     for(k in 1:length(em_names)){
-      plot(om_list[[comparison_id[i]]][,1], type="l", col="gray50", xlab="Year", ylab=title[i], panel.first=grid(lty=1), ylim=ylim)
+      plot(om_list[[comparison_id[i]]][,1],
+           type="l",
+           col=rgb(col2rgb("gray50")[1], col2rgb("gray50")[2], col2rgb("gray50")[3], max=255, alpha=(100-70)*255/100),
+           xlab="Year",
+           ylab=title[i],
+           panel.first=grid(lty=1),
+           ylim=ylim)
       sapply(1:keep_sim_num, function(x) lines(em_list[[k]][[comparison_id[i]]][,x], col=col[k+1], lty=2))
-      sapply(1:keep_sim_num, function(x) lines(om_list[[comparison_id[i]]][,x], col="gray50", type="l", pch=19, cex=0.5))
+      sapply(1:keep_sim_num, function(x) lines(om_list[[comparison_id[i]]][,x], col=rgb(col2rgb("gray50")[1], col2rgb("gray50")[2], col2rgb("gray50")[3], max=255, alpha=(100-70)*255/100), type="l", pch=19, cex=0.5))
       box()
       legend("topleft",
              legend=c("OM", em_names[k]),

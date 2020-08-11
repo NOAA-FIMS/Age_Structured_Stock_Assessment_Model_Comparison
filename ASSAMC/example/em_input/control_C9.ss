@@ -105,8 +105,8 @@
 0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
 3	10	6.907755	6.907755	0.25	0	1	0	0	0	0	0	0	0
-0.21	0.99	0.7822135	0.7822135	0.25	0	-3	0	0	0	0	0	0	0
-0.0001	2	0.6	0.6	0.25	0	-3	0	0	0	0	0	0	0
+0.21	0.99	0.75	0.75	0.25	0	-3	0	0	0	0	0	0	0
+0.0001	2	0.2	0.2	0.25	0	-3	0	0	0	0	0	0	0
 -99	99	0	0	0	0	-1	0	0	0	0	0	0	0
 -99	99	0	0	0	0	-1	0	0	0	0	0	0	0
 #_no timevary SR parameters
@@ -123,7 +123,7 @@
 -11 #_first_yr_fullbias_adj_in_MPD; begin of plateau
 30 #_last_yr_fullbias_adj_in_MPD
 31 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
-1 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+0 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
 -15 #min rec_dev
 15 #max rec_dev
@@ -162,10 +162,12 @@
 #_   fleet      link link_info  extra_se   biasadj     float  #  fleetname
 #1 1 0 0 0 0 # Fishery 1
 2 1 0 0 0 0 #SURVEY1
+3 1 0 0 0 0 #SURVEY1
 -9999 0 0 0 0 0
 #
 #_Q_parms(if_any);Qunits_are_ln(q)
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
+-30	5	-7.960445	-7.960445	0.8	0	1	0	0	0	0	0	0	0
 -30	5	-7.960445	-7.960445	0.8	0	1	0	0	0	0	0	0	0
 #_no timevary Q parameters
 #
@@ -189,6 +191,7 @@
 #_Pattern Discard Male Special
 0 0 0 0 
 0 0 0 0 
+0 0 0 0
 #
 #_age_selex_patterns
 #Pattern:_0; parm=0; selex=1.0 for ages 0 to maxage
@@ -210,14 +213,18 @@
 #_Pattern Discard Male Special
 12 0 0 0 
 12 0 0 0 
+12 0 0 0 
 #
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
 # 1   FISHERY1 AgeSelex
 0 12 2 2 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_1_Fishery
 0 12 2.944439 2.944439 1 0 2 0 0 0 0 0 0 0 # AgeSel_1P_2_Fishery1 
 # 2   SURVEY1 AgeSelex
-0 12 1.5 1.5 1 0 2 0 0 0 0 0 0 0 # AgeSel_2P_1_SURVEY
+0 12 1.5 1.5 1 0 2 0 0 0 0 0 0 0 # AgeSel_2P_1_SURVEY1
 0 12 1.472219 1.472219 1 0 2 0 0 0 0 0 0 0 # AgeSel_2P_2_SURVEY1
+# 3   SURVEY2 AgeSelex
+0 12 1.5 1.5 1 0 2 0 0 0 0 0 0 0 # AgeSel_2P_1_SURVEY2
+0 12 1.472219 1.472219 1 0 2 0 0 0 0 0 0 0 # AgeSel_2P_2_SURVEY2
 #_no timevary selex parameters
 #
 0   #  use 2D_AR1 selectivity(0/1):  experimental feature

@@ -47,7 +47,7 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
   write.csv(not_positive_hessian, file=file.path(casedir, "output", "Not_positive_hessian.csv"))
 
   if(max(convergence_measures$gradient, na.rm = T)<0.1){
-    jpeg(file=file.path(casedir, "figure", "Gradient.jpg"))
+    jpeg(file=file.path(casedir, "figure", "Gradient.jpg"), width=120, height=120, units="mm", res=300)
     par(mfrow=c(plot_nrow, plot_ncol))
     xlim = c(0, max(convergence_measures$gradient, na.rm = T))
     bins <- seq(0, max(convergence_measures$gradient, na.rm = T)*2, by=0.0005)
@@ -71,7 +71,7 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
 
 
   if(max(convergence_measures$gradient[keep_sim_id,], na.rm = T)<0.1){
-    jpeg(file=file.path(casedir, "figure", "Gradient_no_outliers.jpg"))
+    jpeg(file=file.path(casedir, "figure", "Gradient_no_outliers.jpg"), width=120, height=120, units="mm", res=300)
     par(mfrow=c(plot_nrow,plot_ncol))
     xlim = c(0, max(convergence_measures$gradient[keep_sim_id,], na.rm = T))
     bins <- seq(0, max(convergence_measures$gradient[keep_sim_id,], na.rm = T)*2, by=0.0005)

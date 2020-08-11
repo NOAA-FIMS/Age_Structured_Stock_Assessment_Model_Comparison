@@ -11,10 +11,12 @@ save_initial_input <- function(base_case=TRUE, input_list=NULL, ...){
 
                      year=year,
                      ages=ages,
+                     initial_equilibrium_F=initial_equilibrium_F,
                      median_R0=median_R0,
                      median_h=median_h,
                      mean_R0=mean_R0,
                      mean_h=mean_h,
+                     SRmodel=SRmodel,
                      M=M,
                      Linf=Linf,
                      K=K,
@@ -52,6 +54,7 @@ save_initial_input <- function(base_case=TRUE, input_list=NULL, ...){
                      r_dev_change=r_dev_change,
 
                      om_bias_cor=om_bias_cor,
+                     bias_cor_method=bias_cor_method,
                      em_bias_cor=em_bias_cor)
    edits <- list(...)
    base_case <- `[<-`(base_case, names(edits), edits)

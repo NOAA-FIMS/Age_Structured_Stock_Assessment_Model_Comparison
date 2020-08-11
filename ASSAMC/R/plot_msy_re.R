@@ -16,7 +16,8 @@ plot_msy_re <- function(em_names, col, casedir=NULL){
                              pch=16, cex=0.5, axes=F,
                              at=c(1:length(em_names),  (length(em_names)+2):(length(em_names)*2+1), (length(em_names)*2+3):(length(em_names)*3+2)),
                              xlab="Relative Error",
-                             ylim=c(min(-0.5, min(msy_re)), max(0.5, max(msy_re))))
+                             ylim=c(min(-0.5, min(msy_re)), max(0.5, max(msy_re))),
+                             outline=FALSE)
 
 
 

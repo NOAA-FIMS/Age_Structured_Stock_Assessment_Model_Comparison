@@ -42,7 +42,7 @@ f_case <- function(f_pattern=1,
 
     if(f_pattern == 5) f_matrix[om_sim,] <- rep(start_val, length=nyr)*exp(f_dev_matrix[om_sim,])
 
-    if(f_pattern == 6) f_matrix[om_sim,] <- f_curve*exp(f_dev_matrix[om_sim,])
+    if(f_pattern == 6) f_matrix[om_sim,] <- f_val*exp(f_dev_matrix[om_sim,])
   }
 
   return(f_matrix)

@@ -1,7 +1,7 @@
 #Function to write dat file for BAM
 
-BAM.write.dat<-function(fname, nyr, nages, dat.survey, dat.L, parms,
-                     a.lw, b.lw, prop.f, mat.age, M.age, em_bias_cor){
+BAM.write.dat<-function(fname, nyr, nages, dat.survey1, dat.survey2=NULL, dat.L, parms,
+                     a.lw, b.lw, prop.f, mat.age, M.age, em_bias_cor, SRmodel){
 
   sink(fname)
 
@@ -44,30 +44,55 @@ BAM.write.dat<-function(fname, nyr, nages, dat.survey, dat.L, parms,
   }
 
 
-  ##########SURVEY DATA############################################################
+  ##########SURVEY 1 DATA############################################################
   cat(as.character(paste("#######SURVEY DATA#######",collapse="\t")), sep="\n")
   #number of years
-  cat(as.character(paste(dat.survey$nyr,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$nyr,collapse="\t")), sep="\n", append=TRUE)
   #survey years
-  cat(as.character(paste(dat.survey$yrs,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$yrs,collapse="\t")), sep="\n", append=TRUE)
   #observed index
-  cat(as.character(paste(dat.survey$vals.obs,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$vals.obs,collapse="\t")), sep="\n", append=TRUE)
   #cv's of observed index
-  cat(as.character(paste(dat.survey$cv,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$cv,collapse="\t")), sep="\n", append=TRUE)
 
   #number of years of age comps
-  cat(as.character(paste(dat.survey$nyr.ages,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$nyr.ages,collapse="\t")), sep="\n", append=TRUE)
   #years of age comps
-  cat(as.character(paste(dat.survey$yrs.age,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$yrs.age,collapse="\t")), sep="\n", append=TRUE)
   #sample size of age comps
-  cat(as.character(paste(dat.survey$nsamp,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$nsamp,collapse="\t")), sep="\n", append=TRUE)
   #nfish of age comps
-  cat(as.character(paste(dat.survey$nfish,collapse="\t")), sep="\n", append=TRUE)
+  cat(as.character(paste(dat.survey1$nfish,collapse="\t")), sep="\n", append=TRUE)
   #age comps
-  for (i in 1:dat.survey$nyr.ages){
-    cat(as.character(paste(dat.survey$acomp[i,],collapse="\t")), sep="\n", append=TRUE)
+  for (i in 1:dat.survey1$nyr.ages){
+    cat(as.character(paste(dat.survey1$acomp[i,],collapse="\t")), sep="\n", append=TRUE)
   }
 
+  if(!is.null(dat.survey2)) {
+   ##########SURVEY 2 DATA############################################################
+   cat(as.character(paste("#######SURVEY2 DATA#######",collapse="\t")), sep="\n")
+   #number of years
+   cat(as.character(paste(dat.survey2$nyr,collapse="\t")), sep="\n", append=TRUE)
+   #survey years
+   cat(as.character(paste(dat.survey2$yrs,collapse="\t")), sep="\n", append=TRUE)
+   #observed index
+   cat(as.character(paste(dat.survey2$vals.obs,collapse="\t")), sep="\n", append=TRUE)
+   #cv's of observed index
+   cat(as.character(paste(dat.survey2$cv,collapse="\t")), sep="\n", append=TRUE)
+
+   #number of years of age comps
+   cat(as.character(paste(dat.survey2$nyr.ages,collapse="\t")), sep="\n", append=TRUE)
+   #years of age comps
+   cat(as.character(paste(dat.survey2$yrs.age,collapse="\t")), sep="\n", append=TRUE)
+   #sample size of age comps
+   cat(as.character(paste(dat.survey2$nsamp,collapse="\t")), sep="\n", append=TRUE)
+   #nfish of age comps
+   cat(as.character(paste(dat.survey2$nfish,collapse="\t")), sep="\n", append=TRUE)
+   #age comps
+   for (i in 1:dat.survey2$nyr.ages){
+    cat(as.character(paste(dat.survey2$acomp[i,],collapse="\t")), sep="\n", append=TRUE)
+   }
+  }
   ##########LANDINGS DATA############################################################
   cat(as.character(paste("#######LANDINGS DATA#######",collapse="\t")), sep="\n")
   #start year of landings
@@ -120,9 +145,11 @@ BAM.write.dat<-function(fname, nyr, nages, dat.survey, dat.L, parms,
   #Landings, survey
   cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE)
   cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE)
+  if(!is.null(dat.survey2)) cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE)
   #Age comps for landings, survey
   cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE)
   cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE)
+  if(!is.null(dat.survey2)) cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE)
   #Additional weights: 1.Nage_init, 2.rec devs, 3.rec devs early, 4.rec devs late, 5.Ftune
   cat(as.character(paste(0.0,collapse="\t")), sep="\n", append=TRUE)
   cat(as.character(paste(1.0,collapse="\t")), sep="\n", append=TRUE)
@@ -142,7 +169,12 @@ BAM.write.dat<-function(fname, nyr, nages, dat.survey, dat.L, parms,
   #spawn time fraction
   cat(as.character(paste(0.0,collapse="\t")), sep="\n", append=TRUE)
   #SR switch, tuning year, tuning F,min SS for age comps
-  cat(as.character(paste(1,collapse="\t")), sep="\n", append=TRUE)
+  if (SRmodel==1) {
+    cat(as.character(paste(1,collapse="\t")), sep="\n", append=TRUE)
+  }
+  if (SRmodel==2){
+    cat(as.character(paste(2,collapse="\t")), sep="\n", append=TRUE)
+  }
   cat(as.character(paste(10,collapse="\t")), sep="\n", append=TRUE)
   cat(as.character(paste(0.2,collapse="\t")), sep="\n", append=TRUE)
   cat(as.character(paste(1,collapse="\t")), sep="\n", append=TRUE)
