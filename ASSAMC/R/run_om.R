@@ -6,7 +6,6 @@ run_om <- function(input_list=NULL,
 
   ## Error checks for missing files
   if (is.null(maindir)) stop ("Missing main working directory!")
-  if (!file.exists(file.path(maindir, "em_input"))) stop ("Missing estimation model input file!")
 
   ## Set up required working folders (output and figure)
   if (!file.exists(file.path(maindir, case_name))) dir.create(file.path(maindir, case_name))

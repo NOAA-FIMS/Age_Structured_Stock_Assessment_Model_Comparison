@@ -1,4 +1,6 @@
 run_em <- function(em_names=NULL, input_list=NULL){
+
+  if (!file.exists(file.path(maindir, "em_input"))) stop ("Missing estimation model input file!")
   if (is.null(em_names)) stop ("Missing EM information!")
 
   maindir <- input_list$maindir

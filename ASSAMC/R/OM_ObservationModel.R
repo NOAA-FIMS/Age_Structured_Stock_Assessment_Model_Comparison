@@ -49,8 +49,13 @@ ObsModel<-function(nyr, nages, fleet_num, L, survey_num, survey, L.age, survey.a
 
   invisible(sapply(1:fleet_num, function(x){
     for (i in 1:length(L.obs[[x]])){
-      probs <- L.age[[x]][i,]/sum(L.age[[x]][i,])
-      L.age.obs[[x]][i,] <<- rmultinom(n=1, size=n.L[[x]], prob=probs)/n.L[[x]]
+      if(sum(L.age[[x]][i,])==0) {
+        probs <- rep(0, length(L.age[[x]][i,]))
+        L.age.obs[[x]][i,] <<- rep(0, length(L.age[[x]][i,]))
+      } else {
+        probs <- L.age[[x]][i,]/sum(L.age[[x]][i,])
+        L.age.obs[[x]][i,] <<- rmultinom(n=1, size=n.L[[x]], prob=probs)/n.L[[x]]
+      }
     }
   }))
 
@@ -60,8 +65,13 @@ ObsModel<-function(nyr, nages, fleet_num, L, survey_num, survey, L.age, survey.a
 
   invisible(sapply(1:survey_num, function(x){
     for (i in 1:length(survey.obs[[x]])){
-      probs <- survey.age[[x]][i,]/sum(survey.age[[x]][i,])
-      survey.age.obs[[x]][i,] <<- rmultinom(n=1, size=n.survey[[x]], prob=probs)/n.survey[[x]]
+      if (sum(survey.age[[x]][i,])==0) {
+        probs <- rep(0, length(survey.age[[x]][i,]))
+        survey.age[[x]][i,] <<- rep(0, length(survey.age[[x]][i,]))
+      } else {
+        probs <- survey.age[[x]][i,]/sum(survey.age[[x]][i,])
+        survey.age.obs[[x]][i,] <<- rmultinom(n=1, size=n.survey[[x]], prob=probs)/n.survey[[x]]
+      }
     }
   }))
 
