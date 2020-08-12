@@ -1,12 +1,15 @@
 ---
 title: "Recruitment Bias Adjustment in Ricker Model"
-#output: html_document
 output: word_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+* **R Markdown File Link:**
+
+    https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/blob/full-features/ASSAMC/docs/RickerBiasAdjustment.Rmd
 
 ## 1. Ricker model in BAM, SS, and AMAK and the conversion function
 ### 1.1 BAM method  
@@ -167,9 +170,9 @@ legend("topleft",
 Figure 2. Mean recruitment over SSB from BAM (red solid line) and SS (blue dash line). **The estimates from BAM and SS are not identical like the results from section 1.4. The conversion of steepness needs to be checked, so I read Dorn 2002 paper to seek a solution.**
 
 ## 2. Ricker model from Dorn 2002 and the conversion function
-### 2.1 Curvature parameters $\alpha$ and steepness $h$ from Dorn 2002
+### 2.1 Curvature parameter $\alpha$ and steepness $h$ from Dorn 2002
 
-The Ricker curve with paramters median virgin recruitment $R_{0}$ and curvature parameter $\alpha$ is
+The Ricker curve with parameters median virgin recruitment $R_{0}$ and curvature parameter $\alpha$ is
 
 E7: $R_{y+1}=\frac{S_{y}}{\phi_{0}}exp(\alpha(1-\frac{S_{y}}{R_{0}\phi_{0}}))$
 
@@ -274,6 +277,7 @@ for(i in 1:length(sigmaR)){
   }
 }
 
+par(mfrow=c(1,1), mar=c(4,4,3,0.5))
 filled.contour(sigmaR, h, R0diff,
                color = terrain.colors,
                xlab="SigmaR", ylab="Median h",
@@ -282,15 +286,16 @@ filled.contour(sigmaR, h, R0diff,
                  contour(sigmaR, h, R0diff,
                          col = "black",
                          add = TRUE,
-                         levels = c(10, 50, 100, 300, 500, 800),
+                         levels = c(10, 50, 100, 300, 500),
                          method="edge")
                  },
                key.title = {
                  par(cex.main=0.8);
                  title(main="Relative Diff\nin R0 (%)")
                  })
-legend("topleft", "A)", bty="n", box.col = "")
+legend("bottomleft", "A)", bty="n", box.col = "")
 
+par(mfrow=c(1,1), mar=c(4,4,3,0.5))
 filled.contour(sigmaR, h, hdiff,
                color = terrain.colors,
                xlab="SigmaR", ylab="Median h",
@@ -306,8 +311,8 @@ filled.contour(sigmaR, h, hdiff,
                  par(cex.main=0.8);
                  title(main="Diff in h")
                })
-legend("topleft", "B)", bty="n", box.col = "")
+legend("bottomleft", "B)", bty="n", box.col = "")
 
 ```
 
-Figure 5. A) Relative difference in virgin recruitment (%; $\frac{(meanR_0 - medianR_0)}{medianR_0}×100$) over possible combination of median steepness and standard deviation of recruitment using the stock-recruitment parameters conversion function. B) Difference in steepness ($mean_h - median_h$) over possible combination of median steepness and standard deviation of recruitment using the stock-recruitment parameters conversion function.
+Figure 5. A) Relative difference in virgin recruitment (%; $\frac{(meanR_0 - medianR_0)}{medianR_0}\times 100$) over possible combination of median steepness and standard deviation of recruitment using the stock-recruitment parameters conversion function. B) Difference in steepness ($mean_h - median_h$) over possible combination of median steepness and standard deviation of recruitment using the stock-recruitment parameters conversion function. Here, $h$ is steepness in BAM and SS, but it's $\alpha$ from Dorn 2002. 
