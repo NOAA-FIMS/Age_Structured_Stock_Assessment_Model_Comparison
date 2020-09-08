@@ -58,7 +58,7 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
       amak_survey[,om_sim] <- amak_output$Obs_Survey_1[,3]
 
       if(adhoc_bias_cor==TRUE){
-        amak_msy_adhoc=msy_calcs(steep=amak_output$Steep[2],
+        amak_msy_adhoc=msy_calcs(steep=ifelse(SRmodel==2, log(4*amak_output$Steep[2]/(1-amak_output$Steep[2])), amak_output$Steep[2]),
                                  R0=exp(amak_std$value[which(amak_std$name=="log_Rzero")]),
                                  M=amak_output$M,
                                  wgt=amak_output$wt_a_pop,
@@ -79,9 +79,9 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
         amak_fmsy[, om_sim] <- round(amak_msy_adhoc$Fmsy, digits = 3)
         amak_ssbmsy[, om_sim] <- amak_msy_adhoc$SSBmsy
       } else {
-        amak_msy[, om_sim] <- amak_std$value[which(amak_std$name=="MSY")]
-        amak_fmsy[, om_sim] <- round(amak_std$value[which(amak_std$name=="Fmsy")], digits = 3)
-        amak_ssbmsy[, om_sim] <- amak_std$value[which(amak_std$name=="Bmsy")]
+          amak_msy[, om_sim] <- amak_std$value[which(amak_std$name=="MSY")]
+          amak_fmsy[, om_sim] <- round(amak_std$value[which(amak_std$name=="Fmsy")], digits = 3)
+          amak_ssbmsy[, om_sim] <- amak_std$value[which(amak_std$name=="Bmsy")]
       }
 
       amak_fratio[, om_sim] <- amak_Ftot[, om_sim]/amak_fmsy[om_sim]
