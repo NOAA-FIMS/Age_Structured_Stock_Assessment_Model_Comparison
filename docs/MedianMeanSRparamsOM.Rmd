@@ -1,0 +1,718 @@
+---
+title: "Mean- VS. Median-unbiased stock-recruit parameters in Operating model"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### **R Markdown File Link:**
+
+https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/blob/full-features/ASSAMC/docs/MedianMeanSRparamsOM.Rmd 
+
+## 1. Operating Model with median- or mean-unbiased stock-recruit parameters
+### 1.1 Mean-unbiased stock-recruit parameters
+
+* Beverton-Holt Model
+
+E1: $R_{y+1}=\frac{0.8R_0hS_y}{0.2R_0\phi_0(1-h)+S_y(h-0.2)}\times BC_{mean}$
+
+E2: $R_{eq}=\frac{R_0(4h\phi_F-(1-h)\phi_0)}{(5h-1)\phi_F})$
+
+Here, virgin recruitment $R_{0}$ and steepness $h$ are mean values, and $BC_{mean}=exp(-\sigma_R^2/2)$
+
+* Ricker model
+
+E3: $R_{y+1}=\frac{S_y}{\phi_0}exp(h(1-\frac{S_y}{R_0\phi_0}))\times BC_{mean}$
+
+E4: $R_{eq}=\frac{R_0}{\phi_F/\phi_0}(1+\frac{log(\phi_F/\phi_0)}{h})$
+
+Here, virgin recruitment $R_{0}$ and steepness $h$ are mean values, and $BC_{mean}=exp(-\sigma_R^2/2)$
+
+### 1.2 Median-unbiased stock-recruit parameters
+
+* Beverton-Holt Model
+
+E5: $R_{y+1}=\frac{0.8R_0hS_y}{0.2R_0\phi_0(1-h)+S_y(h-0.2)}$
+
+E6: $R_{eq}=\frac{R_0(BC_{median}4h\phi_F-(1-h)\phi_0)}{(5h-1)\phi_F})$
+
+Here, virgin recruitment $R_{0}$ and steepness $h$ are mean values, and $BC_{median}=exp(\sigma_R^2/2)$
+
+* Ricker model
+
+E7: $R_{y+1}=\frac{S_y}{\phi_0}exp(h(1-\frac{S_y}{R_0\phi_0}))$
+
+E8: $R_{eq}=\frac{R_0}{\phi_F/\phi_0}(1+\frac{log(BC_{median}\times \phi_F/\phi_0)}{h})$
+
+Here, virgin recruitment $R_{0}$ and steepness $h$ are median values, and $BC_{median}=exp(\sigma_R^2/2)$
+
+## 2. Simulated population with Beverton-Holt model 
+
+```{r, echo=FALSE, message=FALSE}
+# install.packages("remotes")
+# install.packages("devtools")
+# remotes::install_github(repo="Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison", ref="full-features", force = TRUE)
+# library(ASSAMC)
+setwd("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/")
+devtools::load_all()
+## Setup working directory
+maindir <- "C:/Users/bai.li/Desktop/bias_adjustment"
+
+om_sim_num <- 100 # total number of iterations per case
+keep_sim_num <- 100 # number of kept iterations per case
+figure_number <- 10 # number of individual iteration to plot
+
+seed_num <- 9924
+
+#### Life-history parameters ####
+year <- 1:100
+ages <- 1:12   #Age structure of the popn
+
+initial_equilibrium_F <- TRUE
+median_R0 <- NULL #Average annual unfished recruitment (scales the popn)
+median_h <- NULL #Steepness of the Beverton-Holt spawner-recruit relationship.
+mean_R0 <- 1000000
+mean_h <- 0.21
+SRmodel <- 1 # 1=Beverton-Holt; 2=Ricker
+M <- 0.6       #Age-invariant natural mortality
+
+Linf <- 800	  #Asymptotic average length
+K <- 0.18     	#Growth coefficient
+a0 <- -1.36    #Theoretical age at size 0
+a.lw <- 0.000000025  #Length-weight coefficient
+b.lw <- 3.0     	    #Length-weight exponent
+A50.mat <- 2.25      #Age at 50% maturity
+slope.mat <- 3       #Slope of maturity ogive
+pattern.mat <- 1     #Simple logistic maturity
+female.proportion <- 0.5   #Sex ratio
+
+#### Fleet settings ####
+fleet_num <- 1
+
+#CV of landings for OM
+cv.L <- list()
+cv.L$fleet1 <- 0.005
+
+#Input CV of landings for EMs
+input.cv.L <- list()
+input.cv.L$fleet1 <- 0.01
+
+#Annual sample size (nfish) of age comp samples
+n.L <- list()
+n.L$fleet1 <- 200
+
+#Define fleet selectivity
+sel_fleet <- list()
+
+sel_fleet$fleet1$pattern <- 1
+sel_fleet$fleet1$A50.sel1 <- 2
+sel_fleet$fleet1$slope.sel1 <- 1
+
+#### Survey settings ####
+survey_num <- 1
+
+#CV of surveys for OM
+cv.survey <- list()
+cv.survey$survey1 <- 0.1
+
+#Input CV of surveys for EMs
+input.cv.survey <- list()
+input.cv.survey$survey1 <- 0.2
+
+#Annual sample size (nfish) of age comp samples
+n.survey <- list()
+n.survey$survey1 <- 200
+
+#Define survey selectivity
+sel_survey <- list()
+
+sel_survey$survey1$pattern <- 1
+sel_survey$survey1$A50.sel1 <- 1.5
+sel_survey$survey1$slope.sel1 <- 2
+
+#### Other settings ####
+logf_sd <- 0.2
+f_dev_change <- FALSE
+f_pattern <- 1
+start_val <- 0
+middle_val <- NULL
+end_val <- 0
+f_val <- NULL
+start_year <- 1
+middle_year <- NULL
+
+logR_sd <- 0.2
+r_dev_change <- TRUE
+
+om_bias_cor <- TRUE
+bias_cor_method <- "mean_unbiased" #Options: "none", "median_unbiased", and "mean_unbiased"
+em_bias_cor <- FALSE
+
+mean_base_case <- save_initial_input(base_case=TRUE, case_name = "C0")
+
+h_vec <- c(0.21, 0.4, 0.6, 0.8, 1)
+logR_sd_vec <- seq(from=0.2, to=2, by=0.2)
+```
+
+* Forward projection without fishing mortality
+* Simulation number = `r om_sim_num`
+* Simulation model year = `r max(year)`
+* Steepness $h$ tested: `r h_vec`
+* Standard deviation of log recruitment $\sigma_R$: `r logR_sd_vec`
+* M = `r M`
+
+### 2.1 OM_Mean with mean-unbiased stock-recruit parameters
+
+```{r, echo=FALSE}
+meanh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(meanh_vec = meanh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="mean_case",
+                                      mean_R0=1000000,
+                                      mean_h=forloop_id$meanh_vec[i],
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="mean_unbiased")
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  depletion_list[[i]] <- depletion
+}
+
+save(depletion_list, file=file.path(maindir, "mean_depletion_list.RData"))
+```
+
+* Known mean $R_0$ and $h$ -> OM_Mean -> $SSB$/$S0_{mean}$
+* Mean steepness $h$ tested: `r meanh_vec`
+* Standard deviation of log recruitment $\sigma_R$: `r logR_sd_vec`
+
+```{r, echo=FALSE}
+load(file.path(maindir, "mean_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(meanh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Mean h =", meanh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 1. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 
+
+### 2.2 OM_Median with median-unbiased stock-recruit parameters
+
+```{r, echo=FALSE}
+medianh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(medianh_vec = medianh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="median_case",
+                                      median_R0=1000000,
+                                      median_h=forloop_id$medianh_vec[i],
+                                      mean_R0=NULL,
+                                      mean_h=NULL,
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="median_unbiased")
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  depletion_list[[i]] <- depletion
+}
+
+save(depletion_list, file=file.path(maindir, "median_depletion_list.RData"))
+```
+
+* Known median $R_0$ and $h$ -> OM_Median -> $SSB$/$S0_{mean}$
+* Median steepness $h$ tested: `r medianh_vec`
+* Standard deviation of log recruitment $\sigma_R$: `r logR_sd_vec`
+
+```{r, echo=FALSE}
+load(file.path(maindir, "median_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(medianh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Median h =", medianh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 2. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 
+
+### 2.3 OM_Median with converted median-unbiased stock-recruit parameters from means
+
+* Known mean $R_0$ and $h$ -> Convert to median $R_0$ and $h$ -> OM_Median -> $SSB$/$S0_{mean}$
+
+```{r, echo=FALSE}
+meanh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(meanh_vec = meanh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+medianh_vec <- c()
+medianR0_vec <- c()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="mean_case",
+                                      mean_R0=1000000,
+                                      mean_h=forloop_id$meanh_vec[i],
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="median_unbiased")
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  medianh_vec[i] <- convertSRparms(R0=om_input$mean_R0, 
+                              h=om_input$mean_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=TRUE, 
+                              model=om_input$SRmodel)$hBC
+  medianR0_vec[i] <- convertSRparms(R0=om_input$mean_R0, 
+                              h=om_input$mean_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=TRUE, 
+                              model=om_input$SRmodel)$R0BC
+  depletion_list[[i]] <- depletion
+}
+
+forloop_id$meanR0_vec <- rep(om_input$mean_R0, nrow(forloop_id))
+forloop_id$converted_medianR0 <- medianR0_vec
+forloop_id$converted_medianh  <- medianh_vec
+forloop_id
+
+save(depletion_list, file=file.path(maindir, "meanmedian_depletion_list.RData"))
+```
+
+```{r, echo=FALSE}
+load(file.path(maindir, "meanmedian_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(meanh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Mean h =", meanh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 3. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 
+
+### 2.4 OM_Mean with converted mean-unbiased stock-recruit parameters from medians
+
+* Known median $R_0$ and $h$ -> Convert to mean $R_0$ and $h$ -> OM_Mean -> $SSB$/$S0_{mean}$
+
+```{r, echo=FALSE}
+medianh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(medianh_vec = medianh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+meanh_vec <- c()
+meanR0_vec <- c()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="median_case",
+                                      median_R0=1000000,
+                                      median_h=forloop_id$medianh_vec[i],
+                                      mean_R0=NULL,
+                                      mean_h=NULL,
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="mean_unbiased")
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  depletion_list[[i]] <- depletion
+  meanh_vec[i] <- convertSRparms(R0=om_input$median_R0, 
+                              h=om_input$median_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=FALSE, 
+                              model=om_input$SRmodel)$hBC
+  meanR0_vec[i] <- convertSRparms(R0=om_input$median_R0, 
+                              h=om_input$median_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=FALSE, 
+                              model=om_input$SRmodel)$R0BC
+}
+
+save(depletion_list, file=file.path(maindir, "medianmean_depletion_list.RData"))
+
+forloop_id$medianR0_vec <- rep(om_input$median_R0, nrow(forloop_id))
+forloop_id$converted_meanR0 <- meanR0_vec
+forloop_id$converted_meanh  <- meanh_vec
+forloop_id
+```
+
+```{r, echo=FALSE}
+load(file.path(maindir, "medianmean_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(medianh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Median h =", medianh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 4. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 
+
+## 3. Simulated population with Ricker model
+
+### 3.1 OM_Mean with mean-unbiased stock-recruit parameters
+
+```{r, echo=FALSE}
+meanh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(meanh_vec = meanh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="mean_case",
+                                      mean_R0=1000000,
+                                      mean_h=forloop_id$meanh_vec[i],
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="mean_unbiased", 
+                                      SRmodel=2)
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  depletion_list[[i]] <- depletion
+}
+
+save(depletion_list, file=file.path(maindir, "mean_depletion_list.RData"))
+```
+
+* Known mean $R_0$ and $h$ -> OM_Mean -> $SSB$/$S0_{mean}$
+* Mean steepness $h$ tested: `r meanh_vec`
+* Standard deviation of log recruitment $\sigma_R$: `r logR_sd_vec`
+
+```{r, echo=FALSE}
+load(file.path(maindir, "mean_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(meanh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Mean h =", meanh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 5. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 
+
+### 3.2 OM_Median with median-unbiased stock-recruit parameters
+
+```{r, echo=FALSE}
+medianh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(medianh_vec = medianh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="median_case",
+                                      median_R0=1000000,
+                                      median_h=forloop_id$medianh_vec[i],
+                                      mean_R0=NULL,
+                                      mean_h=NULL,
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="median_unbiased", 
+                                      SRmodel=2)
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  depletion_list[[i]] <- depletion
+}
+
+save(depletion_list, file=file.path(maindir, "median_depletion_list.RData"))
+```
+
+* Known median $R_0$ and $h$ -> OM_Median -> $SSB$/$S0_{mean}$
+* Median steepness $h$ tested: `r medianh_vec`
+* Standard deviation of log recruitment $\sigma_R$: `r logR_sd_vec`
+
+```{r, echo=FALSE}
+load(file.path(maindir, "median_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(medianh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Median h =", medianh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 6. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 
+
+### 3.3 OM_Median with converted median-unbiased stock-recruit parameters from means
+
+* Known mean $R_0$ and $h$ -> Convert to median $R_0$ and $h$ -> OM_Median -> $SSB$/$S0_{mean}$
+
+```{r, echo=FALSE}
+meanh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(meanh_vec = meanh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+medianh_vec <- c()
+medianR0_vec <- c()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="mean_case",
+                                      mean_R0=1000000,
+                                      mean_h=forloop_id$meanh_vec[i],
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="median_unbiased", 
+                                      SRmodel=2)
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  medianh_vec[i] <- convertSRparms(R0=om_input$mean_R0, 
+                              h=om_input$mean_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=TRUE, 
+                              model=om_input$SRmodel)$hBC
+  medianR0_vec[i] <- convertSRparms(R0=om_input$mean_R0, 
+                              h=om_input$mean_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=TRUE, 
+                              model=om_input$SRmodel)$R0BC
+  depletion_list[[i]] <- depletion
+}
+
+forloop_id$meanR0_vec <- rep(om_input$mean_R0, nrow(forloop_id))
+forloop_id$converted_medianR0 <- medianR0_vec
+forloop_id$converted_medianh  <- medianh_vec
+forloop_id
+
+save(depletion_list, file=file.path(maindir, "meanmedian_depletion_list.RData"))
+```
+
+```{r, echo=FALSE}
+load(file.path(maindir, "meanmedian_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(meanh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$meanh_vec==meanh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Mean h =", meanh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 7. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 
+
+### 3.4 OM_Mean with converted mean-unbiased stock-recruit parameters from medians
+
+* Known median $R_0$ and $h$ -> Convert to mean $R_0$ and $h$ -> OM_Mean -> $SSB$/$S0_{mean}$
+
+```{r, echo=FALSE}
+medianh_vec <- h_vec
+logR_sd_vec <- logR_sd_vec
+forloop_id <- expand.grid(medianh_vec = medianh_vec, logR_sd_vec = logR_sd_vec)
+
+depletion_list <- list()
+meanh_vec <- c()
+meanR0_vec <- c()
+
+for(i in 1:nrow(forloop_id)){
+  updated_input <- save_initial_input(base_case=FALSE,
+                                      input_list=mean_base_case,
+                                      case_name="median_case",
+                                      median_R0=1000000,
+                                      median_h=forloop_id$medianh_vec[i],
+                                      mean_R0=NULL,
+                                      mean_h=NULL,
+                                      logR_sd=forloop_id$logR_sd_vec[i],
+                                      om_bias_cor=TRUE,
+                                      bias_cor_method="mean_unbiased", 
+                                      SRmodel=2)
+  run_om(input_list=updated_input , show_iter_num=F)
+  depletion <- matrix(NA, nrow=updated_input$om_sim_num, ncol=length(updated_input$year))
+  for(j in 1:updated_input$om_sim_num){
+    load(file.path(updated_input$maindir, updated_input$case_name, paste("output/OM/OM", j, ".RData", sep="")))
+    depletion[j,] <- om_output$SSB/(om_input$mean_R0*om_input$Phi.0)
+  }
+  depletion_list[[i]] <- depletion
+  meanh_vec[i] <- convertSRparms(R0=om_input$median_R0, 
+                              h=om_input$median_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=FALSE, 
+                              model=om_input$SRmodel)$hBC
+  meanR0_vec[i] <- convertSRparms(R0=om_input$median_R0, 
+                              h=om_input$median_h, 
+                              phi=om_input$Phi.0, 
+                              sigmaR=om_input$logR_sd, 
+                              mean2med=FALSE, 
+                              model=om_input$SRmodel)$R0BC
+}
+
+save(depletion_list, file=file.path(maindir, "medianmean_depletion_list.RData"))
+
+forloop_id$medianR0_vec <- rep(om_input$median_R0, nrow(forloop_id))
+forloop_id$converted_meanR0 <- meanR0_vec
+forloop_id$converted_meanh  <- meanh_vec
+forloop_id
+```
+
+```{r, echo=FALSE}
+load(file.path(maindir, "medianmean_depletion_list.RData"))
+par(mfrow=c(3, 2), mar=c(4,4,1,1))
+color <- rainbow(length(logR_sd_vec))
+for(i in 1:length(medianh_vec)){
+  plot(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[1]]], 2, mean), ylim=c(0,2), xlab="Year", ylab="Mean SSB/SSB0", type="l", col=color[1])
+  for(j in 1:length(logR_sd_vec)){
+    lines(apply(depletion_list[[which(forloop_id$medianh_vec==medianh_vec[i])[j]]], 2, mean), col=color[j])
+  }
+  abline(h=1, col="gray", lty=2)
+  legend("topleft", paste("Median h =", medianh_vec[i]), bty="n")
+}
+plot.new()
+legend("top", 
+         legend=logR_sd_vec,
+         col=color,
+         lty=rep(1, length(logR_sd_vec)),
+         bty="n", 
+         cex=0.8,
+         ncol=3,
+         title="SigmaR")
+```
+
+Figure 8. Temporal trend of mean (SSB/SSB_0) over `r om_sim_num` iteration runs under various combinations of steepness h and standard deviation of log recruitment sigmaR. 

@@ -1,0 +1,3 @@
+[submodule "Model_Comparison_Paper"]
+	path = Model_Comparison_Paper
+	url = https://github.com/Bai-Li-NOAA/Model_Comparison_Paper.git

@@ -1,0 +1,318 @@
+---
+title: "Recruitment Bias Adjustment in Ricker Model"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+* **R Markdown File Link:**
+
+    https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/blob/full-features/ASSAMC/docs/RickerBiasAdjustment.Rmd
+
+## 1. Ricker model in BAM, SS, and AMAK and the conversion function
+### 1.1 BAM method  
+
+E1: $R_{y+1}=\frac{S_y}{\phi_0}exp(h(1-\frac{S_y}{R_0\phi_0}))$
+
+E2: $R_{eq}=\frac{R_0}{\phi_F/\phi_0}(1+\frac{log(BC_{BAM}\times \phi_F/\phi_0)}{h})$
+
+Here, virgin recruitment $R_{0}$ and steepness $h$ are median values, and $BC_{BAM}=exp(\sigma_R^2/2)$
+
+### 1.2 SS method
+
+E3: $R_{y+1}=\frac{S_y}{\phi_0}exp(h(1-\frac{S_y}{R_0\phi_0}))\times BC_{SS}$
+
+E4: $R_{eq}=\frac{R_0}{\phi_F/\phi_0}(1+\frac{log(\phi_F/\phi_0)}{h})$
+
+Here, virgin recruitment $R_{0}$ and steepness $h$ are mean values, and $BC_{SS}=exp(-\sigma_R^2/2)$
+
+### 1.3 AMAK method (To be compared...)
+
+E5: $R_{y+1}=\frac{S_{y}}{\phi_{0}}exp(\alpha(1-\frac{S_{y}}{R_{0}\phi_{0}}))$
+
+E6: $\alpha=log(\frac{-4h}{h-1})$
+
+### 1.4 Compare BAM and SS estimates following Erik's method
+```{r, echo=FALSE}
+R0_med_true=1000000     # true median R0 value
+h_med_true=0.75   # vector of median steepness (h) values
+phi0=0.01025625
+
+sd.val=0.6
+BC=(sd.val^2)/2
+
+n=100000 # use a fairly large number because fits need be very tight
+
+S0_med_true=R0_med_true*phi0
+
+#S.vec=runif(n,min=0,max=S0)
+S.vec=seq(0.001,S0_med_true, length=n)
+
+R.vec.true=S.vec/phi0*exp(h_med_true*(1-S.vec/(R0_med_true*phi0)))
+lnormdev.vec=rlnorm(n,0,sd.val)
+R.vec.obs=R.vec.true*lnormdev.vec
+
+# median S-R fit (produces median R0 and h, used in BAM)
+SR.fit.med=function(par){
+  R0.par=par[1]
+  h.par=par[2]
+  R.vec.pred=S.vec/phi0*exp(h.par*(1-S.vec/(R0.par*phi0)))
+  resid=(log(R.vec.obs)-log(R.vec.pred))^2 # median likelihood
+  resid.out=sum(resid)
+  resid.out}
+
+# SS S-R fit (produces mean R0 and h, used in SS)
+SR.fit.SS=function(par){
+  R0.par=par[1]
+  h.par=par[2]
+  R.vec.pred=S.vec/phi0*exp(h.par*(1-S.vec/(R0.par*phi0)))*exp(-BC)
+  resid=(log(R.vec.obs)-log(R.vec.pred))^2 # median likelihood
+  resid.out=sum(resid)
+  resid.out}
+
+#optimization for SR parameters using mean and median fit criteria
+fit.med=optim(c(R0_med_true,h_med_true),SR.fit.med,lower=c(0,0.2),method="L-BFGS-B",upper=c(3*R0_med_true,1.0))
+fit.SS=optim(c(R0_med_true,h_med_true),SR.fit.SS,lower=c(0,0.2),method="L-BFGS-B",upper=c(3*R0_med_true,1.0))
+
+R0.BAM=fit.med$par[1]
+h.BAM=fit.med$par[2]
+
+R0.SS=fit.SS$par[1]
+h.SS=fit.SS$par[2]
+S0.SS=R0.SS*phi0
+
+phiF=seq(from=1.5,to=8,by=0.1)
+
+# SS method
+Seq.SS=S0.SS*(1.+(log(R0.SS/S0.SS)+log(phiF))/h.SS);
+Req.SS=R0.SS*Seq.SS/S0.SS * exp(h.SS*(1.-Seq.SS/S0.SS));
+# BAM method
+#Req.BAM=R0.BAM*(exp(BC)*4*h.BAM*phiF-(1-h.BAM)*phi0)/((5*h.BAM-1)*phiF)
+Req.BAM=R0.BAM/(phiF/phi0)*(1+log(exp(BC)*phiF/phi0)/h.BAM)
+Seq.BAM=Req.BAM*phiF
+
+cat(paste("True_Median_R0=", R0_med_true, sep=""),
+    paste("True_Median_h=", h_med_true, sep=""),
+    paste("BAM_Median_R0=", R0.BAM, sep=""), 
+    paste("BAM_Median_h=", h.BAM, sep=""), 
+    paste("SS_Mean_R0=", R0.SS, sep=""),
+    paste("SS_Mean_h=", h.SS, sep=""),
+    sep="\n")
+
+plot(phiF, Req.BAM, col="red", pch=1, type="o", lty=1, xlab="phiF", ylab="Req")
+lines(phiF, Req.SS, col="deepskyblue3", pch=3, type="o", lty=2)
+legend("topright",
+       legend=c("BAM_Req", "SS_Req"), 
+       col=c("red", "deepskyblue3"), 
+       lty=c(1, 2),
+       pch=c(1, 3),
+       bty="n")
+```
+
+Figure 1. Equilibrium R over phiF from BAM (red solid line) and SS (blue dash line). **It demonstrates that with correct conversion from median to mean values, BAM and SS should produce almost identical estimates.**  
+
+### 1.5 Conversion function
+#### 1.5.1 The conversion function following Chris's method
+```{r, echo=TRUE}
+convertSRparms <- function(R0, h, phi, sigmaR, mean2med){
+  BC <- ifelse(mean2med == TRUE, exp(-0.5 * sigmaR^2), exp(0.5 * sigmaR^2))
+  S0BC <- R0 * phi * (1 + log(BC) / h)
+  R0BC <- S0BC / phi
+  Rnew <- BC * 0.2 *S0BC / phi * exp(h * (1 - 0.2 * S0BC/ (R0 * phi)))
+  hBC <- Rnew /R0BC
+  return(list(S0BC = S0BC, R0BC = R0BC, hBC = hBC))
+}
+```
+
+#### 1.5.2 Inputs (Median R0, median h, phi, sigmaR, mean2med) and outputs (Mean R0BC and mean hBC)
+```{r, echo=FALSE}
+R0 <- R0_med_true
+h <- h_med_true
+phi <- phi0
+sigmaR <- sd.val
+mean2med <- FALSE
+p <- convertSRparms(R0, h, phi, sigmaR, mean2med)
+```
+
+```{r, echo=FALSE}
+cat(paste("R0=", R0, sep=""), 
+    paste("h=", h, sep=""), 
+    paste("phi=", phi, sep=""),
+    paste("sigmaR=", sigmaR, sep=""),
+    paste("mean2med=", mean2med, sep=""),
+    paste("R0BC=", p$R0BC, sep=""),
+    paste("hBC=", p$hBC, sep=""),
+    sep="\n")
+```
+
+**The converted mean steepness (hBC) is different compared to the SS_Mean_h from section 1.4.**
+
+#### 1.5.3 Validation check
+```{r, echo=TRUE}
+BC <- ifelse(mean2med == TRUE, exp(-0.5 * sigmaR^2), exp(0.5 * sigmaR^2))
+S.vec <- seq(0, R0 * phi, length.out = 1000)
+R.vec <- S.vec / phi * exp(h * (1 - S.vec/ (R0 * phi)))
+R.vecBC <- R.vec * BC
+R.calc <- S.vec / phi * exp(p$hBC * (1 - S.vec / (p$R0BC * phi)))
+diff <- R.calc - R.vecBC
+range(diff)
+plot(S.vec, R.vecBC, col="red", xlab="SSB", ylab="R", type="l", lty=1)
+lines(S.vec, R.calc, col="deepskyblue3", lty=2)
+legend("topleft", 
+       legend=c("BAM_R", "SS_R"), 
+       col=c("red", "deepskyblue3"), 
+       lty=c(1,2),
+       bty="n")
+```
+
+Figure 2. Mean recruitment over SSB from BAM (red solid line) and SS (blue dash line). **The estimates from BAM and SS are not identical like the results from section 1.4. The conversion of steepness needs to be checked, so I read Dorn 2002 paper to seek a solution.**
+
+## 2. Ricker model from Dorn 2002 and the conversion function
+### 2.1 Curvature parameter $\alpha$ and steepness $h$ from Dorn 2002
+
+The Ricker curve with parameters median virgin recruitment $R_{0}$ and curvature parameter $\alpha$ is
+
+E7: $R_{y+1}=\frac{S_{y}}{\phi_{0}}exp(\alpha(1-\frac{S_{y}}{R_{0}\phi_{0}}))$
+
+The steepness $h$ from Dorn 2002 is
+
+E8: $h=\frac{\frac{0.2S_{y}}{\phi_{0}}exp(\alpha(1-\frac{0.2S_{y}}{R_{0}\phi_{0}}))}{\frac{S_{y}}{\phi_{0}}exp(\alpha(1-\frac{S_{y}}{R_{0}\phi_{0}}))}$
+
+E9: $h=0.2exp(\alpha(1-\frac{0.2S_{y}}{R_{0}\phi_{0}})-\alpha(1-\frac{S_{y}}{R_{0}\phi_{0}}))$
+
+E10: $h=0.2exp(\frac{0.8S_{0}\alpha}{R_{0}\phi_{0}})=0.2exp(0.8\alpha)$
+
+The curvature parameter $\alpha$ from Dorn 2002 is
+
+E11: $\alpha=\frac{log(5h)}{0.8}=1.25log(5h)$
+
+The equations were derived following [Mangel et al. 2009](https://www.researchgate.net/publication/267878032_Estimating_stock-recruitment_steepness_from_life_history_information_A_case_study_of_north_Pacific_bluefin_tuna_Thunnus_orientalis) and [Sampson 2008](http://oregonstate.edu/instruct/fw431/sampson/LectureNotes/15-Recruitment3.pdf).
+
+The $\alpha$ from Dorn 2002 is equivalent to the steepness $h$ in BAM and SS (E1-E4).
+
+```{r, echo=FALSE}
+alpha=seq(0.2, 1, by=0.01)
+h=0.2*exp(alpha*0.8)
+par(mfrow=c(1,2))
+plot(alpha, h, xlab="alpha", ylab="h", pch=16, cex=0.5)
+plot(alpha, alpha-h, xlab="alpha", ylab="alpha-h", pch=16, cex=0.5)
+abline(h=0)
+```
+
+Figure 3. The difference between $\alpha$ and steepness $h$ in the Ricker model from Dorn 2002.
+
+### 2.2 The final conversion function with consideration of conversion between $\alpha$ and true steepness $h$ in Dorn 2002: 
+
+**hBC <- 1.25*log(5*Rnew /R0BC)**
+
+```{r, echo=TRUE}
+convertSRparms <- function(R0, h, phi, sigmaR, mean2med){
+  BC <- ifelse(mean2med == TRUE, exp(-0.5 * sigmaR^2), exp(0.5 * sigmaR^2))
+  S0BC <- R0 * phi * (1 + log(BC) / h)
+  R0BC <- S0BC / phi
+  Rnew <- BC * 0.2 *S0BC / phi * exp(h * (1 - 0.2 * S0BC/ (R0 * phi)))
+  hBC <- 1.25*log(5*Rnew /R0BC)
+  return(list(S0BC = S0BC, R0BC = R0BC, hBC = hBC))
+}
+```
+
+### 2.3 Inputs (Median R0, median h, phi, sigmaR, mean2med) and outputs (Mean R0BC and mean hBC)
+```{r, echo=FALSE}
+R0 <- R0_med_true
+h <- h_med_true
+phi <- phi0
+sigmaR <- sd.val
+mean2med <- FALSE
+p <- convertSRparms(R0, h, phi, sigmaR, mean2med)
+```
+
+```{r, echo=FALSE}
+cat(paste("R0=", R0, sep=""), 
+    paste("h=", h, sep=""), 
+    paste("phi=", phi, sep=""),
+    paste("sigmaR=", sigmaR, sep=""),
+    paste("mean2med=", mean2med, sep=""),
+    paste("R0BC=", p$R0BC, sep=""),
+    paste("hBC=", p$hBC, sep=""),
+    sep="\n")
+```
+
+**The converted mean steepness (hBC) is the same compared to the SS_Mean_h from section 1.4.**
+
+### 2.4 Validation check
+```{r, echo=TRUE}
+BC <- ifelse(mean2med == TRUE, exp(-0.5 * sigmaR^2), exp(0.5 * sigmaR^2))
+S.vec <- seq(0, R0 * phi, length.out = 1000)
+R.vec <- S.vec / phi * exp(h * (1 - S.vec/ (R0 * phi)))
+R.vecBC <- R.vec * BC
+R.calc <- S.vec / phi * exp(p$hBC * (1 - S.vec / (p$R0BC * phi)))
+diff <- R.calc - R.vecBC
+range(diff)
+plot(S.vec, R.vecBC, col="red", xlab="SSB", ylab="R", type="l", lty=1)
+lines(S.vec, R.calc, col="deepskyblue3", lty=2)
+legend("topleft", 
+       legend=c("BAM_R", "SS_R"), 
+       col=c("red", "deepskyblue3"), 
+       lty=c(1,2),
+       bty="n")
+```
+
+Figure 4. Mean recruitment over SSB from BAM (red solid line) and SS (blue dash line). **The estimates from BAM and SS are identical, like the results from section 1.4. The final conversion function is correct.**
+
+### 2.5. Median and mean virgin recruitment and steepness over a range of steepness and sigmaR
+```{r, echo=FALSE}
+R0=1000000
+phi=0.01025625
+sigmaR=seq(0.01, 2, by=0.01)
+h=seq(0.21, 1, by=0.01)
+
+R0diff <- hdiff <- matrix(NA, nrow=length(sigmaR), ncol=length(h))
+
+for(i in 1:length(sigmaR)){
+  for(j in 1:length(h)){
+    R0diff[i,j] <- (convertSRparms(R0=R0, h=h[j], phi=phi, sigmaR=sigmaR[i], mean2med=FALSE)$R0BC-R0)/R0*100
+    hdiff[i,j] <- (convertSRparms(R0=R0, h=h[j], phi=phi, sigmaR=sigmaR[i], mean2med=FALSE)$hBC-h[j])
+  }
+}
+
+par(mfrow=c(1,1), mar=c(4,4,3,0.5))
+filled.contour(sigmaR, h, R0diff,
+               color = terrain.colors,
+               xlab="SigmaR", ylab="Median h",
+               plot.axes = {
+                 axis(1); axis(2);
+                 contour(sigmaR, h, R0diff,
+                         col = "black",
+                         add = TRUE,
+                         levels = c(10, 50, 100, 300, 500),
+                         method="edge")
+                 },
+               key.title = {
+                 par(cex.main=0.8);
+                 title(main="Relative Diff\nin R0 (%)")
+                 })
+legend("bottomleft", "A)", bty="n", box.col = "")
+
+par(mfrow=c(1,1), mar=c(4,4,3,0.5))
+filled.contour(sigmaR, h, hdiff,
+               color = terrain.colors,
+               xlab="SigmaR", ylab="Median h",
+               plot.axes = {
+                 axis(1); axis(2);
+                 contour(sigmaR, h, hdiff,
+                         col = "black",
+                         add = TRUE,
+                         levels = c(0.1, 0.4, 0.8, 1.2, 1.6),
+                         method="edge")
+                 },
+               key.title = {
+                 par(cex.main=0.8);
+                 title(main="Diff in h")
+               })
+legend("bottomleft", "B)", bty="n", box.col = "")
+
+```
+
+Figure 5. A) Relative difference in virgin recruitment (%; $\frac{(meanR_0 - medianR_0)}{medianR_0}\times 100$) over possible combination of median steepness and standard deviation of recruitment using the stock-recruitment parameters conversion function. B) Difference in steepness ($mean_h - median_h$) over possible combination of median steepness and standard deviation of recruitment using the stock-recruitment parameters conversion function. Here, $h$ is steepness in BAM and SS, but it's $\alpha$ from Dorn 2002. 
