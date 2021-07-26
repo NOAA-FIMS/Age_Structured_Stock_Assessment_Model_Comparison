@@ -1,18 +1,10 @@
-#' Function to check convergence of estimation model
-#' @name check_convergence
-#' @description Function to check convergence of estimation model
-#' @param em_names Names of estimation models
-#' @param om_sim_num Number of iterations from the operating model
-#' @param col Color vector to specify colors for operating model and each estimation model
-#' @param plot_ncol Number of columns in a comparison figure
-#' @param plot_nrow Number of rows in a comparison figure
-#' @param casedir Case working directory
 #' @export
-
 check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, casedir){
   positive_hessian = matrix(NA, ncol=length(em_names), nrow=om_sim_num)
   gradient = matrix(NA, ncol=length(em_names), nrow=om_sim_num)
   convergence_measures <- list(positive_hessian=positive_hessian, gradient=gradient)
+
+  library(jsonlite)
 
   for (om_sim in 1:om_sim_num){
     for (em_id in 1:length(em_names)){
@@ -22,7 +14,16 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
       if (subdir == "MAS"){
 
         convergence_measures$positive_hessian[om_sim, em_id] <- ifelse (file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep=""))), 1, 0)
-        
+
+        load(file.path(casedir, "output", "OM", paste("OM", 1, ".RData", sep="")))
+        mas_output <- read_json(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep="")))
+        popdy<-mas_output$population_dynamics
+        pop<-popdy$populations[[1]]
+        if (pop$MSY$F_msy < 0 |
+            # pop$females$MSY$SSB_msy > (om_output$msy$SSBmsy*2) |
+            pop$MSY$B_msy < 0
+            ) convergence_measures$positive_hessian[om_sim, em_id] <- 0
+
         if (convergence_measures$positive_hessian[om_sim, em_id]==1) {
           json_output <- read_json(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep="")))
           gradient_value <- unlist(json_output$estimated_parameters$parameters)

@@ -1,12 +1,3 @@
-#' Function to read key output from OM and EMs
-#' @name read_plot_data
-#' @description Function to read key output from OM and EMs
-#' @param em_names Names of estimation models
-#' @param casedir Case working directory
-#' @param keep_sim_num Final number of iterations saved for a case
-#' @param adhoc_bias_cor Use ad hoc bias correction in recruitment? The default setting is FALSE.
-#' @param SRmodel Spawner-recruit model. 1 = Beverton-Holt model; 2 = Ricker model
-#'
 #' @export
 ## Aggregate data of biomass, abundance, SSB, recruitment, F (apical F*selectivity), F multiplier, landings, and survey from models to matrix
 read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc_bias_cor=FALSE, SRmodel=1){
@@ -449,7 +440,7 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
 
   ## MAS
   if ("MAS" %in% em_names){
-
+    library(jsonlite)
     mas_biomass <- mas_abundance <- mas_ssb <- mas_recruit <- mas_Ftot <- mas_Fmul <- mas_landing <- mas_survey <- matrix(NA, nrow=om_input$nyr, ncol=keep_sim_num)
     mas_msy <- mas_fmsy <- mas_ssbmsy <- matrix(NA, nrow=1, ncol=keep_sim_num)
     mas_fratio <- mas_ssbratio <- matrix(NA, nrow=om_input$nyr, ncol=keep_sim_num)
@@ -477,23 +468,16 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
       mas_survey[,om_sim] <- unlist(srvy$undifferentiated$survey_biomass$values)
       mas_msy[, om_sim] <- pop$MSY$B_msy
       mas_fmsy[, om_sim] <- round(pop$MSY$F_msy, digits = 3)
-      mas_ssbmsy[, om_sim] <- pop$MSY$SSB_msy
+      #mas_fmsy[, om_sim] <- round(pop$females$MSY$F_msy, digits = 3)
+      mas_ssbmsy[, om_sim] <- pop$females$MSY$SSB_msy
       mas_fratio[, om_sim] <- mas_Ftot[, om_sim]/mas_fmsy[om_sim]
       mas_ssbratio[, om_sim] <- mas_ssb[,om_sim]/mas_ssbmsy[om_sim]
       mas_agecomp[[om_sim]] <- apply(matrix(unlist(pop$undifferentiated$numbers_at_age$values), nrow=popdy$nyears, ncol=popdy$nages, byrow = T), 1, function(x) x/sum(x))
 
-      parameter <- unlist(mas_output$estimated_parameters$parameters)
-      parameter_table <- as.data.frame(matrix(parameter, ncol = 3, byrow = TRUE))
-      colnames(parameter_table) <- c(
-        "Parameter",
-        "Value",
-        "Gradient"
-      )
-
-      mas_geomR0[, om_sim] <- exp(as.numeric(parameter_table$Value[parameter_table$Parameter == "log_R0_1"]))
+      mas_geomR0[, om_sim] <- 0
       mas_geomS0[, om_sim] <- 0
       mas_geomDf[, om_sim] <- 0
-      mas_arimR0[, om_sim] <- exp(as.numeric(parameter_table$Value[parameter_table$Parameter == "log_R0_1"]))
+      mas_arimR0[, om_sim] <- 0
       mas_arimS0[, om_sim] <- 0
       mas_arimDf[, om_sim] <- 0
 

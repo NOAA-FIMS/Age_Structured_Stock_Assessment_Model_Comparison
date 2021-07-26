@@ -76,6 +76,6 @@ ObsModel<-function(nyr, nages, fleet_num, L, survey_num, survey, L.age, survey.a
     }
   }))
 
-  return(list(L.obs=L.obs, survey.obs=survey.obs, L.age.obs=L.age.obs, survey.age.obs=survey.age.obs, n.L=n.L, n.survey=n.survey, survey_q=om_output$survey_q))
+  return(list(L.obs=L.obs, survey.obs=survey.obs, L.age.obs=L.age.obs, survey.age.obs=survey.age.obs, n.L=n.L, n.survey=n.survey))
 
 } # end ObsModel
