@@ -25,7 +25,7 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
     ages <- om_input$ages
     area1 <- new(r4mas$Area)
     area1$name <- "area1"
-
+    
     recruitment <- new(r4mas$BevertonHoltRecruitment)
     recruitment$R0$value <- om_input$R0 / 1000
     recruitment$R0$estimated <- TRUE
@@ -47,7 +47,7 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
     recruitment$deviation_phase <- 2
     recruitment$SetDeviations(om_input$logR.resid)
     recruitment$use_bias_correction <- FALSE
-
+    
     growth <- new(r4mas$VonBertalanffyModified)
     empirical_weight <- rep(om_input$W.kg, times = om_input$nyr)
     survey_empirical_weight <- replicate(nages * nyears, 1.0)
@@ -55,24 +55,24 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
     growth$SetUndifferentiatedWeightAtSeasonStart(empirical_weight)
     growth$SetUndifferentiatedWeightAtSpawning(empirical_weight)
     growth$SetUndifferentiatedSurveyWeight(survey_empirical_weight)
-
+    
     maturity <- new(r4mas$Maturity)
     maturity$values <- om_input$mat.age * 0.5
-
+    
     natural_mortality <- new(r4mas$NaturalMortality)
     natural_mortality$SetValues(om_input$M.age)
-
+    
     # Only 1 area in this model
     movement <- new(r4mas$Movement)
     movement$connectivity_females <- c(0.0)
     movement$connectivity_males <- c(0.0)
     movement$connectivity_recruits <- c(0.0)
-
+    
     initial_deviations <- new(r4mas$InitialDeviations)
     initial_deviations$values <- rep(0.0, times = om_input$nages)
     initial_deviations$estimate <- TRUE
     initial_deviations$phase <- 2
-
+    
     population <- new(r4mas$Population)
     for (y in 1:(nyears))
     {
@@ -84,7 +84,7 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
     population$SetInitialDeviations(initial_deviations$id, area1$id, "undifferentiated")
     population$SetGrowth(growth$id)
     population$sex_ratio <- 0.5
-
+    
     # Catch index values and observation errors
     catch_index <- new(r4mas$IndexData)
     catch_index$values <- em_input$L.obs$fleet1
@@ -111,37 +111,37 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
       fleet_selectivity$slope$min <- 0.0001
       fleet_selectivity$slope$max <- 5
     }
-
+    
     if (om_input$sel_fleet$fleet1$pattern == 2) {
       fleet_selectivity <- new(r4mas$DoubleLogisticSelectivity)
-
+      
       fleet_selectivity$alpha_asc$value <- om_input$sel_fleet$fleet1$A50.sel1
       fleet_selectivity$alpha_asc$estimated <- TRUE
       fleet_selectivity$alpha_asc$phase <- 2
       fleet_selectivity$alpha_asc$min <- 0.0
       fleet_selectivity$alpha_asc$max <- max(om_input$ages)
-
+      
       fleet_selectivity$beta_asc$value <- om_input$sel_fleet$fleet1$slope.sel1
       fleet_selectivity$beta_asc$estimated <- TRUE
       fleet_selectivity$beta_asc$phase <- 2
       fleet_selectivity$beta_asc$min <- 0.0001
       fleet_selectivity$beta_asc$max <- max(om_input$ages)
-
+      
       fleet_selectivity$alpha_desc$value <- om_input$sel_fleet$fleet1$A50.sel2
       fleet_selectivity$alpha_desc$estimated <- TRUE
       fleet_selectivity$alpha_desc$phase <- 2
       fleet_selectivity$alpha_desc$min <- 0.0
       fleet_selectivity$alpha_desc$max <- max(om_input$ages)
-
+      
       fleet_selectivity$beta_desc$value <- om_input$sel_fleet$fleet1$slope.sel2
       fleet_selectivity$beta_desc$estimated <- TRUE
       fleet_selectivity$beta_desc$phase <- 2
       fleet_selectivity$beta_desc$min <- 0.0001
       fleet_selectivity$beta_desc$max <- max(om_input$ages)
-
+      
     }
-
-
+    
+    
     # Fishing mortality settings
     fishing_mortality <- new(r4mas$FishingMortality)
     fishing_mortality$estimate <- TRUE
@@ -157,111 +157,111 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
     fleet$SetAgeCompNllComponent(fleet_age_comp_nll$id)
     fleet$AddSelectivity(fleet_selectivity$id, 1, area1$id)
     fleet$AddFishingMortality(fishing_mortality$id, 1, area1$id)
-
+    
     # Survey index values and observation errors
     survey_index <- vector(mode = "list", length = om_input$survey_num)
-
+    
     for (i in 1:om_input$survey_num) {
       survey_index[[i]] <- new(r4mas$IndexData)
-      survey_index[[i]]$id <- i
+      # survey_index[[i]]$id <- i
       survey_index[[i]]$values <- em_input$survey.obs[[i]]
       survey_index[[i]]$error <- rep(em_input$cv.survey[[i]], times = om_input$nyr)
     }
-
+    
     # Survey composition
     survey_comp <- vector(mode = "list", length = om_input$survey_num)
     for (i in 1:om_input$survey_num) {
       survey_comp[[i]] <- new(r4mas$AgeCompData)
-      survey_comp[[i]]$id <- i
+      # survey_comp[[i]]$id <- i
       survey_comp[[i]]$values <- as.vector(t(em_input$survey.age.obs[[i]]))
       survey_comp[[i]]$sample_size <- rep(em_input$n.survey[[i]], times = om_input$nyr)
     }
-
+    
     # Likelihood component settings
-
+    
     survey_index_comp_nll <- vector(mode = "list", length = om_input$survey_num)
     survey_age_comp_nll <- vector(mode = "list", length = om_input$survey_num)
     for (i in 1:om_input$survey_num) {
       survey_index_comp_nll[[i]] <- new(r4mas$Lognormal)
       survey_index_comp_nll[[i]]$use_bias_correction <- FALSE
-      survey_index_comp_nll[[i]]$id <- i
-
+      # survey_index_comp_nll[[i]]$id <- i
+      
       survey_age_comp_nll[[i]] <- new(r4mas$Multinomial)
-      survey_age_comp_nll[[i]]$id <- i
+      # survey_age_comp_nll[[i]]$id <- i
     }
-
+    
     # Survey selectivity settings
     survey_selectivity <- vector(mode = "list", length = om_input$survey_num)
-
+    
     for (i in 1:om_input$survey_num) {
       selectivity_option <- om_input$sel_survey[[i]]$pattern
-
+      
       if (selectivity_option == 1) {
         survey_selectivity[[i]] <- new(r4mas$LogisticSelectivity)
-        survey_selectivity[[i]]$id <- i
+        # survey_selectivity[[i]]$id <- i
         survey_selectivity[[i]]$a50$value <- om_input$sel_survey[[i]]$A50.sel
         survey_selectivity[[i]]$a50$estimated <- TRUE
         survey_selectivity[[i]]$a50$phase <- 2
         survey_selectivity[[i]]$a50$min <- 0
         survey_selectivity[[i]]$a50$max <- max(om_input$ages)
-
+        
         survey_selectivity[[i]]$slope$value <- 1 / om_input$sel_survey[[i]]$slope.sel
         survey_selectivity[[i]]$slope$estimated <- TRUE
         survey_selectivity[[i]]$slope$phase <- 2
         survey_selectivity[[i]]$slope$min <- 0.0001
         survey_selectivity[[i]]$slope$max <- max(om_input$ages)
       }
-
+      
       if (selectivity_option == 2) {
         survey_selectivity[[i]] <- new(r4mas$DoubleLogisticSelectivity)
-        survey_selectivity[[i]]$id <- i
-
+        # survey_selectivity[[i]]$id <- i
+        
         survey_selectivity[[i]]$alpha_asc$value <- om_input$sel_survey[[i]]$A50.sel1
         survey_selectivity[[i]]$alpha_asc$estimated <- TRUE
         survey_selectivity[[i]]$alpha_asc$phase <- 2
         survey_selectivity[[i]]$alpha_asc$min <- 0.0
         survey_selectivity[[i]]$alpha_asc$max <- max(om_input$ages)
-
+        
         survey_selectivity[[i]]$beta_asc$value <- om_input$sel_survey[[i]]$slope.sel1
         survey_selectivity[[i]]$beta_asc$estimated <- TRUE
         survey_selectivity[[i]]$beta_asc$phase <- 2
         survey_selectivity[[i]]$beta_asc$min <- 0.0001
         survey_selectivity[[i]]$beta_asc$max <- max(om_input$ages)
-
+        
         survey_selectivity[[i]]$alpha_desc$value <- om_input$sel_survey[[i]]$A50.sel2
         survey_selectivity[[i]]$alpha_desc$estimated <- TRUE
         survey_selectivity[[i]]$alpha_desc$phase <- 2
         survey_selectivity[[i]]$alpha_desc$min <- 0.0
         survey_selectivity[[i]]$alpha_desc$max <- max(om_input$ages)
-
+        
         survey_selectivity[[i]]$beta_desc$value <- om_input$sel_survey[[i]]$slope.sel2
         survey_selectivity[[i]]$beta_desc$estimated <- TRUE
         survey_selectivity[[i]]$beta_desc$phase <- 2
         survey_selectivity[[i]]$beta_desc$min <- 0.0001
         survey_selectivity[[i]]$beta_desc$max <- max(om_input$ages)
-
+        
       }
-
+      
     }
-
+    
     # Create the survey
     survey <- vector(mode = "list", length = om_input$survey_num)
     for (i in 1:om_input$survey_num) {
       survey[[i]] <- new(r4mas$Survey)
-
+      
       survey[[i]]$AddIndexData(survey_index[[i]]$id, "undifferentiated")
       survey[[i]]$AddAgeCompData(survey_comp[[i]]$id, "undifferentiated")
       survey[[i]]$SetIndexNllComponent(survey_index_comp_nll[[i]]$id)
       survey[[i]]$SetAgeCompNllComponent(survey_age_comp_nll[[i]]$id)
       survey[[i]]$AddSelectivity(survey_selectivity[[i]]$id, 1, area1$id)
-
+      
       survey[[i]]$q$value <- em_input$survey_q[[i]]
       survey[[i]]$q$min <- 0
       survey[[i]]$q$max <- 10
       survey[[i]]$q$estimated <- TRUE
       survey[[i]]$q$phase <- 1
     }
-
+    
     mas_model <- new(r4mas$MASModel)
     mas_model$nyears <- nyears
     mas_model$nseasons <- nseasons
