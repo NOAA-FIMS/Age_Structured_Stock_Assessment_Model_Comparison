@@ -475,7 +475,7 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
       mas_Fmul[,om_sim] <- NA
       mas_landing[,om_sim] <- unlist(flt$undifferentiated$catch_biomass$values)
       mas_survey[,om_sim] <- unlist(srvy$undifferentiated$survey_biomass$values)
-      mas_msy[, om_sim] <- pop$MSY$B_msy
+      mas_msy[, om_sim] <- pop$MSY$msy
       mas_fmsy[, om_sim] <- round(pop$MSY$F_msy, digits = 3)
       mas_ssbmsy[, om_sim] <- pop$MSY$SSB_msy
       mas_fratio[, om_sim] <- mas_Ftot[, om_sim]/mas_fmsy[om_sim]
