@@ -42,7 +42,7 @@ check_performance <- function (em_names, casedir=NULL){
     for(j in 1:length(comparison_id)){
       are <- as.data.frame(matrix(NA, ncol=length(em_names), nrow=length(om_list[[comparison_id[j]]][,k])))
       for (i in 1:length(em_names)){
-        are[,i] <- (em_list[[i]][[comparison_id[j]]][,k] - om_list[[comparison_id[j]]][,k]) / om_list[[comparison_id[j]]][,k]
+        are[,i] <- abs((em_list[[i]][[comparison_id[j]]][,k] - om_list[[comparison_id[j]]][,k]) / om_list[[comparison_id[j]]][,k])
       }
       colnames(are) <- em_names
       are_var[[j]] <- are
