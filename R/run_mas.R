@@ -45,7 +45,7 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
     recruitment$deviations_min <- -15.0
     recruitment$deviations_max <- 15.0
     recruitment$deviation_phase <- 2
-    recruitment$SetDeviations(om_input$logR.resid)
+    recruitment$SetDeviations(rep(0.0, times = nyears))
     recruitment$use_bias_correction <- FALSE
     
     growth <- new(r4mas$VonBertalanffyModified)
