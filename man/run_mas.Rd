@@ -8,7 +8,9 @@ run_mas(
   maindir = maindir,
   subdir = "MAS",
   om_sim_num = NULL,
-  casedir = casedir
+  casedir = casedir,
+  em_bias_cor = em_bias_cor,
+  input_filename = NULL
 )
 }
 \arguments{
@@ -19,6 +21,8 @@ run_mas(
 \item{om_sim_num}{Number of iterations from the operating model}
 
 \item{casedir}{Case working directory}
+
+\item{em_bias_cor}{Use bias correction in the estimation model or not?}
 }
 \description{
 Function to read simulated true values from the operating model and to run MAS

@@ -5,8 +5,16 @@
 #' @param subdir Estimation model working directory
 #' @param om_sim_num Number of iterations from the operating model
 #' @param casedir Case working directory
+#' @param em_bias_cor Use bias correction in the estimation model or not?
 #' @export
-run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedir = casedir) {
+run_mas <- function(
+  maindir = maindir, 
+  subdir = "MAS", 
+  om_sim_num = NULL, 
+  casedir = casedir, 
+  em_bias_cor = em_bias_cor, 
+  input_filename = NULL) {
+  
   if (!("r4MAS" %in% installed.packages()[, "Package"])) stop("Please install r4MAS!")
 
   setwd(file.path(casedir, "output", subdir))
@@ -46,7 +54,7 @@ run_mas <- function(maindir = maindir, subdir = "MAS", om_sim_num = NULL, casedi
     recruitment$deviations_max <- 15.0
     recruitment$deviation_phase <- 2
     recruitment$SetDeviations(rep(0.0, times = nyears))
-    recruitment$use_bias_correction <- FALSE
+    recruitment$use_bias_correction <- em_bias_cor
     
     growth <- new(r4mas$VonBertalanffyModified)
     empirical_weight <- rep(om_input$W.kg, times = om_input$nyr)
