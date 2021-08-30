@@ -165,7 +165,7 @@ msy_calcs<-function(steep, R0, M, wgt, prop.f=0.5, selL, selD, selZ, mat.f=NULL,
 
 	if (F_msy_out==maxF){cat("*** Fmsy reached a bound.\n")}
 
-  return(list(msy=msy_out, Fmsy=F_msy_out, Dmsy=D_msy_out, spr_msy=spr_msy_out, SPRmsy=SR_msy_out, SSBmsy=S_msy_out, Rmsy=R_msy_out, Bmsy=B_msy_out, Emsy=E_msy_out, f_seq=f, L_eq=L_eq, D_eq=D_eq, SSB_eq=S_eq, R_eq=R_eq, spr=spr, maxF=maxF, step=step, sigma=sigma))
+  return(list(msy=msy_out, Fmsy=F_msy_out, Dmsy=D_msy_out, spr_msy=spr_msy_out, SPRmsy=SR_msy_out, SSBmsy=S_msy_out, Rmsy=R_msy_out, Bmsy=B_msy_out, Emsy=E_msy_out, f_seq=f, L_eq=L_eq, D_eq=D_eq, SSB_eq=S_eq, R_eq=R_eq, spr=spr, maxF=maxF, step=step, sigma=sigma, reprod=reprod))
 
 }
 
