@@ -10,7 +10,6 @@
 #' @export
 ## Aggregate data of biomass, abundance, SSB, recruitment, F (apical F*selectivity), F multiplier, landings, and survey from models to matrix
 read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc_bias_cor=FALSE, SRmodel=1){
-  library(PBSadmb)
 
   ## OM
   subdir = "OM"
