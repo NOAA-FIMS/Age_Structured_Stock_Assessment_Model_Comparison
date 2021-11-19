@@ -65,7 +65,7 @@ run_mas <- function(
     growth$SetUndifferentiatedSurveyWeight(survey_empirical_weight)
     
     maturity <- new(r4mas$Maturity)
-    maturity$values <- om_input$mat.age *0.5
+    maturity$values <- om_input$mat.age 
     
     natural_mortality <- new(r4mas$NaturalMortality)
     natural_mortality$SetValues(om_input$M.age)
