@@ -39,7 +39,7 @@ run_mas <- function(
     recruitment$R0$estimated <- TRUE
     recruitment$R0$phase <- 1
     recruitment$h$value <- om_input$h
-    recruitment$h$estimated <- TRUE
+    recruitment$h$estimated <- FALSE
     recruitment$h$phase <- 3
     recruitment$h$min <- 0.2001
     recruitment$h$max <- 1.0
