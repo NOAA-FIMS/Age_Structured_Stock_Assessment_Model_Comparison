@@ -34,7 +34,7 @@ run_mas <- function(
     area1 <- new(r4mas$Area)
     area1$name <- "area1"
     
-    recruitment <- new(r4mas$BevertonHoltRecruitmentAlt)
+    recruitment <- new(r4mas$BevertonHoltRecruitment)
     recruitment$R0$value <- om_input$R0 / 1000
     recruitment$R0$estimated <- TRUE
     recruitment$R0$phase <- 1
