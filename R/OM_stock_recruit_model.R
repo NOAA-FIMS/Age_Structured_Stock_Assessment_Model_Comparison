@@ -10,7 +10,7 @@ SRmodel_fcn<- function(S,h=0.75,R0=100,Phi.0=1,model=1){
   ## OUTPUT PARAMETERS:
   ##    recruits = values of fcn at S
   if (model == 1) {
-    recruits = ( 4.0 * h * R0 * S) / (R0*Phi.0*(1.0 - h) + (S * (5.0 * h - 1.0)));
+    recruits = ( 4.0 * h * R0 * S) / ((R0*Phi.0)*(1.0 - h) + (S * (5.0 * h - 1.0)));
    # recruits=(0.8*R0*h*S)/(0.2*R0*Phi.0*(1-h) + S*(h-0.2))
   }
 
