@@ -96,7 +96,7 @@ run_mas <- function(
     # Catch index values and observation errors
     catch_index <- new(r4mas$IndexData)
     catch_index$values <- em_input$L.obs$fleet1
-    catch_index$error <- rep(em_input$cv.L$fleet1*10, times = om_input$nyr)
+    catch_index$error <- rep(em_input$cv.L$fleet1, times = om_input$nyr)
     # Catch composition data
     catch_comp <- new(r4mas$AgeCompData)
     catch_comp$values <- as.vector(t(em_input$L.age.obs$fleet1))
