@@ -100,7 +100,7 @@ run_mas <- function(
     # Catch composition data
     catch_comp <- new(r4mas$AgeCompData)
     catch_comp$values <- as.vector(t(em_input$L.age.obs$fleet1))
-    catch_comp$sample_size <- rep(em_input$n.L$fleet1, nyears * nseasons)
+    catch_comp$sample_size <- rep(em_input$n.L$fleet1*10, nyears * nseasons)
     # Likelihood component settings
     fleet_index_comp_nll <- new(r4mas$Lognormal)
     fleet_index_comp_nll$use_bias_correction <- FALSE
