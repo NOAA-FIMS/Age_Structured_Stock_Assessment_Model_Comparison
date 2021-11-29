@@ -50,8 +50,8 @@ run_mas <- function(
     recruitment$sigma_r$phase <- 2
     recruitment$estimate_deviations <- TRUE
     recruitment$constrained_deviations <- TRUE
-    recruitment$deviations_min <- -15.0
-    recruitment$deviations_max <- 15.0
+    recruitment$deviations_min <- -10.0
+    recruitment$deviations_max <- 10.0
     recruitment$deviation_phase <- 2
     recruitment$SetDeviations(rep(0.0, times = nyears))
     recruitment$use_bias_correction <- em_bias_cor
