@@ -48,7 +48,7 @@ run_mas <- function(
     recruitment$sigma_r$min <- 0
     recruitment$sigma_r$max <- 1.0
     recruitment$sigma_r$phase <- 2
-    recruitment$estimate_deviations <- TRUE
+    recruitment$estimate_deviations <- FALSE
     recruitment$constrained_deviations <- TRUE
     recruitment$deviations_min <- -15.0
     recruitment$deviations_max <- 15.0
@@ -78,7 +78,7 @@ run_mas <- function(
     
     initial_deviations <- new(r4mas$InitialDeviations)
     initial_deviations$values <- rep(0.0, times = om_input$nages)
-    initial_deviations$estimate <- TRUE
+    initial_deviations$estimate <- FALSE
     initial_deviations$phase <- 2
     
     population <- new(r4mas$Population)
