@@ -9,6 +9,7 @@ plot_msy_re <- function(em_names, col, casedir=NULL){
   par(mar = c(4, 8, 4, 2) + 0.1, mfrow=c(1,1))
   labels <- c(paste(em_names, "_MSY", sep=""),
               paste(em_names, "_FMSY", sep=""),
+              paste(em_names, "_RMSY", sep=""),
               paste(em_names, "_SSBMSY", sep=""))
 
   msy_sim_boxplot <- boxplot(msy_re[,seq(dim(msy_re)[2],1)],
