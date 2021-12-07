@@ -152,7 +152,7 @@ run_mas <- function(
     
     # Fishing mortality settings
     fishing_mortality <- new(r4mas$FishingMortality)
-    fishing_mortality$estimate <- TRUE
+    fishing_mortality$estimate <- FALSE
     fishing_mortality$phase <- 1
     fishing_mortality$min <- 0.0
     fishing_mortality$max <- 4
