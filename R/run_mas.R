@@ -35,8 +35,8 @@ run_mas <- function(
     area1$name <- "area1"
     
     recruitment <- new(r4mas$BevertonHoltRecruitment)
-    recruitment$R0$value <- om_input$R0 / 1000
-    recruitment$R0$estimated <- TRUE
+    recruitment$R0$value <- om_input$R0 #/ 1000
+    recruitment$R0$estimated <- FALSE
     recruitment$R0$phase <- 1
     recruitment$h$value <- om_input$h
     recruitment$h$estimated <- FALSE
@@ -152,7 +152,7 @@ run_mas <- function(
     
     # Fishing mortality settings
     fishing_mortality <- new(r4mas$FishingMortality)
-    fishing_mortality$estimate <- TRUE
+    fishing_mortality$estimate <- FALSE
     fishing_mortality$phase <- 1
     fishing_mortality$min <- 0.0
     fishing_mortality$max <- 4
@@ -266,7 +266,7 @@ run_mas <- function(
       survey[[i]]$q$value <- em_input$survey_q[[i]]
       survey[[i]]$q$min <- 0
       survey[[i]]$q$max <- 10
-      survey[[i]]$q$estimated <- TRUE
+      survey[[i]]$q$estimated <- FALSE
       survey[[i]]$q$phase <- 1
     }
     
