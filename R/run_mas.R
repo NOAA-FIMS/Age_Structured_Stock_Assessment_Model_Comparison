@@ -36,7 +36,7 @@ run_mas <- function(
     
     recruitment <- new(r4mas$BevertonHoltRecruitment)
     recruitment$R0$value <- om_input$R0 / 1000
-    recruitment$R0$estimated <- TRUE
+    recruitment$R0$estimated <- FALSE
     recruitment$R0$phase <- 1
     recruitment$h$value <- om_input$h
     recruitment$h$estimated <- FALSE
@@ -48,7 +48,7 @@ run_mas <- function(
     recruitment$sigma_r$min <- 0
     recruitment$sigma_r$max <- 1.0
     recruitment$sigma_r$phase <- 2
-    recruitment$estimate_deviations <- TRUE
+    recruitment$estimate_deviations <- FALSE
     recruitment$constrained_deviations <- FALSE
     recruitment$deviations_min <- -15.0
     recruitment$deviations_max <- 15.0
