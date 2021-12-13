@@ -65,7 +65,7 @@ run_mas <- function(
     growth$SetUndifferentiatedSurveyWeight(survey_empirical_weight)
     
     maturity <- new(r4mas$Maturity)
-    maturity$values <- om_input$mat.age 
+    maturity$values <- om_input$mat.age *0.5
     
     natural_mortality <- new(r4mas$NaturalMortality)
     natural_mortality$SetValues(om_input$M.age)
@@ -278,7 +278,7 @@ run_mas <- function(
     mas_model$extended_plus_group <- max(om_input$ages)
     mas_model$ages <- ages
     mas_model$catch_season_offset <- 0.0
-    mas_model$spawning_season_offset <- 1.0
+    mas_model$spawning_season_offset <- 0.0
     mas_model$survey_season_offset <- 0.0
     mas_model$AddPopulation(population$id)
     mas_model$AddFleet(fleet$id)
