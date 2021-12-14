@@ -49,7 +49,7 @@ run_mas <- function(
     recruitment$sigma_r$max <- 1.0
     recruitment$sigma_r$phase <- 2
     recruitment$estimate_deviations <- TRUE
-    recruitment$constrained_deviations <- TRUE
+    recruitment$constrained_deviations <- FALSE
     recruitment$deviations_min <- -15.0
     recruitment$deviations_max <- 15.0
     recruitment$deviation_phase <- 2
