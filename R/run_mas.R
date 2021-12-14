@@ -109,12 +109,12 @@ run_mas <- function(
     if (om_input$sel_fleet$fleet1$pattern == 1) {
       fleet_selectivity <- new(r4mas$LogisticSelectivity)
       fleet_selectivity$a50$value <- om_input$sel_fleet$fleet1$A50.sel
-      fleet_selectivity$a50$estimated <- FALSE
+      fleet_selectivity$a50$estimated <- TRUE
       fleet_selectivity$a50$phase <- 2
       fleet_selectivity$a50$min <- 0.0
       fleet_selectivity$a50$max <- max(om_input$ages)
       fleet_selectivity$slope$value <-  om_input$sel_fleet$fleet1$slope.sel
-      fleet_selectivity$slope$estimated <- FALSE
+      fleet_selectivity$slope$estimated <- TRUE
       fleet_selectivity$slope$phase <- 2
       fleet_selectivity$slope$min <- 0.0001
       fleet_selectivity$slope$max <- 5
@@ -124,25 +124,25 @@ run_mas <- function(
       fleet_selectivity <- new(r4mas$DoubleLogisticSelectivity)
       
       fleet_selectivity$alpha_asc$value <- om_input$sel_fleet$fleet1$A50.sel1
-      fleet_selectivity$alpha_asc$estimated <- FALSE
+      fleet_selectivity$alpha_asc$estimated <- TRUE
       fleet_selectivity$alpha_asc$phase <- 2
       fleet_selectivity$alpha_asc$min <- 0.0
       fleet_selectivity$alpha_asc$max <- max(om_input$ages)
       
       fleet_selectivity$beta_asc$value <- om_input$sel_fleet$fleet1$slope.sel1
-      fleet_selectivity$beta_asc$estimated <- FALSE
+      fleet_selectivity$beta_asc$estimated <- TRUE
       fleet_selectivity$beta_asc$phase <- 2
       fleet_selectivity$beta_asc$min <- 0.0001
       fleet_selectivity$beta_asc$max <- max(om_input$ages)
       
       fleet_selectivity$alpha_desc$value <- om_input$sel_fleet$fleet1$A50.sel2
-      fleet_selectivity$alpha_desc$estimated <- FALSE
+      fleet_selectivity$alpha_desc$estimated <- TRUE
       fleet_selectivity$alpha_desc$phase <- 2
       fleet_selectivity$alpha_desc$min <- 0.0
       fleet_selectivity$alpha_desc$max <- max(om_input$ages)
       
       fleet_selectivity$beta_desc$value <- om_input$sel_fleet$fleet1$slope.sel2
-      fleet_selectivity$beta_desc$estimated <- FALSE
+      fleet_selectivity$beta_desc$estimated <- TRUE
       fleet_selectivity$beta_desc$phase <- 2
       fleet_selectivity$beta_desc$min <- 0.0001
       fleet_selectivity$beta_desc$max <- max(om_input$ages)
@@ -152,7 +152,7 @@ run_mas <- function(
     
     # Fishing mortality settings
     fishing_mortality <- new(r4mas$FishingMortality)
-    fishing_mortality$estimate <- FALSE
+    fishing_mortality$estimate <- TRUE
     fishing_mortality$phase <- 1
     fishing_mortality$min <- 0.0
     fishing_mortality$max <- 4
@@ -208,13 +208,13 @@ run_mas <- function(
         survey_selectivity[[i]] <- new(r4mas$LogisticSelectivity)
         # survey_selectivity[[i]]$id <- i
         survey_selectivity[[i]]$a50$value <- om_input$sel_survey[[i]]$A50.sel
-        survey_selectivity[[i]]$a50$estimated <- FALSE
+        survey_selectivity[[i]]$a50$estimated <- TRUE
         survey_selectivity[[i]]$a50$phase <- 2
         survey_selectivity[[i]]$a50$min <- 0
         survey_selectivity[[i]]$a50$max <- max(om_input$ages)
         
         survey_selectivity[[i]]$slope$value <- om_input$sel_survey[[i]]$slope.sel
-        survey_selectivity[[i]]$slope$estimated <- FALSE
+        survey_selectivity[[i]]$slope$estimated <- TRUE
         survey_selectivity[[i]]$slope$phase <- 2
         survey_selectivity[[i]]$slope$min <- 0.0001
         survey_selectivity[[i]]$slope$max <- max(om_input$ages)
@@ -225,19 +225,19 @@ run_mas <- function(
         # survey_selectivity[[i]]$id <- i
         
         survey_selectivity[[i]]$alpha_asc$value <- om_input$sel_survey[[i]]$A50.sel1
-        survey_selectivity[[i]]$alpha_asc$estimated <- FALSE
+        survey_selectivity[[i]]$alpha_asc$estimated <- TRUE
         survey_selectivity[[i]]$alpha_asc$phase <- 2
         survey_selectivity[[i]]$alpha_asc$min <- 0.0
         survey_selectivity[[i]]$alpha_asc$max <- max(om_input$ages)
         
         survey_selectivity[[i]]$beta_asc$value <- om_input$sel_survey[[i]]$slope.sel1
-        survey_selectivity[[i]]$beta_asc$estimated <- FALSE
+        survey_selectivity[[i]]$beta_asc$estimated <- TRUE
         survey_selectivity[[i]]$beta_asc$phase <- 2
         survey_selectivity[[i]]$beta_asc$min <- 0.0001
         survey_selectivity[[i]]$beta_asc$max <- max(om_input$ages)
         
         survey_selectivity[[i]]$alpha_desc$value <- om_input$sel_survey[[i]]$A50.sel2
-        survey_selectivity[[i]]$alpha_desc$estimated <- FALSE
+        survey_selectivity[[i]]$alpha_desc$estimated <- TRUE
         survey_selectivity[[i]]$alpha_desc$phase <- 2
         survey_selectivity[[i]]$alpha_desc$min <- 0.0
         survey_selectivity[[i]]$alpha_desc$max <- max(om_input$ages)
@@ -266,7 +266,7 @@ run_mas <- function(
       survey[[i]]$q$value <- em_input$survey_q[[i]]
       survey[[i]]$q$min <- 0
       survey[[i]]$q$max <- 10
-      survey[[i]]$q$estimated <- FALSE
+      survey[[i]]$q$estimated <- TRUE
       survey[[i]]$q$phase <- 1
     }
     
