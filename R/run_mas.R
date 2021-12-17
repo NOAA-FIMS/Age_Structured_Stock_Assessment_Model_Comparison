@@ -49,7 +49,7 @@ run_mas <- function(
     recruitment$sigma_r$max <- 1.0
     recruitment$sigma_r$phase <- 2
     recruitment$estimate_deviations <- TRUE
-    recruitment$constrained_deviations <- TRUE
+    recruitment$constrained_deviations <- FALSE
     recruitment$deviations_min <- -15.0
     recruitment$deviations_max <- 15.0
     recruitment$deviation_phase <- 2
@@ -277,9 +277,9 @@ run_mas <- function(
     mas_model$nages <- nages
     mas_model$extended_plus_group <- max(om_input$ages)
     mas_model$ages <- ages
-    mas_model$catch_season_offset <- 0.5
-    mas_model$spawning_season_offset <- 0.5
-    mas_model$survey_season_offset <- 0.5
+    mas_model$catch_season_offset <- 0.0
+    mas_model$spawning_season_offset <- 0.0
+    mas_model$survey_season_offset <- 0.0
     mas_model$AddPopulation(population$id)
     mas_model$AddFleet(fleet$id)
     for (i in 1:om_input$survey_num) {
