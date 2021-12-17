@@ -36,8 +36,8 @@ run_mas <- function(
     
     recruitment <- new(r4mas$BevertonHoltRecruitment)
     recruitment$R0$value <- om_input$R0 / 1000
-    recruitment$R0$min <- (om_input$R0 / 1000 )-100
-    recruitment$R0$max <- (om_input$R0 / 1000 )+100
+    recruitment$R0$min <- (om_input$R0 / 1000 )-10
+    recruitment$R0$max <- (om_input$R0 / 1000 )+10
     recruitment$R0$estimated <- TRUE
     recruitment$R0$phase <- 1
     recruitment$h$value <- om_input$h
