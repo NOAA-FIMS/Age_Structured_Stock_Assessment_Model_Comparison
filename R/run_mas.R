@@ -49,7 +49,7 @@ run_mas <- function(
     recruitment$sigma_r$max <- 1.0
     recruitment$sigma_r$phase <- 2
     recruitment$estimate_deviations <- TRUE
-    recruitment$constrained_deviations <- FALSE
+    recruitment$constrained_deviations <- TRUE
     recruitment$deviations_min <- -15.0
     recruitment$deviations_max <- 15.0
     recruitment$deviation_phase <- 2
@@ -65,7 +65,7 @@ run_mas <- function(
     growth$SetUndifferentiatedSurveyWeight(survey_empirical_weight)
     
     maturity <- new(r4mas$Maturity)
-    maturity$values <- om_input$mat.age
+    maturity$values <- om_input$mat.age 
     
     natural_mortality <- new(r4mas$NaturalMortality)
     natural_mortality$SetValues(om_input$M.age)
@@ -113,7 +113,7 @@ run_mas <- function(
       fleet_selectivity$a50$phase <- 2
       fleet_selectivity$a50$min <- 0.0
       fleet_selectivity$a50$max <- max(om_input$ages)
-      fleet_selectivity$slope$value <-  om_input$sel_fleet$fleet1$slope.sel
+      fleet_selectivity$slope$value <- 1 / om_input$sel_fleet$fleet1$slope.sel
       fleet_selectivity$slope$estimated <- TRUE
       fleet_selectivity$slope$phase <- 2
       fleet_selectivity$slope$min <- 0.0001
@@ -213,7 +213,7 @@ run_mas <- function(
         survey_selectivity[[i]]$a50$min <- 0
         survey_selectivity[[i]]$a50$max <- max(om_input$ages)
         
-        survey_selectivity[[i]]$slope$value <- om_input$sel_survey[[i]]$slope.sel
+        survey_selectivity[[i]]$slope$value <- 1 / om_input$sel_survey[[i]]$slope.sel
         survey_selectivity[[i]]$slope$estimated <- TRUE
         survey_selectivity[[i]]$slope$phase <- 2
         survey_selectivity[[i]]$slope$min <- 0.0001
@@ -264,7 +264,7 @@ run_mas <- function(
       survey[[i]]$AddSelectivity(survey_selectivity[[i]]$id, 1, area1$id)
       
       survey[[i]]$q$value <- em_input$survey_q[[i]]
-      survey[[i]]$q$min <- 0.00001
+      survey[[i]]$q$min <- 0
       survey[[i]]$q$max <- 10
       survey[[i]]$q$estimated <- TRUE
       survey[[i]]$q$phase <- 1
