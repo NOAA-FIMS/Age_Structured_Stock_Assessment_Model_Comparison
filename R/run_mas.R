@@ -271,6 +271,7 @@ run_mas <- function(
     }
     
     mas_model <- new(r4mas$MASModel)
+    mas_model$compute_variance_for_derived_quantities<-FALSE
     mas_model$nyears <- nyears
     mas_model$nseasons <- nseasons
     mas_model$nages <- nages
