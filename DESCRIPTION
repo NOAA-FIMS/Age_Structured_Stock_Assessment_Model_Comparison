@@ -1,15 +1,14 @@
 Package: ASSAMC
-Title: What the Package Does (One Line, Title Case)
+Title: Simple age-structured stock assessment operating model
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+    person(given = "Bai",
+           family = "Li",
+           role = c("cre"),
+           email = "bai.li@noaa.gov",
+           comment = c(ORCID = "0000-0002-8249-1442"))
+Description: This package helps simulate stock dynamics and generate age-structured stock assessment inputs for stock assessment models.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
