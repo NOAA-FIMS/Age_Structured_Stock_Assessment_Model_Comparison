@@ -234,7 +234,7 @@ run_mas <- function(
         survey_selectivity[[i]]$beta_asc$estimated <- TRUE
         survey_selectivity[[i]]$beta_asc$phase <- 2
         survey_selectivity[[i]]$beta_asc$min <- 0.0001
-        survey_selectivity[[i]]$beta_asc$max <- max(om_input$ages)
+        survey_selectivity[[i]]$beta_asc$max <- max(om_input$ages)+2
         
         survey_selectivity[[i]]$alpha_desc$value <- om_input$sel_survey[[i]]$A50.sel2
         survey_selectivity[[i]]$alpha_desc$estimated <- TRUE
@@ -246,7 +246,7 @@ run_mas <- function(
         survey_selectivity[[i]]$beta_desc$estimated <- TRUE
         survey_selectivity[[i]]$beta_desc$phase <- 2
         survey_selectivity[[i]]$beta_desc$min <- 0.0001
-        survey_selectivity[[i]]$beta_desc$max <- max(om_input$ages)
+        survey_selectivity[[i]]$beta_desc$max <- max(om_input$ages)+2
         
       }
       
