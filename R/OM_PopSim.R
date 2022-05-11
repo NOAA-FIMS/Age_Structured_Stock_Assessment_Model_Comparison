@@ -21,14 +21,14 @@ popsim<-function(x){
 
   SSB<-biomass.mt<-abundance<-rep(0,nyr) #quantities of interest (annual)
 
-  L.mt<-L.knum<-vector(mode="list", length=fleet_num)
-  names(L.mt) <- paste("fleet", 1:fleet_num, sep="")
-  names(L.knum) <- paste("fleet", 1:fleet_num, sep="")
+  L.mt<-L.knum<-vector(mode="list", length=x$fleet_num)
+  names(L.mt) <- paste("fleet", 1:x$fleet_num, sep="")
+  names(L.knum) <- paste("fleet", 1:x$fleet_num, sep="")
   invisible(sapply(1:length(L.mt), function(x) L.mt[[x]] <<- rep(0,nyr)))
   invisible(sapply(1:length(L.knum), function(x) L.knum[[x]] <<- rep(0,nyr)))
 
-  L.age<-vector(mode="list", length=fleet_num)
-  names(L.age) <- paste("fleet", 1:fleet_num, sep="")
+  L.age<-vector(mode="list", length=x$fleet_num)
+  names(L.age) <- paste("fleet", 1:x$fleet_num, sep="")
   invisible(sapply(1:length(L.age), function(x) L.age[[x]] <<- matrix(0, nrow=nyr, ncol=nages)))
 
   N.age<-FAA<-matrix(0, nrow=nyr, ncol=nages)
