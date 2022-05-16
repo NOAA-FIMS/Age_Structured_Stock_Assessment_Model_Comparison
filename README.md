@@ -39,23 +39,13 @@ project_dir <- "XXX"
 
 # Set up OM ---------------------------------------------------------------
 
+# Use the example input lists for case one and case two called
+# null_case_input and updated_input from the following example
+example(save_initial_input)
 # Case 1 : null case ----------------------------------------------------------
-# Use pre-defined C1 case (code below) or
-# define all elements of the list in your current environment and
-# use [save_initial_input()] with `base_case = TRUE` to create the
-# list for you. Run `?generate_case` to get more information.
-null_case_input <- generate_case("C1", dir = project_dir)
 run_om(input_list = null_case_input, show_iter_num = TRUE)
 
 # Case 2 : change logR_sd from 0.4 to 0.6 -------------------------------------
-# Can use pre-defined C2 case `generate_case("C2", dir = project_dir)` or
-# the code below where we show how to use [save_initial_input()].
-updated_input <- save_initial_input(
-  base_case = FALSE,
-  input_list = null_case_input,
-  case_name = "C2",
-  logR_sd = 0.6
-)
 run_om(input_list = updated_input, show_iter_num = FALSE)
 ```
 
