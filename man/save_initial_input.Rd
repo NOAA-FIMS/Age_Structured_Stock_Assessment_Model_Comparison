@@ -32,13 +32,93 @@ A list is object is returned. Each element is necessary to run a
 simulation via passing the list to \code{\link[=run_OM]{run_OM()}}.
 TODO - use the saved data object to generate a bulleted list of names(C1).
 - double check all of the input values
+\describe{
+\item{om_inupt}{A list of input data of the operating model.}
+\item{om_inupt$fleet_num}{Number of fleets.}
+\item{om_inupt$survey_num}{Number of surveys.}
+\item{om_inupt$nyr}{Number of years.}
+\item{om_inupt$year}{A vector of model years.}
+\item{om_inupt$ages}{A vector of ages of the population.}
+\item{om_inupt$nage}{Number of ages of the population.}
+\item{om_inupt$cv.L}{CV of landings.}
+\item{om_inupt$cv.survey}{CV of surveys.}
+\item{om_inupt$n.L}{Annual sample size (i.e., number of fish) of landing age composition samples.}
+\item{om_inupt$n.survey}{Annual sample size (i.e., number of fish) of survey age composition samples.}
+\item{om_inupt$logR_sd}{Standard deviation of log recruitment.}
+\item{om_inupt$logf_sd}{Standard deviation of log fully selected fishing mortality.}
+\item{om_inupt$om_bias_cor}{Logical. Apply bias correction to recruitment if TRUE. Default value is FALSE.}
+\item{om_inupt$bias_cor_method}{Bias correction method. Options include "none", "median_unbiased", and "mean_unbiased".}
+\item{om_inupt$R0}{Input of unfished recruitment in number.}
+\item{om_inupt$h}{Input of steepness of the stock-recruit model.}
+\item{om_inupt$median_R0}{Median-unbiased unfished recruitment in number.}
+\item{om_inupt$median_h}{Median-unbiased steepness of the stock-recruit model.}
+\item{om_inupt$mean_R0}{Mean-unbiased unfished recruitment in number.}
+\item{om_inupt$mean_h}{Mean-unbiased steepness of the stock-recruit model.}
+\item{om_inupt$SRmodel}{Stock-recruit model. 1 = Beverton-Holt model; 2 = Ricker model.}
+\item{om_inupt$M}{Age-invariant natural mortality.}
+\item{om_inupt$Linf}{Asymptotic average length (mm).}
+\item{om_inupt$K}{Growth coefficient.}
+\item{om_inupt$a0}{Age at mean length of zero.}
+\item{om_inupt$a.lw}{Length-weight coefficient.}
+\item{om_inupt$b.lw}{Length-weight exponent.}
+\item{om_inupt$A50.mat}{Age at 50\% maturity.}
+\item{om_inupt$slope.mat}{Slope of maturity ogive.}
+\item{om_inupt$om_inupt$sel_fleet}{Fleet selectivity list. The list include selectivity pattern information (1 = simple logistic; 2 = double logistic).}
+\item{om_inupt$sel_survey}{Survey selectivity list. The list include selectivity pattern information (1 = simple logistic; 2 = double logistic).}
+\item{om_inupt$len}{Length-at-age vector from von Bertalanffy growth model.}
+\item{om_inupt$W.kg}{Weight-at-age in kg.}
+\item{om_inupt$W.mt}{Weight-at-age in mt.}
+\item{om_inupt$M.age}{Natural mortality-at-age.}
+\item{om_inupt$mat.age}{Maturity-at-age.}
+\item{om_inupt$proportion.female}{Proportion of female fish.}
+\item{om_inupt$selex_fleet}{Selectivity-at-age of fleet.}
+\item{om_inupt$selex_survey}{Selectivity-at-age of survey.}
+\item{om_inupt$N.pr0}{Number of spawners per recruit-at-age.}
+\item{om_inupt$Phi.0}{Spawners per recruit based on mature female biomss.}
+\item{om_inupt$logR.resid}{Annual recruitment deviations.}
+\item{om_inupt$logf.resid}{Annual fishing mortality deviations.}
+\item{om_inupt$f}{Annual fully selected fishing mortality.}
+\item{om_inupt$initial_equilibrium_F}{Logic. Set initial condition to the unfished equilibrium population or not.}
+
+\item{om_output}{A list of output data of the operating model.}
+\item{om_output$year}{A vector of model years.}
+\item{om_output$SSB}{Annual Spawning stock biomass in mt.}
+\item{om_output$abundance}{Annual abundance in number.}
+\item{om_output$biomass.mt}{Annual biomass in mt.}
+\item{om_output$N.age}{Abundance-at-age a (column) in year y(row) (in number).}
+\item{om_output$L.age}{Landing-at-age a (column) in year y (row) (in number).}
+\item{om_output$L.knum}{Landing-at-age a (column) in year y (row) (in 1000 number).}
+\item{om_output$L.mt}{Landing-at-age a (column) in year y (row) (in mt).}
+\item{om_output$msy}{A list of reference points. The list include maximum sustainable yield (msy), fishing rate at MSY (FMSY), dead discards at MSY (Dmsy), spawner per recruit at msy (spr_msy), spawning potential ratio (SPRmsy = spr_msy/spr_virgin), Spawning stock biomass at MSY (SSBmsy), equilibrium recruitment at MSY (Rmsy), total biomass (male and female fish) at MSY (Bmsy), exploitation rate at MSY (Emsy), a sequence of fishing mortality for searching MSY (f_seq), yield at each fishing mortality value (L_eq), discard at each fishing mortality value (D_eq), spawning stock biomass at each fishing mortality value (SSB_eq), recruitment at each fishing mortality value (R_eq), spawner per recruit at each fishing mortality value (spr), maximum fishing mortality value examined (maxF), accuracy in MSY calculations (step), lognormal bias correction (sigma), constant vector multiplied by abudance to get spawning stock biomass at age (reprod). }
+\item{om_output$f}{Annual fully selected fishing mortality.}
+\item{om_output$FAA}{Fishing mortality-at-age a (column) in year y (row).}
+\item{om_output$survey_age_comp}{Survey age composition data with no observation error. Columns represent ages and rows represent years.}
+\item{om_output$survey_index}{Scaled survey index with no observation error.}
+\item{om_output$survey_q}{Survey catchability.}
+
+\item{em_input}{Observed data with observation errors.}
+\item{em_input$L.obs}{Observed annual landings in mt with observation error.}
+\item{survey.obs}{Observed annual survey index (scaled) with observation error.}
+\item{L.age.obs}{Observed landing age composition data in mt with observation error.}
+\item{survey.age.obs}{Observed survey age composition data in proportion with observation error.}
+\item{n.L}{Annual sample size (i.e., number of fish) of landing age composition samples.}
+\item{n.survey}{Annual sample size (i.e., number of fish) of survey age composition samples.}
+\item{survey_q}{Survey catchability.}
+\item{cv.L}{CV of landings.}
+\item{cv.survey}{CV of surveys.}
+
+}
 }
 \description{
 The default is to return a list containing the values needed to
 run case one, i.e., \code{"C1"}. This function can also be used to modify
 the list elements using \code{...} rather than assigning each change with \verb{<-}.
 }
+\details{
+The elements of \code{input}
+}
 \examples{
+\dontrun{
 # Create the default input for case one, i.e., "C1"
 null_case_input <- save_initial_input()
 # Change the default to case two, i.e., "C2"
@@ -48,7 +128,7 @@ updated_input <- save_intial_input(
   case_name = "C2",
   logR_sd = 0.6
 )
-
+}
 }
 \seealso{
 \code{\link[=run_OM]{run_OM()}}
