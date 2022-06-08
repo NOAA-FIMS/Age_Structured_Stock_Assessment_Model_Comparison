@@ -13,15 +13,17 @@
 #' @param f_val customized annual value of the main shape of fishing mortality
 #' @param start_year start year for the start value of fishing mortality
 #' @param middle_year middle year for the middle value of fishing mortality
-#' @param nyr totla number of years
+#' @param nyr total number of years
 #' @param om_sim_num total iteration numbers
 #' @param f_dev_matrix F deviations-at-age per iteration
-#' @return A matrix of fishing mortality rate \code{f_matrix} over years (column) for each iteartion (row)
+#' @return A matrix of fishing mortality rate \code{f_matrix} over years (column) for each iteration (row)
 #' @examples
+#' \dontrun{
 #' f_case(f_pattern=1, start_val=0.01, middle_val=NULL, end_val=0.39, f_val=NULL, start_year=1, middle_year=NULL, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
 #' f_case(f_pattern=3, start_val=0.01, middle_val=0.39, end_val=0.19, f_val=NULL, start_year=1, middle_year=24, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
 #' f_case(f_pattern=5, start_val=0.01, middle_val=NULL, end_val=NULL, f_val=NULL, start_year=1, middle_year=NULL, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
 #' f_case(f_pattern=6, f_val=rnorm(n=30, mean=1, sd=0.3), nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
+#' }
 #' @export
 
 
