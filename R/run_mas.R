@@ -286,6 +286,7 @@ run_mas <- function(
       mas_model$AddSurvey(survey[[i]]$id)
     }
     # mas_model$tolerance <- 0.0001
+    mas_model$max_iterations <- 10000
 
     # Run MAS
     mas_model$Run()
