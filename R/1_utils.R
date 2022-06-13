@@ -8,8 +8,10 @@
 #' @param x A number.
 #' @return The geomean: \code{y}.
 #' @examples
+#' \dontrun{
 #' geomean(x=c(1,2,3,4,5))
 #' geomean(x=rnorm(n=100, mean=100, sd=30))
+#' }
 #' @export
 #'
 geomean<-function(x){

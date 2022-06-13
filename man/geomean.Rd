@@ -16,6 +16,8 @@ The geomean: \code{y}.
 Compute geometric mean of a time series x.
 }
 \examples{
+\dontrun{
 geomean(x=c(1,2,3,4,5))
 geomean(x=rnorm(n=100, mean=100, sd=30))
+}
 }

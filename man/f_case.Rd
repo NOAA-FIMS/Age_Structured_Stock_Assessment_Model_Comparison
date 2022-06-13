@@ -39,21 +39,23 @@ f_pattern: 1. increase
 
 \item{middle_year}{middle year for the middle value of fishing mortality}
 
-\item{nyr}{totla number of years}
+\item{nyr}{total number of years}
 
 \item{om_sim_num}{total iteration numbers}
 
 \item{f_dev_matrix}{F deviations-at-age per iteration}
 }
 \value{
-A matrix of fishing mortality rate \code{f_matrix} over years (column) for each iteartion (row)
+A matrix of fishing mortality rate \code{f_matrix} over years (column) for each iteration (row)
 }
 \description{
 Compute fishing mortality rate over years.
 }
 \examples{
+\dontrun{
 f_case(f_pattern=1, start_val=0.01, middle_val=NULL, end_val=0.39, f_val=NULL, start_year=1, middle_year=NULL, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
 f_case(f_pattern=3, start_val=0.01, middle_val=0.39, end_val=0.19, f_val=NULL, start_year=1, middle_year=24, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
 f_case(f_pattern=5, start_val=0.01, middle_val=NULL, end_val=NULL, f_val=NULL, start_year=1, middle_year=NULL, nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
 f_case(f_pattern=6, f_val=rnorm(n=30, mean=1, sd=0.3), nyr=30, om_sim_num=160, f_dev_matrix=f_dev_matrix)
+}
 }
