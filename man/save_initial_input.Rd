@@ -16,7 +16,7 @@ The argument can take any list but a list previously returned from
 elements.}
 
 \item{maindir}{The directory where you the results from down-stream
-functions like \code{\link[=run_OM]{run_OM()}} will save the results to.
+functions like \link{run_om} will save the results to.
 TODO - decide if this argument should be added and how to force it to
 make changes because it will not be included in ...
 - decide if we should use dir.create() to ensure that the directory
@@ -29,7 +29,7 @@ scenario if \code{base_case = TRUE} that you want to change.}
 }
 \value{
 A list is object is returned. Each element is necessary to run a
-simulation via passing the list to \code{\link[=run_OM]{run_OM()}}.
+simulation via passing the list to \link{run_om}.
 TODO - use the saved data object to generate a bulleted list of names(C1).
 - double check all of the input values
 \describe{
@@ -131,7 +131,7 @@ updated_input <- save_intial_input(
 }
 }
 \seealso{
-\code{\link[=run_OM]{run_OM()}}
+\link{run_om}
 }
 \author{
 Bai Li

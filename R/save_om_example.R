@@ -1,6 +1,6 @@
-#' Save output from [run_om()] to use in examples and documentation
+#' Save output from \link{run_om} to use in examples and documentation
 #'
-#' Save the output from an example call to [run_om()] as a list.
+#' Save the output from an example call to \link{run_om} as a list.
 #' `save_om_example()` gets the base-case inputs, sets the working directory,
 #' cleans up the workspace, and returns your workspace to the original
 #' directory.
@@ -8,7 +8,7 @@
 #' @author Kelli F. Johnson
 #' @export
 #' @return A list of three larger lists,
-#' * `om_input`: input information provided to [run_om()],
+#' * `om_input`: input information provided to \link{run_om},
 #' * `om_output`: simulated output from a single iteration of the
 #'   operating model, and
 #' * `em_input`: a combination of `om_input`, `om_output`, and information

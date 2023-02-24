@@ -2,14 +2,14 @@
 % Please edit documentation in R/save_om_example.R
 \name{save_om_example}
 \alias{save_om_example}
-\title{Save output from \code{\link[=run_om]{run_om()}} to use in examples and documentation}
+\title{Save output from \link{run_om} to use in examples and documentation}
 \usage{
 save_om_example()
 }
 \value{
 A list of three larger lists,
 \itemize{
-\item \code{om_input}: input information provided to \code{\link[=run_om]{run_om()}},
+\item \code{om_input}: input information provided to \link{run_om},
 \item \code{om_output}: simulated output from a single iteration of the
 operating model, and
 \item \code{em_input}: a combination of \code{om_input}, \code{om_output}, and information
@@ -17,7 +17,7 @@ needed to run an estimation model.
 }
 }
 \description{
-Save the output from an example call to \code{\link[=run_om]{run_om()}} as a list.
+Save the output from an example call to \link{run_om} as a list.
 \code{save_om_example()} gets the base-case inputs, sets the working directory,
 cleans up the workspace, and returns your workspace to the original
 directory.

@@ -15,7 +15,7 @@
 #'   `save_initial_input()` is ideal such that it has all of the necessary
 #'   elements.
 #' @param maindir The directory where you the results from down-stream
-#'   functions like [run_OM()] will save the results to.
+#'   functions like \link{run_om} will save the results to.
 #'   TODO - decide if this argument should be added and how to force it to
 #'          make changes because it will not be included in ...
 #'        - decide if we should use dir.create() to ensure that the directory
@@ -26,9 +26,9 @@
 #'   scenario if `base_case = TRUE` that you want to change.
 #' @author Bai Li
 #' @export
-#' @seealso [run_OM()]
+#' @seealso \link{run_om}
 #' @return A list is object is returned. Each element is necessary to run a
-#' simulation via passing the list to [run_OM()].
+#' simulation via passing the list to \link{run_om}.
 #' TODO - use the saved data object to generate a bulleted list of names(C1).
 #'      - double check all of the input values
 #' \describe{
