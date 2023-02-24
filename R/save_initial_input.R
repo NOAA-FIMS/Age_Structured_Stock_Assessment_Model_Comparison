@@ -174,6 +174,7 @@ save_initial_input <- function(base_case=TRUE,
 
       logf_sd = 0.2,
       f_dev_change = FALSE,
+      f_dev_sum2zero = FALSE,
       f_pattern = 1,
       start_val = 0.01,
       middle_val = NULL,
@@ -184,6 +185,7 @@ save_initial_input <- function(base_case=TRUE,
 
       logR_sd = 0.4,
       r_dev_change = TRUE,
+      r_dev_sum2zero = FALSE,
 
       om_bias_cor = FALSE,
       bias_cor_method = "none", # c("none", "median_unbiased", "mean_unbiased")

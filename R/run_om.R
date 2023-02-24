@@ -40,7 +40,8 @@ run_om <- function(input_list=NULL,
   f_dev_matrix <- f_dev_case(f_dev_change=input_list$f_dev_change,
                              nyr=nyr,
                              logf_sd=input_list$logf_sd,
-                             om_sim_num=input_list$om_sim_num)
+                             om_sim_num=input_list$om_sim_num,
+                             f_dev_sum2zero = input_list$f_dev_sum2zero)
 
   f_matrix <- f_case(f_pattern=input_list$f_pattern,
                      start_val=input_list$start_val,
@@ -58,7 +59,8 @@ run_om <- function(input_list=NULL,
   r_dev_matrix <- r_dev_case(r_dev_change=input_list$r_dev_change,
                              nyr=nyr,
                              logR_sd=input_list$logR_sd,
-                             om_sim_num=input_list$om_sim_num)
+                             om_sim_num=input_list$om_sim_num,
+                             r_dev_sum2zero = input_list$r_dev_sum2zero)
 
   ## Create and fill vectors to be used in the population model
   len=input_list$Linf*(1-exp(-input_list$K*(input_list$ages-input_list$a0))) #von Bertalanffy growth
