@@ -28,6 +28,8 @@ Values of fcn at x: \code{P}.
 Compute various logistic patterns
 }
 \examples{
+\dontrun{
 logistic(pattern=1, x=c(1:12), a1=3, b1=1.5)
 logistic(pattern=2, x=c(1:12), a1=3, b1=1.5, a2=2, b1=10)
+}
 }
