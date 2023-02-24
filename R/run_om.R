@@ -1,3 +1,4 @@
+#' Run operating model with values from `input_list`
 #' @export
 run_om <- function(input_list=NULL,
                    show_iter_num=FALSE){
