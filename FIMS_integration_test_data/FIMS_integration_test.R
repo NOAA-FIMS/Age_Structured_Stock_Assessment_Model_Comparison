@@ -58,6 +58,17 @@ FIMS_C0 <- save_initial_input(
 # Run OM
 run_om(input_list = FIMS_C0)
 
+
+# Case 0_noPhiF ---------------------------------------------------
+FIMS_C0noPhiF <- save_initial_input(
+  base_case = FALSE,
+  input_list = FIMS_C0,
+  initial_equilibrium_F = FALSE,
+  case_name = "C0noPhiF"
+)
+
+run_om(input_list = FIMS_C0noPhiF)
+
 # Case 1 ----------------------------------------------------------
 
 # Modify FIMS_C0 and change logR_sd from 0 to 0.4
