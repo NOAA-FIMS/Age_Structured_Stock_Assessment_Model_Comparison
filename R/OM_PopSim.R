@@ -35,7 +35,7 @@ popsim<-function(x){
 
   reprod=prop.f*mat.age*W.mt #measure of reproductive capacity at age
 
-  #Initial conditions assumes equilbrium age structure given initial F
+  #Initial conditions assumes equilibrium age structure given initial F
   N.pr1=rep(1,nages) #Number of spawners per recruit at age
   Z=f[1]*selex_fleet$fleet1+M.age
   for (a in 1:(nages-1))
