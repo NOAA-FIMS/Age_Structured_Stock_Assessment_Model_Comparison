@@ -204,6 +204,8 @@ run_om <- function(input_list=NULL,
     names(survey_age_comp) <- paste("survey", 1:input_list$survey_num, sep="")
     survey_index <- vector(mode="list", length=input_list$survey_num)
     names(survey_index) <- paste("survey", 1:input_list$survey_num, sep="")
+    survey_index_biomass <- vector(mode="list", length=input_list$survey_num)
+    names(survey_index_biomass) <- paste("survey", 1:input_list$survey_num, sep="")
     survey_q <- vector(mode="list", length=input_list$survey_num)
     names(survey_q) <- paste("survey", 1:input_list$survey_num, sep="")
 
@@ -212,12 +214,14 @@ run_om <- function(input_list=NULL,
       survey_annual_sum <- rowSums(survey_age_comp[[x]])
       survey_index[[x]] <<- survey_annual_sum/mean(survey_annual_sum)
       survey_q[[x]] <<- 1/mean(survey_annual_sum)
+      survey_index_biomass[[x]] <<- rowSums(survey_age_comp[[x]] %*% diag(W.mt) * survey_q[[x]])
     }))
 
 
     om_output$survey_age_comp <<- survey_age_comp
     om_output$survey_index <<- survey_index
     om_output$survey_q <<- survey_q
+    om_output$survey_index_biomass <<- survey_index_biomass
 
     ## Generate observation data
     em_input <<- ObsModel(nyr=om_input$nyr,
