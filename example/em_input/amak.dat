@@ -15,7 +15,7 @@ AMAK_MCP
 #SigmaR 
 0.2  0.25  -3  
 #yrs_sr 
-1  100  
+1  30  
 #Linf
 80	0.25	-4	
 #K
@@ -23,7 +23,7 @@ AMAK_MCP
 #Lo_Len
 27.68796	0.25	-4
 #Sigma_len
-0.1 0.25	-4						
+0.1 0.25	-4															
 #Natural_Mortality 
 0.2  0.25  -4 
 # NEW npars_mage
