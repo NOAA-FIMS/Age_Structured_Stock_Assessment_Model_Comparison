@@ -32,7 +32,7 @@ generate_plot <- function(em_names = NULL,
   figure_number <- input_list$figure_number
 
   #### Check convergence and plot gradient histogram ####
-  keep_sim_id <<- check_convergence(em_names, om_sim_num, col = col, plot_ncol, plot_nrow, casedir = casedir)
+  keep_sim_id <<- check_convergence(em_names, om_sim_num, col = col, plot_ncol, plot_nrow, casedir = casedir, input_list=input_list)
 
   if (length(na.omit(keep_sim_id)) < keep_sim_num) cat("Increase om_sim_num to get enough number of converged iterations!")
   keep_sim_id <<- na.omit(keep_sim_id)
@@ -56,11 +56,11 @@ generate_plot <- function(em_names = NULL,
 
   plot_ratio_inidividual_iteration(em_names = em_names, col = col, casedir = casedir, input_list = input_list)
 
-  plot_agecomp_individual_iteration(em_names = em_names, col = col, casedir = casedir)
+  plot_agecomp_individual_iteration(em_names = em_names, col = col, casedir = casedir, input_list = input_list)
 
-  plot_em_residual_boxplot(em_names = em_names, col = col, casedir = casedir)
+  plot_em_residual_boxplot(em_names = em_names, col = col, casedir = casedir, input_list = input_list)
 
-  plot_stock_status_determination(em_names = em_names, col = col, casedir = casedir)
+  plot_stock_status_determination(em_names = em_names, col = col, casedir = casedir, input_list = input_list)
 
   plot_msy_re(em_names = em_names, col = col, casedir = casedir)
 

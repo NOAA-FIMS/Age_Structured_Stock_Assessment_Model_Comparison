@@ -1,5 +1,5 @@
 #' @export
-plot_em_residual_boxplot <- function(em_names, col, casedir){
+plot_em_residual_boxplot <- function(em_names, col, casedir, input_list){
   for(i in 1:length(em_names)){
     jpeg(file=file.path(casedir, "figure", paste(em_names[i], "_residual_boxplot.jpg"), sep=""), width=170, height=160, units="mm", res=300)
 
@@ -14,7 +14,7 @@ plot_em_residual_boxplot <- function(em_names, col, casedir){
     legend <- c("Biomass (mt)", "Abundance (1000 fish)", "SSB (mt)", "Recruitment (1000 fish)", "F", "Landings (mt)", "Survey Index (scaled)", "F/FMSY", "SSB/SSBMSY")
 
     for(j in 1:length(comparison_id)){
-      xlim <- range(year)
+      xlim <- range(input_list$year)
       residual_data <- (em_list[[i]][[comparison_id[j]]] - om_list[[comparison_id[j]]]) / om_list[[comparison_id[j]]]
 
       boxplot(t(residual_data), xlab=xlab[j], ylab=ylab[j], col=col[i+1], notch=F, staplelwd = 1, pch=19, cex=0.5)

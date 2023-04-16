@@ -17,7 +17,7 @@ plot_em_re <- function(em_names, col, plot_nrow, plot_ncol, casedir, input_list)
         temp[,j] <- re_list[[j]][[comparison_id[i]]][,k]
       }
 
-      re_quantile <- sapply(1:length(year), function(x) quantile(temp[x,], c(0.1, 0.25, 0.5, 0.75, 0.9)))
+      re_quantile <- sapply(1:length(input_list$year), function(x) quantile(temp[x,], c(0.1, 0.25, 0.5, 0.75, 0.9)))
       plot(re_quantile[3,],
            type="l",
            col="white",
@@ -25,8 +25,8 @@ plot_em_re <- function(em_names, col, plot_nrow, plot_ncol, casedir, input_list)
            xlab="Year",
            ylab="Relative Error",
            panel.first=grid(lty=1))
-      polygon(c(year, rev(year)), c(re_quantile[1,], rev(re_quantile[5,])), border=NA, col=col[k+1])
-      polygon(c(year, rev(year)), c(re_quantile[2,], rev(re_quantile[4,])), border=NA, col=light_col[k+1])
+      polygon(c(input_list$year, rev(input_list$year)), c(re_quantile[1,], rev(re_quantile[5,])), border=NA, col=col[k+1])
+      polygon(c(input_list$year, rev(input_list$year)), c(re_quantile[2,], rev(re_quantile[4,])), border=NA, col=light_col[k+1])
       lines(re_quantile[3,], type="l", col="white")
       box()
       legend("topleft", legend=paste(em_names[k], ":", title[i], sep=""), bty="n")

@@ -9,7 +9,7 @@
 #' @param casedir Case working directory
 #' @export
 
-check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, casedir){
+check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, casedir, input_list){
   positive_hessian = matrix(NA, ncol=length(em_names), nrow=om_sim_num)
   gradient = matrix(NA, ncol=length(em_names), nrow=om_sim_num)
   convergence_measures <- list(positive_hessian=positive_hessian, gradient=gradient)
@@ -22,7 +22,7 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
       if (subdir == "MAS"){
 
         convergence_measures$positive_hessian[om_sim, em_id] <- ifelse (file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep=""))), 1, 0)
-        
+
         if (convergence_measures$positive_hessian[om_sim, em_id]==1) {
           json_output <- read_json(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep="")))
           gradient_value <- unlist(json_output$estimated_parameters$parameters)
@@ -66,11 +66,11 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
 
 
   if ((length(unlist(sapply(1:length(em_names), function(x) which(convergence_measures$gradient[,x] > 0.001)))) == 0) | (length(unique(unlist(sapply(1:ncol(convergence_measures$positive_hessian), function(x) which(convergence_measures$positive_hessian[,x]==0))))) == 0)) {
-    keep_sim_id <- (1:om_sim_num)[1:keep_sim_num]
+    keep_sim_id <- (1:om_sim_num)[1:input_list$keep_sim_num]
   } else {
     keep_sim_id <<- c(1:om_sim_num)[-unique(c(
       unlist(sapply(1:length(em_names), function(x) which(convergence_measures$gradient[,x] > 0.006))),
-      unique(unlist(sapply(1:ncol(convergence_measures$positive_hessian), function(x) which(convergence_measures$positive_hessian[,x]==0))))))][1:keep_sim_num]
+      unique(unlist(sapply(1:ncol(convergence_measures$positive_hessian), function(x) which(convergence_measures$positive_hessian[,x]==0))))))][1:input_list$keep_sim_num]
   }
 
 
