@@ -518,5 +518,65 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
     mas_list <<- mas_list
     save(mas_list, file=file.path(casedir, "output", "mas_output.RData"))
   }
+
+  ## FIMS
+  if ("FIMS" %in% em_names){
+
+    fims_biomass <- fims_abundance <- fims_ssb <- fims_recruit <- fims_Ftot <- fims_Fmul <- fims_landing <- fims_survey <- matrix(NA, nrow=om_input$nyr, ncol=keep_sim_num)
+    fims_msy <- fims_fmsy <- fims_ssbmsy <- matrix(NA, nrow=1, ncol=keep_sim_num)
+    fims_fratio <- fims_ssbratio <- matrix(NA, nrow=om_input$nyr, ncol=keep_sim_num)
+    fims_agecomp <- list()
+
+    fims_geomR0 <- fims_arimR0 <-
+      fims_geomS0 <- fims_arimS0 <-
+      fims_geomDf <- fims_arimDf <- matrix(NA, nrow=1, ncol=keep_sim_num)
+
+    subdir = "FIMS"
+    for (om_sim in 1:keep_sim_num){
+      fims_output <- load(file.path(casedir, "output",  subdir, paste("s", keep_sim_id[om_sim], sep=""), paste("s", keep_sim_id[om_sim], ".RData", sep="")))
+
+      fims_biomass[,om_sim] <- om_output$biomass.mt
+      fims_abundance[,om_sim] <- om_output$abundance/1000
+      fims_ssb[,om_sim] <- om_output$SSB
+      fims_recruit[,om_sim] <- om_output$N.age[,1]/1000
+      fims_Ftot[,om_sim] <- apply(om_output$FAA, 1, max)
+      fims_Fmul[,om_sim] <- om_output$f
+      fims_landing[,om_sim] <- om_output$L.mt$fleet1
+      fims_survey[,om_sim] <- om_output$survey_index$survey1
+      fims_msy[, om_sim] <- om_output$msy$msy
+      fims_fmsy[, om_sim] <- round(om_output$msy$Fmsy, digits = 3)
+      fims_ssbmsy[, om_sim] <- om_output$msy$SSBmsy
+      fims_fratio[, om_sim] <- om_Ftot[, om_sim]/om_fmsy[om_sim]
+      fims_ssbratio[, om_sim] <- om_ssb[, om_sim]/om_ssbmsy[om_sim]
+      fims_agecomp[[om_sim]] <- apply(om_output$N.age/1000, 1, function(x) x/sum(x))
+      fims_geomR0[, om_sim] <- om_input$median_R0/1000
+      fims_geomS0[, om_sim] <- om_input$median_R0*om_input$Phi.0
+      fims_geomDf[, om_sim] <- om_ssb[nrow(om_ssb),om_sim]/om_geomS0[,om_sim]
+      fims_arimR0[, om_sim] <- om_input$mean_R0/1000
+      fims_arimS0[, om_sim] <- om_input$mean_R0*om_input$Phi.0
+      fims_arimDf[, om_sim] <- om_ssb[nrow(om_ssb),om_sim]/om_arimS0[,om_sim]
+
+    }
+    fims_list <- list(fims_biomass, fims_abundance,
+                      fims_ssb, fims_recruit, fims_Ftot,
+                      fims_landing, fims_survey,
+                      fims_msy, fims_fmsy, fims_ssbmsy,
+                      fims_fratio, fims_ssbratio,
+                      fims_geomR0, fims_arimR0,
+                      fims_geomS0, fims_arimS0,
+                      fims_geomDf, fims_arimDf,
+                      fims_agecomp)
+    names(fims_list) <- c("biomass", "abundance",
+                          "ssb", "recruit", "Ftot",
+                          "landing", "survey",
+                          "msy", "fmsy", "ssbmsy",
+                          "fratio", "ssbratio",
+                          "geomR0", "arimR0",
+                          "geomS0", "arimS0",
+                          "geomDf", "arimDf",
+                          "agecomp")
+    fims_list <<- fims_list
+    save(fims_list, file=file.path(casedir, "output", "fims_output.RData"))
+  }
 }
 

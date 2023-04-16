@@ -4,7 +4,15 @@
 \alias{check_convergence}
 \title{Function to check convergence of estimation model}
 \usage{
-check_convergence(em_names, om_sim_num, col, plot_ncol, plot_nrow, casedir)
+check_convergence(
+  em_names,
+  om_sim_num,
+  col,
+  plot_ncol,
+  plot_nrow,
+  casedir,
+  input_list
+)
 }
 \arguments{
 \item{em_names}{Names of estimation models}

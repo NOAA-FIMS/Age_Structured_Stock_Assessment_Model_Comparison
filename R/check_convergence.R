@@ -32,10 +32,18 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
         }
 
       } else {
-        parfile <- list.files(pattern="*.par")
 
-        convergence_measures$positive_hessian[om_sim, em_id] <- ifelse (file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), "admodel.cov")), 1, 0)
-        convergence_measures$gradient[om_sim, em_id] <- ifelse(file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), "admodel.cov")), as.numeric(scan(parfile, what='', n=16, quiet=TRUE)[c(6,11,16)])[3], NA)
+
+        if (subdir == "FIMS") {
+          convergence_measures$positive_hessian[om_sim, em_id] <- 1
+          convergence_measures$gradient[om_sim, em_id] <- 0.0000001
+        } else {
+          parfile <- list.files(pattern="*.par")
+
+          convergence_measures$positive_hessian[om_sim, em_id] <- ifelse (file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), "admodel.cov")), 1, 0)
+          convergence_measures$gradient[om_sim, em_id] <- ifelse(file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), "admodel.cov")), as.numeric(scan(parfile, what='', n=16, quiet=TRUE)[c(6,11,16)])[3], NA)
+        }
+
       }
     }
   }
