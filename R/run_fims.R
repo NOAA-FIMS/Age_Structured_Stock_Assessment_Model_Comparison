@@ -15,13 +15,19 @@ run_fims <- function(
   em_bias_cor = em_bias_cor) {
 
   if (!("FIMS" %in% installed.packages()[, "Package"])) stop("Please install FIMS!")
-
-  #setwd(file.path(casedir, "output", subdir))
   unlink(list.files(file.path(casedir, "output", "FIMS"), full.names = TRUE), recursive = TRUE)
   sapply(1:om_sim_num, function(x) dir.create(file.path(casedir, "output", subdir, paste("s", x, sep = ""))))
 
   for (om_sim in 1:om_sim_num) {
     load(file=file.path(casedir, "output", "OM", paste("OM", om_sim, ".RData", sep="")))
+
+    libs_path <- system.file("libs", package = "FIMS")
+    dll_name <- paste("FIMS", .Platform$dynlib.ext, sep = "")
+    if (.Platform$OS.type == "windows") {
+      dll_path <- file.path(libs_path, .Platform$r_arch, dll_name)
+    } else {
+      dll_path <- file.path(libs_path, dll_name)
+    }
 
     data(package = "FIMS")
 
@@ -131,12 +137,16 @@ run_fims <- function(
 
     ## Set-up TMB
     fims$CreateTMBModel()
-    # # Create parameter list from Rcpp modules
+    # Create parameter list from Rcpp modules
     parameters <- list(p = fims$get_fixed())
     obj <- TMB::MakeADFun(data=list(), parameters, DLL="FIMS")
 
     output_file <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), paste("s", om_sim, ".RData", sep = ""))
     save(obj, file=output_file)
     fims$clear()
+
+    dyn.unload(dll_path)
+    dyn.load(dll_path)
+    rm(obj)
   }
 }

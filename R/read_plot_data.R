@@ -543,9 +543,9 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
       fims_Fmul[,om_sim] <- om_output$f
       fims_landing[,om_sim] <- om_output$L.mt$fleet1
       fims_survey[,om_sim] <- om_output$survey_index$survey1
-      fims_msy[, om_sim] <- om_output$msy$msy
-      fims_fmsy[, om_sim] <- round(om_output$msy$Fmsy, digits = 3)
-      fims_ssbmsy[, om_sim] <- om_output$msy$SSBmsy
+      fims_msy[, om_sim] <- om_output$msy$msy*1.01
+      fims_fmsy[, om_sim] <- round(om_output$msy$Fmsy, digits = 3)*1.01
+      fims_ssbmsy[, om_sim] <- om_output$msy$SSBmsy*1.01
       fims_fratio[, om_sim] <- om_Ftot[, om_sim]/om_fmsy[om_sim]
       fims_ssbratio[, om_sim] <- om_ssb[, om_sim]/om_ssbmsy[om_sim]
       fims_agecomp[[om_sim]] <- apply(om_output$N.age/1000, 1, function(x) x/sum(x))
