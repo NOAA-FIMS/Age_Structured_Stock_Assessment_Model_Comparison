@@ -533,22 +533,25 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
 
     subdir = "FIMS"
     for (om_sim in 1:keep_sim_num){
+
       fims_output <- load(file.path(casedir, "output",  subdir, paste("s", keep_sim_id[om_sim], sep=""), paste("s", keep_sim_id[om_sim], ".RData", sep="")))
 
-      fims_biomass[,om_sim] <- om_output$biomass.mt
-      fims_abundance[,om_sim] <- om_output$abundance/1000
-      fims_ssb[,om_sim] <- om_output$SSB
-      fims_recruit[,om_sim] <- om_output$N.age[,1]/1000
+      fims_biomass[,om_sim] <- report$biomass[1:om_input$nyr]
+      fims_naa <- matrix(report$naa[1:(om_input$nyr*om_input$nages)], nrow = om_input$nyr, byrow = TRUE)
+      fims_abundance[,om_sim] <-  apply(fims_naa, 1, sum)/1000
+      fims_ssb[,om_sim] <- report$ssb[1:om_input$nyr]
+      fims_recruit[,om_sim] <- fims_naa[,1]/1000
       fims_Ftot[,om_sim] <- apply(om_output$FAA, 1, max)
-      fims_Fmul[,om_sim] <- om_output$f
-      fims_landing[,om_sim] <- om_output$L.mt$fleet1
+      fims_Fmul[,om_sim] <- report$F_mort
+      # fims_landing[,om_sim] <- em_input$L.obs$fleet1
+      fims_landing[,om_sim] <- report$expected_catch[seq(1, length(report$expected_catch), 2)]
       fims_survey[,om_sim] <- om_output$survey_index$survey1
       fims_msy[, om_sim] <- om_output$msy$msy*1.01
       fims_fmsy[, om_sim] <- round(om_output$msy$Fmsy, digits = 3)*1.01
       fims_ssbmsy[, om_sim] <- om_output$msy$SSBmsy*1.01
       fims_fratio[, om_sim] <- om_Ftot[, om_sim]/om_fmsy[om_sim]
       fims_ssbratio[, om_sim] <- om_ssb[, om_sim]/om_ssbmsy[om_sim]
-      fims_agecomp[[om_sim]] <- apply(om_output$N.age/1000, 1, function(x) x/sum(x))
+      fims_agecomp[[om_sim]] <- apply(fims_naa/1000, 1, function(x) x/sum(x))
       fims_geomR0[, om_sim] <- om_input$median_R0/1000
       fims_geomS0[, om_sim] <- om_input$median_R0*om_input$Phi.0
       fims_geomDf[, om_sim] <- om_ssb[nrow(om_ssb),om_sim]/om_geomS0[,om_sim]

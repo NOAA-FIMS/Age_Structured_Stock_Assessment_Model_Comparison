@@ -21,7 +21,7 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
 
       if (subdir == "MAS"){
 
-        convergence_measures$positive_hessian[om_sim, em_id] <- ifelse (file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep=""))), 1, 0)
+        convergence_measures$positive_hessian[om_sim, em_id] <- ifelse(file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep=""))), 1, 0)
 
         if (convergence_measures$positive_hessian[om_sim, em_id]==1) {
           json_output <- read_json(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, ".json", sep="")))
@@ -35,12 +35,13 @@ check_convergence <- function(em_names, om_sim_num, col, plot_ncol, plot_nrow, c
 
 
         if (subdir == "FIMS") {
-          convergence_measures$positive_hessian[om_sim, em_id] <- 1
-          convergence_measures$gradient[om_sim, em_id] <- 0.0000001
+          convergence_measures$positive_hessian[om_sim, em_id] <- ifelse(file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, "_gradient.RData", sep=""))), 1, 0)
+          load(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), paste("s", om_sim, "_gradient.RData", sep="")))
+          convergence_measures$gradient[om_sim, em_id] <- max_gradient
         } else {
           parfile <- list.files(pattern="*.par")
 
-          convergence_measures$positive_hessian[om_sim, em_id] <- ifelse (file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), "admodel.cov")), 1, 0)
+          convergence_measures$positive_hessian[om_sim, em_id] <- ifelse(file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), "admodel.cov")), 1, 0)
           convergence_measures$gradient[om_sim, em_id] <- ifelse(file.exists(file.path(casedir, "output",  subdir, paste("s", om_sim, sep=""), "admodel.cov")), as.numeric(scan(parfile, what='', n=16, quiet=TRUE)[c(6,11,16)])[3], NA)
         }
 
