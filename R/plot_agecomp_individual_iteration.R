@@ -1,5 +1,5 @@
 #' @export
-plot_agecomp_individual_iteration <- function(em_names, col, casedir){
+plot_agecomp_individual_iteration <- function(em_names, col, casedir, input_list){
   comparison_var <- c("agecomp")
   comparison_id <- which(names(om_list) %in% comparison_var)
 
@@ -17,27 +17,27 @@ plot_agecomp_individual_iteration <- function(em_names, col, casedir){
     for(i in 1:length(comparison_id)){
       ylim=c(min(om_list[[comparison_id[i]]][[j]][,1])*0.5, max(om_list[[comparison_id[i]]][[j]][,1])*1.5)
 
-      plot(ages, om_list[[comparison_id[i]]][[j]][,1], pch=19, col=col[1], cex=0.7, ylim=ylim, axes=F, xlab="", ylab="")
-      invisible(sapply(1:length(em_names), function(x) lines(ages, em_list[[x]][[comparison_id[i]]][[j]][,1], type="l", col=col[x+1], lwd=1.5)))
+      plot(input_list$ages, om_list[[comparison_id[i]]][[j]][,1], pch=19, col=col[1], cex=0.7, ylim=ylim, axes=F, xlab="", ylab="")
+      invisible(sapply(1:length(em_names), function(x) lines(input_list$ages, em_list[[x]][[comparison_id[i]]][[j]][,1], type="l", col=col[x+1], lwd=1.5)))
 
       axis(1)
       mtext(side=1, text=xlab, line=2, cex=0.6, font=2, col="blue")
       mtext(side=2, text=ylab[i], line=3.1, cex=0.6, font=2, col="blue")
       axis(2, las=2)
       box()
-      legend("topright", paste("Year ", year[1], sep=""), bty="n")
+      legend("topright", paste("Year ", input_list$year[1], sep=""), bty="n")
 
-      ylim=c(min(om_list[[comparison_id[i]]][[j]][,length(year)])*0.5, max(om_list[[comparison_id[i]]][[j]][,length(year)])*1.5)
+      ylim=c(min(om_list[[comparison_id[i]]][[j]][,length(input_list$year)])*0.5, max(om_list[[comparison_id[i]]][[j]][,length(input_list$year)])*1.5)
 
-      plot(ages, om_list[[comparison_id[i]]][[j]][,length(year)], pch=19, col=col[1], cex=0.7, ylim=ylim, axes=F, xlab="", ylab="")
-      invisible(sapply(1:length(em_names), function(x) lines(ages, em_list[[x]][[comparison_id[i]]][[j]][,length(year)], type="l", col=col[x+1], lwd=1.5)))
+      plot(input_list$ages, om_list[[comparison_id[i]]][[j]][,length(input_list$year)], pch=19, col=col[1], cex=0.7, ylim=ylim, axes=F, xlab="", ylab="")
+      invisible(sapply(1:length(em_names), function(x) lines(input_list$ages, em_list[[x]][[comparison_id[i]]][[j]][,length(input_list$year)], type="l", col=col[x+1], lwd=1.5)))
 
       axis(1)
       mtext(side=1, text=xlab, line=2, cex=0.6, font=2, col="blue")
       mtext(side=2, text=ylab[i], line=3.1, cex=0.6, font=2, col="blue")
       axis(2, las=2)
       box()
-      legend("topright", paste("Year ", year[length(year)], sep=""), bty="n")
+      legend("topright", paste("Year ", input_list$year[length(input_list$year)], sep=""), bty="n")
     }
     plot.new()
     legend("topleft", c("OM", em_names), pch=c(19, rep(NA, length=length(em_names))), lty=c(NA,rep(1, length=length(em_names))), lwd=c(NA, rep(1.5, length=length(em_names))), col=col, bty="n", cex=0.8)
