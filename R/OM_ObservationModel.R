@@ -1,5 +1,5 @@
 #' @export
-ObsModel<-function(nyr, nages, fleet_num, L, survey_num, survey, L.age, survey.age, cv.L, cv.survey, n.L, n.survey){
+ObsModel<-function(nyr, nages, fleet_num, L, survey_num, survey, survey_biomass, L.age, survey.age, cv.L, cv.survey, n.L, n.survey){
 
   ## Purpose: Add lognormal observation error to landings and survey, and sampling error to age comps
   ##
@@ -32,14 +32,15 @@ ObsModel<-function(nyr, nages, fleet_num, L, survey_num, survey, L.age, survey.a
   nobs.survey <- vector(mode="list", length=survey_num)
   sd.survey <- vector(mode="list", length=survey_num)
   ln.survey <- vector(mode="list", length=survey_num)
-  survey.obs <- vector(mode="list", length=survey_num)
-  names(survey.obs) <- paste("survey", 1:survey_num, sep="")
+  survey.obs <- surveyB.obs <- vector(mode="list", length=survey_num)
+  names(survey.obs) <- names(surveyB.obs) <-paste("survey", 1:survey_num, sep="")
 
   invisible(sapply(1:survey_num, function(x){
     nobs.survey[[x]] <- length(survey[[x]])
     sd.survey[[x]] <- sqrt(log(1+cv.survey[[x]]^2))
     ln.survey[[x]] <<- rnorm(nobs.survey[[x]], mean=0, sd=sd.survey[[x]])
     survey.obs[[x]] <<- survey[[x]]*exp(ln.survey[[x]])
+    surveyB.obs[[x]] <<- survey_biomass[[x]]*exp(ln.survey[[x]])
   }))
 
 #### Sampling of age comps (rows=years, columns=ages) ####
@@ -76,6 +77,14 @@ ObsModel<-function(nyr, nages, fleet_num, L, survey_num, survey, L.age, survey.a
     }
   }))
 
-  return(list(L.obs=L.obs, survey.obs=survey.obs, L.age.obs=L.age.obs, survey.age.obs=survey.age.obs, n.L=n.L, n.survey=n.survey, survey_q=om_output$survey_q))
+  return(list(
+    L.obs=L.obs,
+    survey.obs=survey.obs,
+    surveyB.obs=surveyB.obs,
+    L.age.obs=L.age.obs,
+    survey.age.obs=survey.age.obs,
+    n.L=n.L,
+    n.survey=n.survey,
+    survey_q=om_output$survey_q))
 
 } # end ObsModel
