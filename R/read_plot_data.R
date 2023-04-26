@@ -541,11 +541,12 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
       fims_abundance[,om_sim] <-  apply(fims_naa, 1, sum)/1000
       fims_ssb[,om_sim] <- report$ssb[1:om_input$nyr]
       fims_recruit[,om_sim] <- fims_naa[,1]/1000
-      fims_Ftot[,om_sim] <- apply(om_output$FAA, 1, max)
+      fims_Ftot[,om_sim] <- report$F_mort
       fims_Fmul[,om_sim] <- report$F_mort
-      # fims_landing[,om_sim] <- em_input$L.obs$fleet1
+      # fims_Fmul[,om_sim] <- om_output$f
       fims_landing[,om_sim] <- report$expected_catch[seq(1, length(report$expected_catch), 2)]
-      fims_survey[,om_sim] <- om_output$survey_index$survey1
+      # fims_landing[,om_sim] <- report$expected_index[,1]
+      fims_survey[,om_sim] <- em_input$survey.obs$survey1
       fims_msy[, om_sim] <- om_output$msy$msy*1.01
       fims_fmsy[, om_sim] <- round(om_output$msy$Fmsy, digits = 3)*1.01
       fims_ssbmsy[, om_sim] <- om_output$msy$SSBmsy*1.01

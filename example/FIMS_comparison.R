@@ -26,6 +26,10 @@ library(ASSAMC)
 #   "NOAA-FIMS/FIMS",
 #   ref = "952e606239ed72e2817d0cb507d85f4b331b5edc")
 # library(FIMS)
+# devtools::install_github(
+#   "NOAA-FIMS/FIMS",
+#   ref = "4e6aa214a1b8e04d4cd1f4bd93644794754588aa")
+# library(FIMS)
 
 # Set up C1 (sigmaR = 0.4, om_sim_num = 160) ------------------------
 
@@ -97,7 +101,7 @@ ASSAMC::generate_plot(
   input_list = C2)
 
 # Set up C3 (sigmaR = 0.4, om_sim_num = 2) ------------------------
-
+devtools::load_all()
 maindir <- file.path(here::here(), "example")
 model_input <- save_initial_input()
 C3 <- save_initial_input(
@@ -113,14 +117,17 @@ C3 <- save_initial_input(
 
 ASSAMC::run_om(input_list = C3)
 
-ASSAMC::run_em(em_names = c("AMAK", "ASAP", "BAM", "SS", "FIMS"),
-               input_list = C3,
-               em_input_filenames = data.frame(
-                 AMAK = "C0",
-                 ASAP = "C0",
-                 BAM = "C0",
-                 SS = "C1"
-               ))
+# ASSAMC::run_em(em_names = c("AMAK", "ASAP", "BAM", "SS", "FIMS"),
+#                input_list = C3,
+#                em_input_filenames = data.frame(
+#                  AMAK = "C0",
+#                  ASAP = "C0",
+#                  BAM = "C0",
+#                  SS = "C1"
+#                ))
+
+ASSAMC::run_em(em_names = c("FIMS"),
+               input_list = C3)
 
 ASSAMC::generate_plot(
   em_names = c("AMAK", "ASAP", "BAM", "SS", "FIMS"),
