@@ -534,7 +534,7 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
     subdir = "FIMS"
     for (om_sim in 1:keep_sim_num){
 
-      fims_output <- load(file.path(casedir, "output",  subdir, paste("s", keep_sim_id[om_sim], sep=""), paste("s", keep_sim_id[om_sim], ".RData", sep="")))
+      load(file.path(casedir, "output",  subdir, paste("s", keep_sim_id[om_sim], sep=""), paste("s", keep_sim_id[om_sim], ".RData", sep="")))
 
       fims_biomass[,om_sim] <- report$biomass[1:om_input$nyr]
       fims_naa <- matrix(report$naa[1:(om_input$nyr*om_input$nages)], nrow = om_input$nyr, byrow = TRUE)
@@ -543,9 +543,7 @@ read_plot_data <- function(em_names=NULL, casedir=NULL, keep_sim_num=NULL, adhoc
       fims_recruit[,om_sim] <- fims_naa[,1]/1000
       fims_Ftot[,om_sim] <- report$F_mort
       fims_Fmul[,om_sim] <- report$F_mort
-      # fims_Fmul[,om_sim] <- om_output$f
-      fims_landing[,om_sim] <- report$expected_catch[seq(1, length(report$expected_catch), 2)]
-      # fims_landing[,om_sim] <- report$expected_index[,1]
+      fims_landing[,om_sim] <- report$expected_index[,1]
       fims_survey[,om_sim] <- em_input$survey.obs$survey1
       fims_msy[, om_sim] <- om_output$msy$msy*1.01
       fims_fmsy[, om_sim] <- round(om_output$msy$Fmsy, digits = 3)*1.01

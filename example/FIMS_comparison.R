@@ -5,9 +5,8 @@ required_pkg <- c(
   "remotes", "devtools", "here",
   "rstudioapi", "gdata", "PBSadmb",
   "stringr", "matrixcalc", "r4ss",
-  "ASAPplots",  "readxl", "scales",
-  "corrplot",  "glue", "parallel",
-  "doParallel"
+  "readxl", "scales", "corrplot",
+  "glue", "parallel", "doParallel"
 )
 pkg_to_install <- required_pkg[!(required_pkg %in%
                                    installed.packages()[, "Package"])]
@@ -15,21 +14,15 @@ if (length(pkg_to_install)) install.packages(pkg_to_install)
 
 invisible(lapply(required_pkg, library, character.only = TRUE))
 
-devtools::load_all()
-# remotes::install_github(repo = "Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison")
+remotes::install_github(repo = "cmlegault/ASAPplots")
+library(ASAPplots)
+remotes::install_github(repo = "Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison")
 library(ASSAMC)
 
-# devtools::install_github(
-#   "NOAA-FIMS/FIMS",
-#   ref = "4d3ba9f4f30ca053c35245297b5721e8ca4a1f0a")
-# devtools::install_github(
-#   "NOAA-FIMS/FIMS",
-#   ref = "952e606239ed72e2817d0cb507d85f4b331b5edc")
-# library(FIMS)
-# devtools::install_github(
-#   "NOAA-FIMS/FIMS",
-#   ref = "4e6aa214a1b8e04d4cd1f4bd93644794754588aa")
-# library(FIMS)
+devtools::install_github(
+  "NOAA-FIMS/FIMS",
+  ref = "701ff7928d1a939f3bda2b0fd155dadf2c2da54b")
+library(FIMS)
 
 # Set up C1 (sigmaR = 0.4, om_sim_num = 160) ------------------------
 
