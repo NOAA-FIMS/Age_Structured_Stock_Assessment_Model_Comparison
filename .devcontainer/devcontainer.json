@@ -1,15 +1,20 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/rocker-org/devcontainer-templates/tree/main/src/r-ver
 {
-	"name": "R (rocker/r-ver base) for R pkg dev",
+	"name": "R (rocker/r-ver base)",
 	"image": "ghcr.io/rocker-org/devcontainer/r-ver:4.2",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
+
+		// if we want to install r packages using pak
 		// more info: https://github.com/rocker-org/devcontainer-features/blob/main/src/r-packages/README.md
+		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+			"packages": "tk"			
+		},
 	  "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
 		//devtools, usethis, and pak contain utilities for r package development.
-           "packages": "cli,rlang,devtools,usethis,pak, tk",
+           "packages": "cli,rlang,devtools,usethis,pak",
             "installSystemRequirements": true
         }
 	},
