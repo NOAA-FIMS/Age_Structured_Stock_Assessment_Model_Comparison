@@ -9,7 +9,7 @@
 		// more info: https://github.com/rocker-org/devcontainer-features/blob/main/src/r-packages/README.md
 	  "ghcr.io/rocker-org/devcontainer-features/r-packages:1": {
 		//devtools, usethis, and pak contain utilities for r package development.
-           "packages": "cli,rlang,devtools,usethis,pak",
+           "packages": "cli,rlang,devtools,usethis,pak, tk",
             "installSystemRequirements": true
         }
 	},
