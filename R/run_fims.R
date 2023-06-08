@@ -23,17 +23,6 @@ run_fims <- function(
 
     load(file=file.path(casedir, "output", "OM", paste("OM", om_sim, ".RData", sep="")))
 
-    # libs_path <- system.file("libs", package = "FIMS")
-    # dll_name <- paste("FIMS", .Platform$dynlib.ext, sep = "")
-    # if (.Platform$OS.type == "windows") {
-    #   dll_path <- file.path(libs_path, .Platform$r_arch, dll_name)
-    # } else {
-    #   dll_path <- file.path(libs_path, dll_name)
-    # }
-
-    data(package = "FIMS")
-
-    ## Set-up Rcpp modules and fix parameters to "true"
     fims <- Rcpp::Module("fims", PACKAGE = "FIMS")
 
     # Recruitment
@@ -153,6 +142,9 @@ run_fims <- function(
     population$SetMaturity(maturity$get_id())
     population$SetGrowth(ewaa_growth$get_id())
     population$SetRecruitment(recruitment$get_id())
+
+    ## Set-up TMB
+    fims$CreateTMBModel()
 
     ## Set-up TMB
     parameters <- list(p = fims$get_fixed())
