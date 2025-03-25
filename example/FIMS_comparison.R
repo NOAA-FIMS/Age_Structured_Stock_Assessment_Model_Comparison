@@ -17,7 +17,7 @@ invisible(lapply(required_pkg, library, character.only = TRUE))
 
 remotes::install_github(repo = "cmlegault/ASAPplots")
 library(ASAPplots)
-remotes::install_github(repo = "Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison")
+remotes::install_github(repo = "NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison")
 library(ASSAMC)
 
 devtools::install_github(

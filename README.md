@@ -27,7 +27,7 @@ The project is built based on [R](https://www.r-project.org/).
 >**2. Install ASSAMC to set up the operating model**
 
 ```r
-remotes::install_github("Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison")
+remotes::install_github("NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison")
 ```
 
 ## Usage

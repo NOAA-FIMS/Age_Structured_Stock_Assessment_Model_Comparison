@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### **R Markdown File Link:**
 
-https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/blob/full-features/ASSAMC/docs/MedianMeanSRparamsOM.Rmd 
+https://github.com/NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison/blob/main/ASSAMC/docs/MedianMeanSRparamsOM.Rmd 
 
 ## 1. Operating Model with median- or mean-unbiased stock-recruit parameters
 ### 1.1 Mean-unbiased stock-recruit parameters
@@ -53,7 +53,7 @@ Here, virgin recruitment $R_{0}$ and steepness $h$ are median values, and $BC_{m
 ```{r, echo=FALSE, message=FALSE}
 # install.packages("remotes")
 # install.packages("devtools")
-# remotes::install_github(repo="Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison", ref="full-features", force = TRUE)
+# remotes::install_github(repo="NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison", force = TRUE)
 # library(ASSAMC)
 setwd("C:/Users/bai.li/Documents/Github/Age_Structured_Stock_Assessment_Model_Comparison/ASSAMC/")
 devtools::load_all()

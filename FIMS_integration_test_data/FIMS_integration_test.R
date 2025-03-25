@@ -18,9 +18,9 @@ remotes::install_github(repo = "JaneSullivan-NOAA/Age_Structured_Stock_Assessmen
 
 # Set up OPTION 2: If user is developing within the ASSAMC --------
 
-# Clone the repo from https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison
+# Clone the repo from https://github.com/NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison
 
-remotes::install_github(repo = "Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison")
+remotes::install_github(repo = "NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison")
 library(ASSAMC)
 
 # setwd() at project root if not there, e.g.,
@@ -33,7 +33,7 @@ maindir <- file.path(here::here(), "FIMS_integration_test_data")
 # Default simulation settings -------------------------------------
 
 # Details of default simulation settings can be found here:
-# https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/blob/master/R/save_initial_input.R
+# https://github.com/NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison/blob/main/R/save_initial_input.R
 
 model_input <- save_initial_input()
 
