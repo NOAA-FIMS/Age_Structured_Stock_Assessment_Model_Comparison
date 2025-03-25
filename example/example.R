@@ -3,7 +3,7 @@
 
 # install.packages("remotes")
 # install.packages("devtools")
-# remotes::install_github(repo="Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison",
+# remotes::install_github(repo="NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison",
 #                         ref="spatial-structure")
 # library(ASSAMC)
 #

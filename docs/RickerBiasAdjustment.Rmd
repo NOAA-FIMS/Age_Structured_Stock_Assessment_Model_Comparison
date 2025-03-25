@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 * **R Markdown File Link:**
 
-    https://github.com/Bai-Li-NOAA/Age_Structured_Stock_Assessment_Model_Comparison/blob/full-features/ASSAMC/docs/RickerBiasAdjustment.Rmd
+    https://github.com/NOAA-FIMS/Age_Structured_Stock_Assessment_Model_Comparison/blob/main/ASSAMC/docs/RickerBiasAdjustment.Rmd
 
 ## 1. Ricker model in BAM, SS, and AMAK and the conversion function
 ### 1.1 BAM method  
