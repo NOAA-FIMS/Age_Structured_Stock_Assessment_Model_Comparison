@@ -142,11 +142,12 @@ run_fims <- function(
       FIMS::initialize_fims(data = data_fims) |>
       # Run the TMB optimization (estimation)
       FIMS::fit_fims()
-    
+
+    fims_estimates <- FIMS::get_estimates(fit_fims_fixed_effects)
     # Define save paths
     output_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_fixed_effects.RDS")
     # Save the output
-    saveRDS(fit_fims_fixed_effects, file = output_path_fixed_effects)
+    saveRDS(fims_estimates, file = output_path_fixed_effects)
 
     # Check convergence by extracting the maximum gradient
     max_gradient_fims_fixed_effects <- FIMS::get_max_gradient(fit_fims_fixed_effects)
