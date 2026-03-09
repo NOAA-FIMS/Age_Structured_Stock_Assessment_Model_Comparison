@@ -155,7 +155,15 @@ run_fims <- function(
     max_gradient_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_fixed_effects.RDS")
     # Save the max gradient
     saveRDS(max_gradient_fims_fixed_effects, file = max_gradient_path_fixed_effects)
-    
+
+    # Check hessian
+    obj_fixed_effects <- FIMS::get_obj(fit_fims_fixed_effects)
+    hessian_fixed_effects <- obj_fixed_effects$hessian
+    # Define save paths
+    hessian_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_fixed_effects.RDS")
+    # Save the hessian
+    saveRDS(hessian_fixed_effects, file = hessian_path_fixed_effects)
+
     FIMS::clear()
     
     # random effects
@@ -481,27 +489,25 @@ run_fims <- function(
     sdr_report <- summary(sdr, "report")
     sdr_fixed <- summary(sdr, "fixed")
     row.names(sdr_fixed) <- names(FIMS:::get_parameter_names(sdr_fixed[, 1]))
+    hessian <- sdr[["pdHess"]]
     
     fit_fims_random_effects <- list(
-      parameters = parameters,
-      obj = obj,
-      opt = opt,
-      report = report,
       sdr_report = sdr_report,
       sdr_fixed = sdr_fixed,
-      sdr = sdr
+      hessian = hessian
     )
+
     # Define save paths
     output_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_random_effects.RDS")
     # Save the output
     saveRDS(fit_fims_random_effects, file = output_path_random_effects)
 
     # Check convergence by extracting the maximum gradient
-    # max_gradient_fims_random_effects <- FIMS::get_max_gradient(fit_fims_random_effects)
-    # # Define save paths
-    # max_gradient_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects.RDS")
-    # # Save the max gradient
-    # saveRDS(max_gradient_fims_random_effects, file = max_gradient_path_random_effects)
+    max_gradient_fims_random_effects <- max(abs(fit_fims_random_effects[["sdr"]][["gradient.fixed"]]))
+    # Define save paths
+    max_gradient_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects.RDS")
+    # Save the max gradient
+    saveRDS(max_gradient_fims_random_effects, file = max_gradient_path_random_effects)
 
     # Clear FIMS before the next simulation
     FIMS::clear()
