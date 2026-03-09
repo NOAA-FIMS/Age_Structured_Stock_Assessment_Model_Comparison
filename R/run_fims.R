@@ -472,10 +472,29 @@ run_fims <- function(
 
     # Optimization with nlminb
     opt <- NULL
+    random_effects_number_of_loops <- 3
     if (estimation_mode == TRUE) {
-      opt <- stats::nlminb(obj[["par"]], obj[["fn"]], obj[["gr"]],
-        control = list(eval.max = 10000, iter.max = 10000, trace = 0)
+      control <- list(eval.max = 10000, iter.max = 10000, trace = 0)
+      opt <- stats::nlminb(
+        start = obj[["par"]],
+        objective = obj[["fn"]],
+        gradient = obj[["gr"]],
+        control = control
       )
+
+      maxgrad0 <- max(abs(obj$gr(opt$par)))
+      maxgrad <- maxgrad0
+      if (random_effects_number_of_loops > 0) {
+        for (ii in seq_len(random_effects_number_of_loops)) {
+          opt <- stats::nlminb(
+            start = opt[["par"]],
+            objective = obj[["fn"]],
+            gradient = obj[["gr"]],
+            control = control
+          )
+          maxgrad <- max(abs(obj$gr(opt$par)))
+        }
+      }
       FIMS::set_fixed(opt$par)
       fims_finalized <- caa$get_output(do_sd_report = estimation_mode)
     }
@@ -484,16 +503,17 @@ run_fims <- function(
     # the input values if optimization is skipped
     report <- obj[["report"]](obj[["env"]][["last.par.best"]])
 
-
     sdr <- TMB::sdreport(obj)
     sdr_report <- summary(sdr, "report")
     sdr_fixed <- summary(sdr, "fixed")
+    sdr_random <- summary(sdr, "random")
     row.names(sdr_fixed) <- names(FIMS:::get_parameter_names(sdr_fixed[, 1]))
     hessian <- sdr[["pdHess"]]
     
     fit_fims_random_effects <- list(
       sdr_report = sdr_report,
       sdr_fixed = sdr_fixed,
+      sdr_random = sdr_random,
       hessian = hessian
     )
 
