@@ -523,7 +523,7 @@ run_fims <- function(
     saveRDS(fit_fims_random_effects, file = output_path_random_effects)
 
     # Check convergence by extracting the maximum gradient
-    max_gradient_fims_random_effects <- max(abs(fit_fims_random_effects[["sdr"]][["gradient.fixed"]]))
+    max_gradient_fims_random_effects <- max(abs(sdr[["gradient.fixed"]]))
     # Define save paths
     max_gradient_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects.RDS")
     # Save the max gradient
