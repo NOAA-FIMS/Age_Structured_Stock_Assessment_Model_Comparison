@@ -157,8 +157,8 @@ run_fims <- function(
     saveRDS(max_gradient_fims_fixed_effects, file = max_gradient_path_fixed_effects)
 
     # Check hessian
-    obj_fixed_effects <- FIMS::get_obj(fit_fims_fixed_effects)
-    hessian_fixed_effects <- obj_fixed_effects$hessian
+    sdr <- FIMS::get_sdreport(fit_fims_fixed_effects)
+    hessian_fixed_effects <- sdr[["pdHess"]]
     # Define save paths
     hessian_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_fixed_effects.RDS")
     # Save the hessian
