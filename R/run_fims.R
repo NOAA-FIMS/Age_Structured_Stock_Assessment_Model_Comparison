@@ -79,7 +79,6 @@ run_fims <- function(
           value = c(
             om_input[["sel_survey"]][["survey1"]][["A50.sel1"]],
             om_input[["sel_survey"]][["survey1"]][["slope.sel1"]],
-            # log(0.5)
             log(om_output[["survey_q"]][["survey1"]])
           )
         ),
@@ -90,8 +89,7 @@ run_fims <- function(
         tibble::tibble(
           label = "log_devs",
           time = om_input[["year"]][-1],
-          value = om_input[["logR.resid"]][-1],
-          estimation_type = "fixed_effects"
+          value = om_input[["logR.resid"]][-1]
         ),
         by = c("label", "time")
       ) |>
@@ -137,17 +135,113 @@ run_fims <- function(
       )
     
     # Configure and Fit FIMS Model
-    fit_fims_fixed_effects <- parameters |>
+    fit_fims_random_effects <- parameters |>
       # Initialize the FIMS model object with the updated parameters
       FIMS::initialize_fims(data = data_fims) |>
       # Run the TMB optimization (estimation)
       FIMS::fit_fims()
 
-    fims_estimates <- FIMS::get_estimates(fit_fims_fixed_effects)
+    fims_estimates_random_effects <- FIMS::get_estimates(fit_fims_random_effects)
+    # Define save paths
+    output_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_random_effects.RDS")
+    # Save the output
+    saveRDS(fims_estimates_random_effects, file = output_path_random_effects)
+
+    # Check convergence by extracting the maximum gradient
+    max_gradient_fims_random_effects <- FIMS::get_max_gradient(fit_fims_random_effects)
+    # Define save paths
+    max_gradient_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects.RDS")
+    # Save the max gradient
+    saveRDS(max_gradient_fims_random_effects, file = max_gradient_path_random_effects)
+
+    # Check hessian
+    obj_random_effects <- FIMS::get_obj(fit_fims_random_effects)
+    hessian_random_effects <- obj_random_effects$hessian
+    # Define save paths
+    hessian_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects.RDS")
+    # Save the hessian
+    saveRDS(hessian_random_effects, file = hessian_path_random_effects)
+
+    FIMS::clear()
+
+    # Random effects with sigmaR estimated
+    parameters_sigmaR_estimated <- parameters |>
+      # Update log_sd for log_devs in the Recruitment module to be estimated
+      dplyr::rows_update(
+        tibble::tibble(
+          module_name = "Recruitment",
+          label = "log_sd",
+          value = om_input[["logR_sd"]],
+          estimation_type = "fixed_effects"
+        ),
+        by = c("module_name", "label")
+      )
+    
+    # Configure and Fit FIMS Model
+    fit_fims_random_effects_sigmaR_estimated <- parameters_sigmaR_estimated |>
+      # Initialize the FIMS model object with the updated parameters
+      FIMS::initialize_fims(data = data_fims) |>
+      # Run the TMB optimization (estimation)
+      FIMS::fit_fims()
+
+    fims_estimates_random_effects_sigmaR_estimated <- FIMS::get_estimates(fit_fims_random_effects_sigmaR_estimated)
+    # Define save paths
+    output_path_random_effects_sigmaR_estimated <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_random_effects_sigmaR_estimated.RDS")
+    # Save the output
+    saveRDS(fims_estimates_random_effects_sigmaR_estimated, file = output_path_random_effects_sigmaR_estimated)
+
+    # Check convergence by extracting the maximum gradient
+    max_gradient_fims_random_effects_sigmaR_estimated <- FIMS::get_max_gradient(fit_fims_random_effects_sigmaR_estimated)
+    # Define save paths
+    max_gradient_path_random_effects_sigmaR_estimated <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects_sigmaR_estimated.RDS")
+    # Save the max gradient
+    saveRDS(max_gradient_fims_random_effects_sigmaR_estimated, file = max_gradient_path_random_effects_sigmaR_estimated)
+
+    # Check hessian
+    obj_random_effects_sigmaR_estimated <- FIMS::get_obj(fit_fims_random_effects_sigmaR_estimated)
+    hessian_random_effects_sigmaR_estimated <- obj_random_effects_sigmaR_estimated$hessian
+    # Define save paths
+    hessian_path_random_effects_sigmaR_estimated <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects_sigmaR_estimated.RDS")
+    # Save the hessian
+    saveRDS(hessian_random_effects_sigmaR_estimated, file = hessian_path_random_effects_sigmaR_estimated)
+
+    FIMS::clear()
+    
+    # fixed effects
+    parameters_fixed_effects <- parameters |>
+      # Update log_sd for log_devs in the Recruitment module to be estimated
+      dplyr::rows_update(
+        tibble::tibble(
+          module_name = "Recruitment",
+          label = "log_sd",
+          value = om_input[["logR_sd"]],
+          estimation_type = "constant"
+        ),
+        by = c("module_name", "label")
+      ) |>
+      # Update log_devs in the Recruitment module to be estimated as fixed effects
+      dplyr::rows_update(
+        tibble::tibble(
+          label = "log_devs",
+          time = om_input[["year"]][-1],
+          value = om_input[["logR.resid"]][-1],
+          estimation_type = "fixed_effects"
+        ),
+        by = c("label", "time")
+      )
+    
+    # Configure and Fit FIMS Model
+    fit_fims_fixed_effects <- parameters_fixed_effects |>
+      # Initialize the FIMS model object with the updated parameters
+      FIMS::initialize_fims(data = data_fims) |>
+      # Run the TMB optimization (estimation)
+      FIMS::fit_fims()
+
+    fims_estimates_fixed_effects <- FIMS::get_estimates(fit_fims_fixed_effects)
     # Define save paths
     output_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_fixed_effects.RDS")
     # Save the output
-    saveRDS(fims_estimates, file = output_path_fixed_effects)
+    saveRDS(fims_estimates_fixed_effects, file = output_path_fixed_effects)
 
     # Check convergence by extracting the maximum gradient
     max_gradient_fims_fixed_effects <- FIMS::get_max_gradient(fit_fims_fixed_effects)
@@ -164,372 +258,6 @@ run_fims <- function(
     # Save the hessian
     saveRDS(hessian_fixed_effects, file = hessian_path_fixed_effects)
 
-    FIMS::clear()
-    
-    # random effects
-    estimation_mode <- TRUE
-    random_effects <- c(recruitment = "log_devs")
-    map <- list()
-
-    # Extract fishing fleet landings data (observed) and initialize index module
-    landings <- em_input[["L.obs"]][["fleet1"]]
-
-    # set fishing fleet landings data, need to set dimensions of data index
-    # currently FIMS only has a fleet module that takes index for both survey index and fishery landings
-    fishing_fleet_landings <- methods::new(Landings, om_input[["nyr"]])
-    purrr::walk(
-      1:om_input[["nyr"]],
-      \(x) fishing_fleet_landings$landings_data$set(x - 1, landings[x])
-    )
-
-    # set fishing fleet age comp data, need to set dimensions of age comps
-    # Here the new function initializes the object with length nyr*n_ages
-    fishing_fleet_age_comp <- methods::new(AgeComp, om_input[["nyr"]], om_input[["nages"]])
-
-    # Here we fill in the values for the object with the observed age comps for fleet one
-    # we multiply these proportions by the sample size for likelihood weighting
-    purrr::walk(
-      1:(om_input[["nyr"]] * om_input[["nages"]]),
-      \(x) fishing_fleet_age_comp$age_comp_data$set(
-        x - 1,
-        (c(t(em_input[["L.age.obs"]][["fleet1"]])) * em_input[["n.L"]][["fleet1"]])[x]
-      )
-    )
-
-    # Fleet
-    # Create the fishing fleet
-    fishing_fleet_selectivity <- methods::new(LogisticSelectivity)
-    fishing_fleet_selectivity$inflection_point[1]$value <- om_input[["sel_fleet"]][["fleet1"]][["A50.sel1"]]
-
-    # turn on estimation of inflection_point
-    fishing_fleet_selectivity$inflection_point[1]$estimation_type$set("fixed_effects")
-    fishing_fleet_selectivity$slope[1]$value <- om_input[["sel_fleet"]][["fleet1"]][["slope.sel1"]]
-
-    # turn on estimation of slope
-    fishing_fleet_selectivity$slope[1]$estimation_type$set("fixed_effects")
-
-    # Initialize the fishing fleet module
-    fishing_fleet <- methods::new(Fleet)
-    # Set number of years
-    fishing_fleet$n_years$set(om_input[["nyr"]])
-    # Set number of age classes
-    fishing_fleet$n_ages$set(om_input[["nages"]])
-
-    fishing_fleet$log_Fmort$resize(om_input[["nyr"]])
-    for (y in 1:om_input$nyr) {
-      # Log-transform OM fishing mortality
-      fishing_fleet$log_Fmort[y]$value <- log(om_output[["f"]][y])
-    }
-    fishing_fleet$log_Fmort$set_all_estimable(TRUE)
-    fishing_fleet$log_q[1]$value <- log(1.0)
-    fishing_fleet$log_q[1]$estimation_type$set("constant")
-    fishing_fleet$SetSelectivityID(fishing_fleet_selectivity$get_id())
-    fishing_fleet$SetObservedLandingsDataID(fishing_fleet_landings$get_id())
-    fishing_fleet$SetObservedAgeCompDataID(fishing_fleet_age_comp$get_id())
-
-    # Set up fishery index data using the lognormal
-    fishing_fleet_landings_distribution <- methods::new(DlnormDistribution)
-    # lognormal observation error transformed on the log scale
-    fishing_fleet_landings_distribution$log_sd$resize(om_input[["nyr"]])
-    for (y in 1:om_input[["nyr"]]) {
-      # Compute lognormal SD from OM coefficient of variation (CV)
-      fishing_fleet_landings_distribution$log_sd[y]$value <- log(sqrt(log(em_input[["cv.L"]][["fleet1"]]^2 + 1)))
-    }
-    fishing_fleet_landings_distribution$log_sd$set_all_estimable(FALSE)
-    # Set Data using the IDs from the modules defined above
-    fishing_fleet_landings_distribution$set_observed_data(fishing_fleet$GetObservedLandingsDataID())
-    fishing_fleet_landings_distribution$set_distribution_links("data", fishing_fleet$log_landings_expected$get_id())
-
-    # Set up fishery age composition data using the multinomial
-    fishing_fleet_agecomp_distribution <- methods::new(DmultinomDistribution)
-    fishing_fleet_agecomp_distribution$set_observed_data(fishing_fleet$GetObservedAgeCompDataID())
-    fishing_fleet_agecomp_distribution$set_distribution_links("data", fishing_fleet$agecomp_proportion$get_id())
-
-    # Repeat similar setup for the survey fleet (e.g., index, age comp, and length comp)
-    # This includes initializing logistic selectivity, observed data modules, and distribution links.
-    survey_index <- em_input[["surveyB.obs"]][["survey1"]]
-    survey_fleet_index <- methods::new(Index, om_input[["nyr"]])
-    purrr::walk(
-      1:om_input[["nyr"]],
-      \(x) survey_fleet_index$index_data$set(x - 1, survey_index[x])
-    )
-
-    survey_fleet_age_comp <- methods::new(AgeComp, om_input[["nyr"]], om_input[["nages"]])
-    purrr::walk(
-      1:(om_input[["nyr"]] * om_input[["nages"]]),
-      \(x) survey_fleet_age_comp$age_comp_data$set(
-        x - 1,
-        (c(t(em_input[["survey.age.obs"]][["survey1"]])) * em_input[["n.survey"]][["survey1"]])[x]
-      )
-    )
-
-    # Fleet
-    # Create the survey fleet
-    survey_fleet_selectivity <- methods::new(LogisticSelectivity)
-    survey_fleet_selectivity$inflection_point[1]$value <- om_input[["sel_survey"]][["survey1"]][["A50.sel1"]]
-
-    # turn on estimation of inflection_point
-    survey_fleet_selectivity$inflection_point[1]$estimation_type$set("fixed_effects")
-    survey_fleet_selectivity$slope[1]$value <- om_input[["sel_survey"]][["survey1"]][["slope.sel1"]]
-
-    # turn on estimation of slope
-    survey_fleet_selectivity$slope[1]$estimation_type$set("fixed_effects")
-
-    survey_fleet <- methods::new(Fleet)
-    survey_fleet$n_ages$set(om_input[["nages"]])
-    survey_fleet$n_years$set(om_input[["nyr"]])
-    survey_fleet$log_Fmort$resize(om_input[["nyr"]])
-    for (y in 1:om_input$nyr) {
-      # Set very low survey fishing mortality
-      survey_fleet$log_Fmort[y]$value <- -200
-    }
-    survey_fleet$log_Fmort$set_all_estimable(FALSE)
-    survey_fleet$log_q[1]$value <- log(om_output[["survey_q"]][["survey1"]])
-    survey_fleet$log_q[1]$estimation_type$set("fixed_effects")
-    survey_fleet$SetSelectivityID(survey_fleet_selectivity$get_id())
-    survey_fleet$SetObservedIndexDataID(survey_fleet_index$get_id())
-    survey_fleet$SetObservedAgeCompDataID(survey_fleet_age_comp$get_id())
-
-    # Set up survey index data using the lognormal
-    survey_fleet_index_distribution <- methods::new(DlnormDistribution)
-
-    # lognormal observation error transformed on the log scale
-    # sd = sqrt(log(cv^2 + 1)), sd is log transformed
-    survey_fleet_index_distribution$log_sd$resize(om_input[["nyr"]])
-    for (y in 1:om_input$nyr) {
-      survey_fleet_index_distribution$log_sd[y]$value <- log(sqrt(log(em_input[["cv.survey"]][["survey1"]]^2 + 1)))
-    }
-    survey_fleet_index_distribution$log_sd$set_all_estimable(FALSE)
-    # Set Data using the IDs from the modules defined above
-    survey_fleet_index_distribution$set_observed_data(survey_fleet$GetObservedIndexDataID())
-    survey_fleet_index_distribution$set_distribution_links("data", survey_fleet$log_index_expected$get_id())
-
-    # Age composition distribution
-    survey_fleet_agecomp_distribution <- methods::new(DmultinomDistribution)
-    survey_fleet_agecomp_distribution$set_observed_data(survey_fleet$GetObservedAgeCompDataID())
-    survey_fleet_agecomp_distribution$set_distribution_links("data", survey_fleet$agecomp_proportion$get_id())
-
-    # Recruitment
-    # create new module in the recruitment class (specifically Beverton-Holt,
-    # when there are other options, this would be where the option would be chosen)
-    recruitment <- methods::new(BevertonHoltRecruitment)
-    if (is.null(random_effects) || random_effects[["recruitment"]] == "log_devs") {
-      recruitment_process <- new(LogDevsRecruitmentProcess)
-    } else {
-      recruitment_process <- new(LogRRecruitmentProcess)
-    }
-    recruitment$SetRecruitmentProcessID(recruitment_process$get_id())
-
-    # NOTE: in first set of parameters below (for recruitment),
-    # $estimation_type (default is "constant")
-    # is defined even if it matches the defaults in order to provide an example
-    # of how that is done. Other sections of the code below leave defaults in
-    # place as appropriate.
-
-    # set up log_rzero (equilibrium recruitment)
-    recruitment$log_rzero[1]$value <- log(om_input[["R0"]])
-    recruitment$log_rzero[1]$estimation_type$set("fixed_effects")
-    # set up logit_steep
-    recruitment$logit_steep[1]$value <- -log(1.0 - om_input[["h"]]) + log(om_input[["h"]] - 0.2)
-    recruitment$logit_steep[1]$estimation_type$set("constant")
-    recruitment$n_years$set(om_input[["nyr"]])
-
-    # turn on estimation of deviations
-    # recruit deviations should enter the model in normal space.
-    # The log is taken in the likelihood calculations
-    # alternative setting: recruitment$log_devs <- rep(0, length(om_input$logR.resid))
-
-
-    if (is.null(random_effects) || random_effects[["recruitment"]] == "log_devs") {
-      recruitment$log_devs$resize(om_input[["nyr"]] - 1)
-      for (y in 1:(om_input[["nyr"]] - 1)) {
-        recruitment$log_devs[y]$value <- om_input[["logR.resid"]][y + 1]
-      }
-    }
-    if ("recruitment" %in% names(random_effects)) {
-      if (random_effects[["recruitment"]] == "log_devs") {
-        recruitment$log_devs$set_all_random(TRUE)
-      }
-      if (random_effects[["recruitment"]] == "log_r") {
-        recruitment$log_r$resize(om_input[["nyr"]] - 1)
-        for (y in 1:(om_input[["nyr"]] - 1)) {
-          recruitment$log_r[y]$value <- 1
-        }
-        recruitment$log_r$set_all_random(TRUE)
-      }
-    }
-    if (is.null(random_effects)) {
-      # TODO: integration tests fail after setting recruitment log_devs all estimable.
-      # We need to debug the issue, then uncomment the line below.
-      recruitment$log_devs$set_all_estimable(TRUE)
-    }
-
-    if ("selectivity" %in% names(random_effects)) {
-      if (random_effects[["selectivity"]] == "log_devs") {
-        fishing_fleet_selectivity$log_devs$set_all_random(TRUE)
-        survey_fleet_selectivity$log_devs$set_all_random(TRUE)
-      }
-      if (random_effects[["selectivity"]] == "log_sel") {
-        fishing_fleet_selectivity$log_sel$set_all_random(TRUE)
-        survey_fleet_selectivity$log_sel$set_all_random(TRUE)
-      }
-      if (random_effects[["selectivity"]] == "pars") {
-        fishing_fleet_selectivity$inflection_point$estimation_type$set("random_effects")
-        fishing_fleet_selectivity$inflection_point$slope <- "random_effects"
-        survey_fleet_selectivity$inflection_point$estimation_type$set("random_effects")
-        survey_fleet_selectivity$inflection_point$slope <- "random_effects"
-      }
-    }
-    recruitment_distribution <- methods::new(DnormDistribution)
-    # set up logR_sd using the normal log_sd parameter
-    # logR_sd is NOT logged. It needs to enter the model logged b/c the exp() is
-    # taken before the likelihood calculation
-    recruitment_distribution$log_sd$resize(1)
-    recruitment_distribution$log_sd[1]$value <- log(om_input[["logR_sd"]])
-    recruitment_distribution$x$resize(om_input[["nyr"]] - 1)
-    recruitment_distribution$expected_values$resize(om_input[["nyr"]] - 1)
-    for (i in 1:(om_input[["nyr"]] - 1)) {
-      recruitment_distribution$x[i]$value <- 0
-      recruitment_distribution$expected_values[i]$value <- 0
-    }
-    if ("recruitment" %in% names(random_effects)) {
-      if (random_effects[["recruitment"]] == "log_devs") {
-        recruitment_distribution$log_sd[1]$estimation_type$set("fixed_effects")
-        recruitment_distribution$set_distribution_links("random_effects", recruitment$log_devs$get_id())
-      }
-      if (random_effects[["recruitment"]] == "log_r") {
-        recruitment_distribution$log_sd[1]$value <- log(1)
-        recruitment_distribution$log_sd[1]$estimation_type$set("fixed_effects")
-        recruitment_distribution$set_distribution_links("random_effects", c(recruitment$log_r$get_id(), recruitment$log_expected_recruitment$get_id()))
-      }
-    }
-
-    if (is.null(random_effects)) {
-      recruitment_distribution$set_distribution_links("random_effects", recruitment$log_devs$get_id())
-    }
-
-    # Growth
-    ewaa_growth <- methods::new(EWAAGrowth)
-    ewaa_growth$ages$resize(om_input[["nages"]])
-    purrr::walk(
-      seq_along(om_input[["ages"]]),
-      \(x) ewaa_growth$ages$set(x - 1, om_input[["ages"]][x])
-    )
-    ewaa_growth$weights$resize(om_input[["nages"]])
-    purrr::walk(
-      seq_along(om_input[["W.mt"]]),
-      \(x) ewaa_growth$weights$set(x - 1, om_input[["W.mt"]][x])
-    )
-
-    # Maturity
-    maturity <- methods::new(LogisticMaturity)
-    maturity$inflection_point[1]$value <- om_input[["A50.mat"]]
-    maturity$inflection_point[1]$estimation_type$set("constant")
-    maturity$slope[1]$value <- om_input[["slope.mat"]]
-    maturity$slope[1]$estimation_type$set("constant")
-
-    # Population
-    population <- methods::new(Population)
-    population$log_M$resize(om_input[["nyr"]] * om_input[["nages"]])
-    for (i in 1:(om_input[["nyr"]] * om_input[["nages"]])) {
-      population$log_M[i]$value <- log(om_input[["M.age"]][1])
-    }
-    population$log_M$set_all_estimable(FALSE)
-    population$log_init_naa$resize(om_input[["nages"]])
-    for (i in 1:om_input$nages) {
-      population$log_init_naa[i]$value <- log(om_output[["N.age"]][1, i])
-    }
-    population$log_init_naa$set_all_estimable(TRUE)
-    population$n_ages$set(om_input[["nages"]])
-    population$ages$resize(om_input[["nages"]])
-    purrr::walk(
-      seq_along(om_input[["ages"]]),
-      \(x) population$ages$set(x - 1, om_input[["ages"]][x])
-    )
-    population$n_fleets$set(sum(om_input[["fleet_num"]], om_input[["survey_num"]]))
-    population$n_years$set(om_input[["nyr"]])
-    population$SetRecruitmentID(recruitment$get_id())
-    population$SetGrowthID(ewaa_growth$get_id())
-    population$SetMaturityID(maturity$get_id())
-    population$AddFleet(fishing_fleet$get_id())
-    population$AddFleet(survey_fleet$get_id())
-
-    # Set up catch at age model
-    caa <- methods::new(CatchAtAge)
-    caa$AddPopulation(population$get_id())
-
-    # Set-up TMB
-    CreateTMBModel()
-    # Create parameter list from Rcpp modules
-    parameters <- list(
-      p = get_fixed(),
-      re = get_random()
-    )
-    obj <- TMB::MakeADFun(
-      data = list(), parameters, DLL = "FIMS",
-      silent = TRUE, map = map, random = "re"
-    )
-
-    # Optimization with nlminb
-    opt <- NULL
-    random_effects_number_of_loops <- 3
-    if (estimation_mode == TRUE) {
-      control <- list(eval.max = 10000, iter.max = 10000, trace = 0)
-      opt <- stats::nlminb(
-        start = obj[["par"]],
-        objective = obj[["fn"]],
-        gradient = obj[["gr"]],
-        control = control
-      )
-
-      maxgrad0 <- max(abs(obj$gr(opt$par)))
-      maxgrad <- maxgrad0
-      if (random_effects_number_of_loops > 0) {
-        for (ii in seq_len(random_effects_number_of_loops)) {
-          opt <- stats::nlminb(
-            start = opt[["par"]],
-            objective = obj[["fn"]],
-            gradient = obj[["gr"]],
-            control = control
-          )
-          maxgrad <- max(abs(obj$gr(opt$par)))
-        }
-      }
-      FIMS::set_fixed(opt$par)
-      fims_finalized <- caa$get_output(do_sd_report = estimation_mode)
-    }
-
-    # Call report using MLE parameter values, or
-    # the input values if optimization is skipped
-    report <- obj[["report"]](obj[["env"]][["last.par.best"]])
-
-    sdr <- TMB::sdreport(obj)
-    sdr_report <- summary(sdr, "report")
-    sdr_fixed <- summary(sdr, "fixed")
-    sdr_random <- summary(sdr, "random")
-    row.names(sdr_fixed) <- names(FIMS:::get_parameter_names(sdr_fixed[, 1]))
-    hessian <- sdr[["pdHess"]]
-    
-    fit_fims_random_effects <- list(
-      sdr_report = sdr_report,
-      sdr_fixed = sdr_fixed,
-      sdr_random = sdr_random,
-      hessian = hessian
-    )
-
-    # Define save paths
-    output_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_random_effects.RDS")
-    # Save the output
-    saveRDS(fit_fims_random_effects, file = output_path_random_effects)
-
-    # Check convergence by extracting the maximum gradient
-    max_gradient_fims_random_effects <- max(abs(sdr[["gradient.fixed"]]))
-    # Define save paths
-    max_gradient_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects.RDS")
-    # Save the max gradient
-    saveRDS(max_gradient_fims_random_effects, file = max_gradient_path_random_effects)
-
-    # Clear FIMS before the next simulation
     FIMS::clear()
   }
 }
@@ -612,7 +340,16 @@ prepare_data_fims <- function(om_input, om_output, em_input) {
     unit = "mt"
   )
   # Expand weight-at-age to all years by merging
-  weight_at_age_data <- merge(timingfishery, weights_fishery)
+  weight_at_age_data <- merge(
+    # Add on one more year for weight_at_age data because the model needs to
+    # compute spawning biomass for the beginning of the year following the
+    # terminal year
+    dplyr::bind_rows(
+      timing_fishery,
+      data.frame(timing = max(timing_fishery[["timing"]]) + 1)
+    ),
+    weights_fishery
+  )
   # Combine all data components into one data.frame
   data_fims <- rbind(landings_data, index_data, age_data, weight_at_age_data) |>
     dplyr::mutate(
