@@ -327,7 +327,7 @@ prepare_data_fims <- function(om_input, om_output, em_input) {
       names_transform = list(age = as.integer)
     )
   # Create a data frame of all years
-  timingfishery <- data.frame(
+  timing_fishery <- data.frame(
     timing = om_input[["year"]]
   )
   # Create a data frame of weights-at-age (assumed constant over time)
