@@ -332,7 +332,7 @@ prepare_data_fims <- function(om_input, om_output, em_input) {
   )
   # Create a data frame of weights-at-age (assumed constant over time)
   weights_fishery <- data.frame(
-    type = "weight-at-age",
+    type = "weight_at_age",
     name = names(em_input[["n.L"]]),
     age = seq_along(om_input[["W.kg"]]),
     value = om_input[["W.mt"]],
