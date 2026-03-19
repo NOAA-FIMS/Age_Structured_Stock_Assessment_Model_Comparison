@@ -155,8 +155,8 @@ run_fims <- function(
     saveRDS(max_gradient_fims_random_effects, file = max_gradient_path_random_effects)
 
     # Check hessian
-    obj_random_effects <- FIMS::get_obj(fit_fims_random_effects)
-    hessian_random_effects <- obj_random_effects$hessian
+    sdreport_random_effects <- FIMS::get_sdreport(fit_fims_random_effects)
+    hessian_random_effects <- sdreport_random_effects[["pdHess"]]
     # Define save paths
     hessian_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects.RDS")
     # Save the hessian
@@ -198,8 +198,8 @@ run_fims <- function(
     saveRDS(max_gradient_fims_random_effects_sigmaR_estimated, file = max_gradient_path_random_effects_sigmaR_estimated)
 
     # Check hessian
-    obj_random_effects_sigmaR_estimated <- FIMS::get_obj(fit_fims_random_effects_sigmaR_estimated)
-    hessian_random_effects_sigmaR_estimated <- obj_random_effects_sigmaR_estimated$hessian
+    sdreport_random_effects_sigmaR_estimated <- FIMS::get_sdreport(fit_fims_random_effects_sigmaR_estimated)
+    hessian_random_effects_sigmaR_estimated <- sdreport_random_effects_sigmaR_estimated[["pdHess"]]
     # Define save paths
     hessian_path_random_effects_sigmaR_estimated <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects_sigmaR_estimated.RDS")
     # Save the hessian
@@ -251,7 +251,7 @@ run_fims <- function(
     saveRDS(max_gradient_fims_fixed_effects, file = max_gradient_path_fixed_effects)
 
     # Check hessian
-    sdr <- FIMS::get_sdreport(fit_fims_fixed_effects)
+    sdreport_fixed_effects <- FIMS::get_sdreport(fit_fims_fixed_effects)
     hessian_fixed_effects <- sdr[["pdHess"]]
     # Define save paths
     hessian_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_fixed_effects.RDS")
