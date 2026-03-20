@@ -252,7 +252,7 @@ run_fims <- function(
 
     # Check hessian
     sdreport_fixed_effects <- FIMS::get_sdreport(fit_fims_fixed_effects)
-    hessian_fixed_effects <- sdr[["pdHess"]]
+    hessian_fixed_effects <- sdreport_fixed_effects[["pdHess"]]
     # Define save paths
     hessian_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_fixed_effects.RDS")
     # Save the hessian
