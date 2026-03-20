@@ -68,7 +68,32 @@ run_amak <- function(maindir=NULL, subdir="AMAK", om_sim_num=NULL, casedir=cased
   foreach (om_sim = 1:om_sim_num) %dopar% {
     setwd(file.path(casedir, "output", subdir, paste("s", om_sim, sep="")))
     file.copy(file.path(maindir, "em_input", "amak.exe"), file.path(casedir,"output", subdir, paste("s", om_sim, sep=""), "amak.exe"), overwrite = T)
-    system(paste(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "amak.exe"), file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "amak.dat"), sep = " "), show.output.on.console = FALSE)
+    # system(paste(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "amak.exe"), file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "amak.dat"), sep = " "), show.output.on.console = FALSE)
+    # Define the path to the executable and its data file
+    exe_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "amak.exe")
+    dat_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "amak.dat")
+
+    # It's good practice to quote paths in case they contain spaces
+    command_core <- paste(shQuote(exe_path), shQuote(dat_path))
+
+    # Check the operating system and set the final command accordingly
+    if (.Platform[["OS.type"]] == "windows") {
+      # On Windows, the command is just the executable and its argument
+      full_command <- command_core
+      # Execute the command with Windows-specific arguments
+      system(full_command, show.output.on.console = FALSE)
+    } else {
+      # On non-Windows systems (Linux, macOS), make the file executable first
+      # This is the crucial step to fix "Permission denied"
+      system(paste("chmod +x", shQuote(exe_path)))
+      
+      # Prepend "wine" to the command
+      full_command <- paste("wine", command_core)
+      
+      # Execute the command without the Windows-only arguments
+      system(full_command)
+    }
+
     file.remove(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "amak.exe"))
     file_list <- list.files(path = getwd())
     file.remove(c(file_list[!(file_list %in% c(list.files(path = getwd(), pattern = c(".rep")),
