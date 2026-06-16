@@ -147,6 +147,12 @@ run_fims <- function(
     # Save the output
     saveRDS(fims_estimates_random_effects, file = output_path_random_effects)
 
+    # Check optimizer convergence code
+    # 0 = converged, >0 = not converged
+    optimizer_convergence_random_effects <- FIMS::get_opt(fit_fims_random_effects)[["convergence"]]
+    optimizer_convergence_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "optimizer_convergence_fims_random_effects.RDS")
+    saveRDS(optimizer_convergence_random_effects, file = optimizer_convergence_path_random_effects)
+
     # Check convergence by extracting the maximum gradient
     max_gradient_fims_random_effects <- FIMS::get_max_gradient(fit_fims_random_effects)
     # Define save paths
@@ -154,56 +160,92 @@ run_fims <- function(
     # Save the max gradient
     saveRDS(max_gradient_fims_random_effects, file = max_gradient_path_random_effects)
 
-    # Check hessian
+    # Check hessian and NA SEs
+    # TRUE/FALSE: is Hessian positive definite?
     sdreport_random_effects <- FIMS::get_sdreport(fit_fims_random_effects)
-    hessian_random_effects <- sdreport_random_effects[["pdHess"]]
-    # Define save paths
-    hessian_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects.RDS")
-    # Save the hessian
-    saveRDS(hessian_random_effects, file = hessian_path_random_effects)
+    if (!is.null(sdreport_random_effects)) {
+      hessian_random_effects <- sdreport_random_effects[["pdHess"]]
+      # Define save paths
+      hessian_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects.RDS")
+      # Save the hessian
+      saveRDS(hessian_random_effects, file = hessian_path_random_effects)
 
+      na_count_random_effects <- count_na_standard_errors(sdreport_random_effects)
+      na_count_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "na_count_random_effects.RDS")
+      saveRDS(na_count_random_effects, file = na_count_path_random_effects)
+
+      condition_number_random_effects <- get_condition_number(
+        FIMS::get_obj(fit_fims_random_effects),
+        FIMS::get_opt(fit_fims_random_effects),
+        sdreport_random_effects
+      )
+      condition_number_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "condition_number_random_effects.RDS")
+      saveRDS(condition_number_random_effects, file = condition_number_path_random_effects)
+    }
+    
     FIMS::clear()
 
-    # Random effects with sigmaR estimated
-    parameters_sigmaR_estimated <- parameters |>
+    # Random effects with constant sigmaR
+    parameters_sigmaR_constant <- parameters |>
       # Update log_sd for log_devs in the Recruitment module to be estimated
       dplyr::rows_update(
         tibble::tibble(
           module_name = "Recruitment",
           label = "log_sd",
           value = om_input[["logR_sd"]],
-          estimation_type = "fixed_effects"
+          estimation_type = "constant"
         ),
         by = c("module_name", "label")
       )
     
     # Configure and Fit FIMS Model
-    fit_fims_random_effects_sigmaR_estimated <- parameters_sigmaR_estimated |>
+    fit_fims_random_effects_sigmaR_constant <- parameters_sigmaR_constant |>
       # Initialize the FIMS model object with the updated parameters
       FIMS::initialize_fims(data = data_fims) |>
       # Run the TMB optimization (estimation)
       FIMS::fit_fims()
 
-    fims_estimates_random_effects_sigmaR_estimated <- FIMS::get_estimates(fit_fims_random_effects_sigmaR_estimated)
+    fims_estimates_random_effects_sigmaR_constant <- FIMS::get_estimates(fit_fims_random_effects_sigmaR_constant)
     # Define save paths
-    output_path_random_effects_sigmaR_estimated <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_random_effects_sigmaR_estimated.RDS")
+    output_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_fims_random_effects_sigmaR_constant.RDS")
     # Save the output
-    saveRDS(fims_estimates_random_effects_sigmaR_estimated, file = output_path_random_effects_sigmaR_estimated)
+    saveRDS(fims_estimates_random_effects_sigmaR_constant, file = output_path_random_effects_sigmaR_constant)
+
+    # Check optimizer convergence code
+    # 0 = converged, >0 = not converged
+    optimizer_convergence_random_effects_sigmaR_constant <- FIMS::get_opt(fit_fims_random_effects_sigmaR_constant)[["convergence"]]
+    optimizer_convergence_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "optimizer_convergence_fims_random_effects_sigmaR_constant.RDS")
+    saveRDS(optimizer_convergence_random_effects_sigmaR_constant, file = optimizer_convergence_path_random_effects_sigmaR_constant)
 
     # Check convergence by extracting the maximum gradient
-    max_gradient_fims_random_effects_sigmaR_estimated <- FIMS::get_max_gradient(fit_fims_random_effects_sigmaR_estimated)
+    max_gradient_fims_random_effects_sigmaR_constant <- FIMS::get_max_gradient(fit_fims_random_effects_sigmaR_constant)
     # Define save paths
-    max_gradient_path_random_effects_sigmaR_estimated <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects_sigmaR_estimated.RDS")
+    max_gradient_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "max_gradient_fims_random_effects_sigmaR_constant.RDS")
     # Save the max gradient
-    saveRDS(max_gradient_fims_random_effects_sigmaR_estimated, file = max_gradient_path_random_effects_sigmaR_estimated)
+    saveRDS(max_gradient_fims_random_effects_sigmaR_constant, file = max_gradient_path_random_effects_sigmaR_constant)
+    
+    # Check hessian and NA SEs
+    # TRUE/FALSE: is Hessian positive definite?
+    sdreport_random_effects_sigmaR_constant <- FIMS::get_sdreport(fit_fims_random_effects_sigmaR_constant)
+    if (!is.null(sdreport_random_effects_sigmaR_constant)) {
+      hessian_random_effects_sigmaR_constant <- sdreport_random_effects_sigmaR_constant[["pdHess"]]
+      # Define save paths
+      hessian_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects_sigmaR_constant.RDS")
+      # Save the hessian
+      saveRDS(hessian_random_effects_sigmaR_constant, file = hessian_path_random_effects_sigmaR_constant)
 
-    # Check hessian
-    sdreport_random_effects_sigmaR_estimated <- FIMS::get_sdreport(fit_fims_random_effects_sigmaR_estimated)
-    hessian_random_effects_sigmaR_estimated <- sdreport_random_effects_sigmaR_estimated[["pdHess"]]
-    # Define save paths
-    hessian_path_random_effects_sigmaR_estimated <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_random_effects_sigmaR_estimated.RDS")
-    # Save the hessian
-    saveRDS(hessian_random_effects_sigmaR_estimated, file = hessian_path_random_effects_sigmaR_estimated)
+      na_count_random_effects_sigmaR_constant <- count_na_standard_errors(sdreport_random_effects_sigmaR_constant)
+      na_count_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "na_count_random_effects_sigmaR_constant.RDS")
+      saveRDS(na_count_random_effects_sigmaR_constant, file = na_count_path_random_effects_sigmaR_constant)
+
+      condition_number_random_effects_sigmaR_constant <- get_condition_number(
+        FIMS::get_obj(fit_fims_random_effects_sigmaR_constant),
+        FIMS::get_opt(fit_fims_random_effects_sigmaR_constant),
+        sdreport_random_effects_sigmaR_constant
+      )
+      condition_number_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "condition_number_random_effects_sigmaR_constant.RDS")
+      saveRDS(condition_number_random_effects_sigmaR_constant, file = condition_number_path_random_effects_sigmaR_constant)
+    }
 
     FIMS::clear()
     
@@ -243,6 +285,12 @@ run_fims <- function(
     # Save the output
     saveRDS(fims_estimates_fixed_effects, file = output_path_fixed_effects)
 
+    # Check optimizer convergence code
+    # 0 = converged, >0 = not converged
+    optimizer_convergence_fixed_effects <- FIMS::get_opt(fit_fims_fixed_effects)[["convergence"]]
+    optimizer_convergence_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "optimizer_convergence_fims_fixed_effects.RDS")
+    saveRDS(optimizer_convergence_fixed_effects, file = optimizer_convergence_path_fixed_effects)
+
     # Check convergence by extracting the maximum gradient
     max_gradient_fims_fixed_effects <- FIMS::get_max_gradient(fit_fims_fixed_effects)
     # Define save paths
@@ -250,13 +298,26 @@ run_fims <- function(
     # Save the max gradient
     saveRDS(max_gradient_fims_fixed_effects, file = max_gradient_path_fixed_effects)
 
-    # Check hessian
     sdreport_fixed_effects <- FIMS::get_sdreport(fit_fims_fixed_effects)
-    hessian_fixed_effects <- sdreport_fixed_effects[["pdHess"]]
-    # Define save paths
-    hessian_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_fixed_effects.RDS")
-    # Save the hessian
-    saveRDS(hessian_fixed_effects, file = hessian_path_fixed_effects)
+    if (!is.null(sdreport_fixed_effects)) {
+      hessian_fixed_effects <- sdreport_fixed_effects[["pdHess"]]
+      # Define save paths
+      hessian_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "hessian_fims_fixed_effects.RDS")
+      # Save the hessian
+      saveRDS(hessian_fixed_effects, file = hessian_path_fixed_effects)
+
+      na_count_fixed_effects <- count_na_standard_errors(sdreport_fixed_effects)
+      na_count_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "na_count_fixed_effects.RDS")
+      saveRDS(na_count_fixed_effects, file = na_count_path_fixed_effects)
+
+      condition_number_fixed_effects <- get_condition_number(
+        FIMS::get_obj(fit_fims_fixed_effects),
+        FIMS::get_opt(fit_fims_fixed_effects),
+        sdreport_fixed_effects
+      )
+      condition_number_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "condition_number_fixed_effects.RDS")
+      saveRDS(condition_number_fixed_effects, file = condition_number_path_fixed_effects)
+    }
 
     FIMS::clear()
   }
@@ -376,4 +437,39 @@ prepare_data_fims <- function(om_input, om_output, em_input) {
 #' @noRd
 cv_2_sd <- function(x) {
   sqrt(log(x^2 + 1))
+}
+
+#' Count NA standard errors across all parameter types
+count_na_standard_errors <- function(sdreport) {
+  total_na <- 0
+  
+  # Fixed effects
+  fixed_summary <- summary(sdreport, "fixed")
+  if (!is.null(fixed_summary) && nrow(fixed_summary) > 0) {
+    total_na <- total_na + sum(is.na(fixed_summary[, "Std. Error"]))
+  }
+  
+  # Random effects
+  random_summary <- summary(sdreport, "random")
+  if (!is.null(random_summary) && nrow(random_summary) > 0) {
+    total_na <- total_na + sum(is.na(random_summary[, "Std. Error"]))
+  }
+  
+  # Derived quantities
+  report_summary <- summary(sdreport, "report")
+  if (!is.null(report_summary) && nrow(report_summary) > 0) {
+    total_na <- total_na + sum(is.na(report_summary[, "Std. Error"]))
+  }
+  
+  return(total_na)
+}
+
+#' Get condition number of Hessian
+get_condition_number <- function(obj, opt, sdreport) {
+  if (length(obj[["env"]][["random"]]) > 0) {
+    hessian <- obj[["env"]]$spHess(random = TRUE)
+  } else {
+    hessian <- as.matrix(obj$he(opt[["par"]]))
+  }
+  kappa(hessian)
 }
