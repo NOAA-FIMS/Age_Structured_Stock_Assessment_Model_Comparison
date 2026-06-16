@@ -61,18 +61,19 @@ run_wham <- function(
     rec_sigma <- sqrt(log(1 + rec_cv^2))
     n_ages <- input_wham[["data"]][["n_ages"]]
     input_wham[["par"]][["log_NAA_sigma"]][1, 1, 1] <- log(rec_sigma)[1]
-    # Map log_NAA_sigma off so it's not estimated
-    # TMB expects a factor mapping; setting to NA fixes it
-    input_wham[["map"]][["log_NAA_sigma"]] <- rep(factor(NA), n_ages)
 
     h_om <- om_input[["h"]]
     spr0_om <- om_input[["Phi.0"]] * 1000
     alpha_om <- (4 * h_om) / (spr0_om * (1 - h_om))
-
     input_wham[["par"]][["mean_rec_pars"]][1] <- log(alpha_om)
     input_wham[["map"]][["mean_rec_pars"]] <- factor(c(NA, 1))
-    
+
     fit_wham_random_effects <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+
+    # Extract runtime
+    runtime_random_effects <- as.numeric(fit_wham_random_effects[["runtime"]])
+    runtime_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_random_effects.RDS")
+    saveRDS(runtime_random_effects, file = runtime_path_random_effects)
     
     # Define save paths
     output_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_wham_random_effects.RDS")
@@ -86,21 +87,76 @@ run_wham <- function(
     # Save the max gradient
     saveRDS(convergence_wham_random_effects, file = convergence_path)
 
+    # Map log_NAA_sigma off so it's not estimated
+    # TMB expects a factor mapping; setting to NA fixes it
+    input_wham[["map"]][["log_NAA_sigma"]] <- rep(factor(NA), n_ages)
+    fit_wham_random_effects_sigmaR_constant <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+
+    # Extract runtime
+    runtime_random_effects_sigmaR_constant <- as.numeric(fit_wham_random_effects_sigmaR_constant[["runtime"]])
+    runtime_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_random_effects_sigmaR_constant.RDS")
+    saveRDS(runtime_random_effects_sigmaR_constant, file = runtime_path_random_effects_sigmaR_constant)
+    
+    # Define save paths
+    output_path_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_wham_random_effects_sigmaR_constant.RDS")
+    # Save the output
+    saveRDS(fit_wham_random_effects_sigmaR_constant, file = output_path_sigmaR_constant)
+
+    # Check convergence by extracting the maximum gradient
+    convergence_wham_random_effects_sigmaR_constant <- fit_wham_random_effects_sigmaR_constant$opt$convergence
+    # Define save paths
+    convergence_path_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "convergence_wham_random_effects_sigmaR_constant.RDS")
+    # Save the max gradient
+    saveRDS(convergence_wham_random_effects_sigmaR_constant, file = convergence_path_sigmaR_constant)
+
     # Set log_NAA to fixed effects 
     input_wham[["random"]] <- input_wham[["random"]][!grepl("log_NAA", input_wham[["random"]])]
 
-    fit_wham_fixed_effects <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+    fit_wham_fixed_effects_logNAA <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+
+    # Extract runtime
+    runtime_fixed_effects_logNAA <- as.numeric(fit_wham_fixed_effects_logNAA[["runtime"]])
+    runtime_path_fixed_effects_logNAA <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_fixed_effects_logNAA.RDS")
+    saveRDS(runtime_fixed_effects_logNAA, file = runtime_path_fixed_effects_logNAA)
     
     # Define save paths
-    output_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_wham_fixed_effects.RDS")
+    output_path_fixed_effects_logNAA <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_wham_fixed_effects_logNAA.RDS")
     # Save the output
-    saveRDS(fit_wham_fixed_effects, file = output_path)
+    saveRDS(fit_wham_fixed_effects_logNAA, file = output_path_fixed_effects_logNAA)
+
+    # Check convergence by extracting the maximum gradient
+    convergence_wham_fixed_effects_logNAA <- fit_wham_fixed_effects_logNAA$opt$convergence
+    # Define save paths
+    convergence_path_fixed_effects_logNAA <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "convergence_wham_fixed_effects_logNAA.RDS")
+    # Save the max gradient
+    saveRDS(convergence_wham_fixed_effects_logNAA, file = convergence_path_fixed_effects_logNAA)
+
+    input_wham <- wham::prepare_wham_input(
+      input_asap,
+      recruit_model = 3,
+      NAA_re = NULL
+    )
+
+    input_wham[["par"]][["mean_rec_pars"]][1] <- log(alpha_om)
+    input_wham[["map"]][["mean_rec_pars"]] <- factor(c(NA, 1))
+
+    fit_wham_fixed_effects <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+
+    # Extract runtime
+    runtime_fixed_effects <- as.numeric(fit_wham_fixed_effects[["runtime"]])
+    runtime_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_fixed_effects.RDS")
+    saveRDS(runtime_fixed_effects, file = runtime_path_fixed_effects)
+    
+    # Define save paths
+    output_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_wham_fixed_effects.RDS")
+    # Save the output
+    saveRDS(fit_wham_fixed_effects, file = output_path_fixed_effects)
 
     # Check convergence by extracting the maximum gradient
     convergence_wham_fixed_effects <- fit_wham_fixed_effects$opt$convergence
     # Define save paths
-    convergence_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "convergence_wham_fixed_effects.RDS")
+    convergence_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "convergence_wham_fixed_effects.RDS")
     # Save the max gradient
-    saveRDS(convergence_wham_fixed_effects, file = convergence_path)
+    saveRDS(convergence_wham_fixed_effects, file = convergence_path_fixed_effects)
   }
 }

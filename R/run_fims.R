@@ -135,11 +135,20 @@ run_fims <- function(
       )
     
     # Configure and Fit FIMS Model
-    fit_fims_random_effects <- parameters |>
-      # Initialize the FIMS model object with the updated parameters
-      FIMS::initialize_fims(data = data_fims) |>
-      # Run the TMB optimization (estimation)
-      FIMS::fit_fims()
+    fims_elapsed_random_effects <- system.time({
+      fit_fims_random_effects <- parameters |>
+        # Initialize the FIMS model object with the updated parameters
+        FIMS::initialize_fims(data = data_fims) |>
+        # Run the TMB optimization (estimation)
+        FIMS::fit_fims()
+    })
+
+    run_time_random_effects <- FIMS::get_timing(fit_fims_random_effects) |> 
+      as.numeric() |>
+      setNames(c("fit_optimization", "fit_sdreport", "fit_total")) |>
+      c(total = fims_elapsed_random_effects[["elapsed"]])
+    run_time_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_random_effects.RDS")
+    saveRDS(run_time_random_effects, file = run_time_path_random_effects)
 
     fims_estimates_random_effects <- FIMS::get_estimates(fit_fims_random_effects)
     # Define save paths
@@ -199,11 +208,20 @@ run_fims <- function(
       )
     
     # Configure and Fit FIMS Model
-    fit_fims_random_effects_sigmaR_constant <- parameters_sigmaR_constant |>
-      # Initialize the FIMS model object with the updated parameters
-      FIMS::initialize_fims(data = data_fims) |>
-      # Run the TMB optimization (estimation)
-      FIMS::fit_fims()
+    fims_elapsed_random_effects_sigmaR_constant <- system.time({
+      fit_fims_random_effects_sigmaR_constant <- parameters_sigmaR_constant |>
+        # Initialize the FIMS model object with the updated parameters
+        FIMS::initialize_fims(data = data_fims) |>
+        # Run the TMB optimization (estimation)
+        FIMS::fit_fims()
+    })
+       
+    run_time_random_effects_sigmaR_constant <- FIMS::get_timing(fit_fims_random_effects_sigmaR_constant) |> 
+      as.numeric() |>
+      setNames(c("fit_optimization", "fit_sdreport", "fit_total")) |>
+      c(total = fims_elapsed_random_effects_sigmaR_constant[["elapsed"]])
+    run_time_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_random_effects_sigmaR_constant.RDS")
+    saveRDS(run_time_random_effects_sigmaR_constant, file = run_time_path_random_effects_sigmaR_constant)
 
     fims_estimates_random_effects_sigmaR_constant <- FIMS::get_estimates(fit_fims_random_effects_sigmaR_constant)
     # Define save paths
@@ -273,11 +291,20 @@ run_fims <- function(
       )
     
     # Configure and Fit FIMS Model
-    fit_fims_fixed_effects <- parameters_fixed_effects |>
-      # Initialize the FIMS model object with the updated parameters
-      FIMS::initialize_fims(data = data_fims) |>
-      # Run the TMB optimization (estimation)
-      FIMS::fit_fims()
+    fims_elapsed_fixed_effects <- system.time({
+      fit_fims_fixed_effects <- parameters_fixed_effects |>
+        # Initialize the FIMS model object with the updated parameters
+        FIMS::initialize_fims(data = data_fims) |>
+        # Run the TMB optimization (estimation)
+        FIMS::fit_fims()
+    })
+    
+    run_time_fixed_effects <- FIMS::get_timing(fit_fims_fixed_effects) |> 
+      as.numeric() |>
+      setNames(c("fit_optimization", "fit_sdreport", "fit_total")) |>
+      c(total = fims_elapsed_fixed_effects[["elapsed"]])
+    run_time_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_fixed_effects.RDS")
+    saveRDS(run_time_fixed_effects, file = run_time_path_fixed_effects)
 
     fims_estimates_fixed_effects <- FIMS::get_estimates(fit_fims_fixed_effects)
     # Define save paths

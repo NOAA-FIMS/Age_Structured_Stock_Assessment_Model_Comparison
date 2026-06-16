@@ -66,7 +66,9 @@ run_asap <- function(maindir=NULL, subdir="ASAP", om_sim_num=NULL, casedir=cased
       # On Windows, the command is just the executable and its argument
       full_command <- command_core
       # Execute the command with Windows-specific arguments
-      system(full_command, show.output.on.console = FALSE)
+      runtime <- system.time({
+        system(full_command, show.output.on.console = FALSE)
+      })
     } else {
       # On non-Windows systems (Linux, macOS), make the file executable first
       # This is the crucial step to fix "Permission denied"
@@ -76,8 +78,15 @@ run_asap <- function(maindir=NULL, subdir="ASAP", om_sim_num=NULL, casedir=cased
       full_command <- paste("wine", command_core)
       
       # Execute the command without the Windows-only arguments
-      system(full_command)
+      runtime <- system.time({
+        system(full_command, show.output.on.console = FALSE)
+      })
     }
+
+    saveRDS(
+      runtime[["elapsed"]],
+      file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "runtime_asap.RDS")
+    )
     
     file.remove(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "ASAP3.exe"))
     file_list <- list.files(path = getwd())
