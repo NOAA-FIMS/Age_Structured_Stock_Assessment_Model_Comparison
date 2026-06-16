@@ -40,8 +40,10 @@ run_wham <- function(
   # Create output directories for each simulation (e.g., .../WHAM/s1, .../WHAM/s2)
   sapply(1:om_sim_num, function(x) dir.create(file.path(casedir, "output", subdir, paste("s", x, sep = ""))))
 
-  for (om_sim in 1:om_sim_num) {
-    print(om_sim)
+  cl <- ifelse(detectCores()==1, detectCores(), detectCores()-2)
+  registerDoParallel(cl)
+
+  foreach (om_sim = 1:om_sim_num) %dopar% {
     # Load OM data
     load(file = file.path(casedir, "output", "OM", paste("OM", om_sim, ".RData", sep = "")))
     # Load the specific ASAP input data, the output of read_asap_dat() should then passed to 
