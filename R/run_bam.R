@@ -119,6 +119,10 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
       # Execute the command without the Windows-only arguments
       system(full_command, ignore.stdout = TRUE, ignore.stderr = TRUE)
     }
+    saveRDS(
+      runtime[["elapsed"]],
+      file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "runtime_bam.RDS")
+    )
     
     file.remove(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.exe"))
     file_list <- list.files(path = getwd())
