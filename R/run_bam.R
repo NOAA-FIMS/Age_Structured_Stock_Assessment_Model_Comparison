@@ -117,7 +117,7 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
       full_command <- paste("wine", command_core)
       
       # Execute the command without the Windows-only arguments
-      system(full_command)
+      system(full_command, ignore.stdout = TRUE, ignore.stderr = TRUE)
     }
     
     file.remove(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "BAM-Sim.exe"))
@@ -129,7 +129,7 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
                                                list.files(path = getwd(), pattern = c(".cov")),
                                                list.files(path = getwd(), pattern = c(".dat"))))]))
   }
-  #stopCluster(cl)
+  stopCluster(cl)
 
   # for (om_sim in 1:om_sim_num){
   #   setwd(file.path(casedir, "output", subdir, paste("s", om_sim, sep="")))

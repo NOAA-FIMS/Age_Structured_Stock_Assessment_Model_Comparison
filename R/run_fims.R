@@ -44,7 +44,6 @@ run_fims <- function(
   registerDoParallel(cl)
 
   foreach (om_sim = 1:om_sim_num) %dopar% {
-    print(om_sim)
     # Load the specific OM simulation data (contains om_input, om_output, em_input)
     load(file = file.path(casedir, "output", "OM", paste("OM", om_sim, ".RData", sep = "")))
 
@@ -351,6 +350,8 @@ run_fims <- function(
 
     FIMS::clear()
   }
+  stopCluster(cl)
+
 }
 
 #' Prepare data for FIMS

@@ -161,4 +161,5 @@ run_wham <- function(
     # Save the max gradient
     saveRDS(convergence_wham_fixed_effects, file = convergence_path_fixed_effects)
   }
+  stopCluster(cl)
 }
