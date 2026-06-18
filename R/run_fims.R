@@ -40,10 +40,15 @@ run_fims <- function(
   # Create output directories for each simulation (e.g., .../FIMS/s1, .../FIMS/s2)
   sapply(1:om_sim_num, function(x) dir.create(file.path(casedir, "output", subdir, paste("s", x, sep = ""))))
 
-  cl <- ifelse(detectCores()==1, detectCores(), detectCores()-2)
+  cores <- ifelse(detectCores()==1, detectCores(), detectCores()-2)
+  cl <- makeCluster(cores)
   registerDoParallel(cl)
 
-  foreach (om_sim = 1:om_sim_num) %dopar% {
+  foreach(
+    om_sim = 1:om_sim_num, 
+    .packages = c("FIMS", "dplyr", "tibble", "tidyr"), # CRITICAL: Forces workers to load C++ dependencies
+    .export = c("casedir", "subdir", "count_na_standard_errors", "get_condition_number") # Export custom helper functions
+  ) %dopar% {
     # Load the specific OM simulation data (contains om_input, om_output, em_input)
     load(file = file.path(casedir, "output", "OM", paste("OM", om_sim, ".RData", sep = "")))
 
@@ -349,8 +354,9 @@ run_fims <- function(
     }
 
     FIMS::clear()
+    NULL
   }
-  # stopCluster(cl)
+  stopCluster(cl)
 
 }
 
