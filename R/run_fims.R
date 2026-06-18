@@ -350,7 +350,7 @@ run_fims <- function(
 
     FIMS::clear()
   }
-  stopCluster(cl)
+  # stopCluster(cl)
 
 }
 

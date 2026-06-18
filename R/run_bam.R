@@ -129,7 +129,7 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
                                                list.files(path = getwd(), pattern = c(".cov")),
                                                list.files(path = getwd(), pattern = c(".dat"))))]))
   }
-  stopCluster(cl)
+  # stopCluster(cl)
 
   # for (om_sim in 1:om_sim_num){
   #   setwd(file.path(casedir, "output", subdir, paste("s", om_sim, sep="")))

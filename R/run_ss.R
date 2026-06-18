@@ -131,7 +131,7 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL, casedir=casedi
     #                                            list.files(path = getwd(), pattern = c("ss.cor")),
     #                                            list.files(path = getwd(), pattern = c(".ss"))))]))
   }
-  stopCluster(cl)
+  # stopCluster(cl)
 
   # for (om_sim in 1:om_sim_num){
   #   # setwd(file.path(maindir, "output", subdir, paste("s", om_sim, sep="")))
