@@ -133,33 +133,33 @@ run_wham <- function(
     # Save the max gradient
     saveRDS(convergence_wham_fixed_effects_logNAA, file = convergence_path_fixed_effects_logNAA)
 
-    input_wham <- wham::prepare_wham_input(
-      input_asap,
-      recruit_model = 3,
-      NAA_re = NULL
-    )
+    # input_wham <- wham::prepare_wham_input(
+    #   input_asap,
+    #   recruit_model = 3,
+    #   NAA_re = NULL
+    # )
 
-    input_wham[["par"]][["mean_rec_pars"]][1] <- log(alpha_om)
-    input_wham[["map"]][["mean_rec_pars"]] <- factor(c(NA, 1))
+    # input_wham[["par"]][["mean_rec_pars"]][1] <- log(alpha_om)
+    # input_wham[["map"]][["mean_rec_pars"]] <- factor(c(NA, 1))
 
-    fit_wham_fixed_effects <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+    # fit_wham_fixed_effects <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
 
-    # Extract runtime
-    runtime_fixed_effects <- as.numeric(fit_wham_fixed_effects[["runtime"]])
-    runtime_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_fixed_effects.RDS")
-    saveRDS(runtime_fixed_effects, file = runtime_path_fixed_effects)
+    # # Extract runtime
+    # runtime_fixed_effects <- as.numeric(fit_wham_fixed_effects[["runtime"]])
+    # runtime_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_fixed_effects.RDS")
+    # saveRDS(runtime_fixed_effects, file = runtime_path_fixed_effects)
     
-    # Define save paths
-    output_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_wham_fixed_effects.RDS")
-    # Save the output
-    saveRDS(fit_wham_fixed_effects, file = output_path_fixed_effects)
+    # # Define save paths
+    # output_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "fit_wham_fixed_effects.RDS")
+    # # Save the output
+    # saveRDS(fit_wham_fixed_effects, file = output_path_fixed_effects)
 
-    # Check convergence by extracting the maximum gradient
-    convergence_wham_fixed_effects <- fit_wham_fixed_effects$opt$convergence
-    # Define save paths
-    convergence_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "convergence_wham_fixed_effects.RDS")
-    # Save the max gradient
-    saveRDS(convergence_wham_fixed_effects, file = convergence_path_fixed_effects)
+    # # Check convergence by extracting the maximum gradient
+    # convergence_wham_fixed_effects <- fit_wham_fixed_effects$opt$convergence
+    # # Define save paths
+    # convergence_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "convergence_wham_fixed_effects.RDS")
+    # # Save the max gradient
+    # saveRDS(convergence_wham_fixed_effects, file = convergence_path_fixed_effects)
   }
   # stopCluster(cl)
 }
