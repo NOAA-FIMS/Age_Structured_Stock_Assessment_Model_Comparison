@@ -127,7 +127,8 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
                                                list.files(path = getwd(), pattern = c(".std")),
                                                list.files(path = getwd(), pattern = c(".rdat")),
                                                list.files(path = getwd(), pattern = c(".cov")),
-                                               list.files(path = getwd(), pattern = c(".dat"))))]))
+                                               list.files(path = getwd(), pattern = c(".dat")),
+                                               list.files(path = getwd(), pattern = c(".RDS"))))]))
   }
   # stopCluster(cl)
 
