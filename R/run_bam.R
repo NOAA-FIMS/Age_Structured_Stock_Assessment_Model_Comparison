@@ -107,7 +107,9 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
       # On Windows, the command is just the executable and its argument
       full_command <- command_core
       # Execute the command with Windows-specific arguments
-      system(full_command, show.output.on.console = FALSE)
+      runtime <- system.time({
+        system(full_command, show.output.on.console = FALSE)
+      })
     } else {
       # On non-Windows systems (Linux, macOS), make the file executable first
       # This is the crucial step to fix "Permission denied"
@@ -117,7 +119,9 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
       full_command <- paste("wine", command_core)
       
       # Execute the command without the Windows-only arguments
-      system(full_command, ignore.stdout = TRUE, ignore.stderr = TRUE)
+      runtime <- system.time({
+        system(full_command, ignore.stdout = TRUE, ignore.stderr = TRUE)
+      })
     }
     saveRDS(
       runtime[["elapsed"]],
