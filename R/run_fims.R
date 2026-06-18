@@ -40,9 +40,15 @@ run_fims <- function(
   # Create output directories for each simulation (e.g., .../FIMS/s1, .../FIMS/s2)
   sapply(1:om_sim_num, function(x) dir.create(file.path(casedir, "output", subdir, paste("s", x, sep = ""))))
 
+  closeAllConnections()
   cores <- ifelse(detectCores()==1, detectCores(), detectCores()-2)
   cl <- makeCluster(cores)
   registerDoParallel(cl)
+  # Tell the cluster workers to also limit their internal C++ threads
+  clusterEvalQ(cl, {
+    library(FIMS)
+    TMB::openmp(n = 1)
+  })
 
   foreach(
     om_sim = 1:om_sim_num, 
