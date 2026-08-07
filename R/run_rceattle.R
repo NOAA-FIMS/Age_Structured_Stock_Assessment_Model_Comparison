@@ -461,8 +461,12 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
   random_rec <- scenario %in%
     c("random_effects", "random_effects_sigmaR_constant")
 
-  # Optimiser controls. Tighter and cheaper than the fit_control() defaults
-  # (loopnum = 5, getJointPrecision = TRUE).
+  # Optimiser controls. getJointPrecision is off because nothing downstream
+  # reads it. loopnum = 1 gives one optimiser pass rather than Rceattle's
+  # default 5 -- the speed/robustness trade-off for a 500-replicate run. A
+  # replicate that stops at a local optimum can still pass the max-gradient and
+  # positive-definite-Hessian convergence rule, so raise loopnum if a case turns
+  # out to be multimodal.
   ctl <- Rceattle::fit_control(
     getsd = TRUE, getJointPrecision = FALSE,
     loopnum = 1, newtonsteps = 1, phase = FALSE, verbose = 0)
@@ -703,10 +707,18 @@ save_rceattle_outputs <- function(fit, scenario, outdir, nyrs = NULL,
   tag <- function(stub) file.path(outdir, sprintf("%s_%s.RDS", stub, scenario))
 
   # A NULL fit still records a non-convergence so downstream summaries see it.
+  # The run time is written here too, so the file set matches the converged case
+  # (run_fims.R also writes its run time unconditionally). Otherwise an
+  # aggregator reading a fixed per-EM file list errors on this directory instead
+  # of reading a non-convergence -- the expected state on a deterministic case,
+  # where the random-effects scenarios time out.
   if (is.null(fit)) {
-    saveRDS(NULL,        tag("fit_rceattle"))
-    saveRDS(1L,          tag("optimizer_convergence_rceattle"))  # 1 = not converged
-    saveRDS(NA_real_,    tag("max_gradient_rceattle"))
+    saveRDS(NULL,     tag("fit_rceattle"))
+    saveRDS(1L,       tag("optimizer_convergence_rceattle"))  # 1 = not converged
+    saveRDS(NA_real_, tag("max_gradient_rceattle"))
+    saveRDS(c(fit_optimization = NA_real_, fit_sdreport = NA_real_,
+              fit_total = NA_real_, total = NA_real_),
+            tag("run_time_rceattle"))
     return(invisible(NULL))
   }
 
@@ -859,8 +871,11 @@ run_rceattle <- function(maindir = maindir,
   }
 
   closeAllConnections()
-  cores <- if (parallel::detectCores() == 1) 1 else parallel::detectCores() - 2
-  cl <- parallel::makeCluster(cores)
+  cores <- max(1L, parallel::detectCores() - 2L)
+  # outfile = "" keeps the workers' messages on the console. The default sends
+  # them to /dev/null, which silences every diagnostic raised inside the loop
+  # below -- a replicate could fail and write nothing with no visible sign.
+  cl <- parallel::makeCluster(cores, outfile = "")
   doParallel::registerDoParallel(cl)
   on.exit(parallel::stopCluster(cl), add = TRUE)
   parallel::clusterEvalQ(cl, {
@@ -885,36 +900,67 @@ run_rceattle <- function(maindir = maindir,
   )
 
   `%dopar%` <- foreach::`%dopar%`
-  foreach::foreach(
+  failures <- foreach::foreach(
     om_sim = seq_len(om_sim_num),
     .packages = c("Rceattle")
     # casedir / subdir / survey_units / save_full_fit / time_limit are named
     # directly in the loop body, so foreach exports them automatically; listing
     # them again in .export only produces an "already exporting" warning.
   ) %dopar% {
-    # One replicate must not take the other 499 with it. fit_rceattle_scenario()
-    # already returns NULL on a failed fit; this covers the data translation and
-    # the writing, which can stop() on a malformed OM.
-    tryCatch({
+    # Reading the replicate and translating it is all-or-nothing: without a
+    # data_list there is nothing to fit. One replicate must not take the other
+    # 499 with it, so the failure is reported and this worker moves on.
+    setup <- tryCatch({
       load(file = file.path(casedir, "output", "OM", paste0("OM", om_sim, ".RData")))
-      outdir <- file.path(casedir, "output", subdir, paste0("s", om_sim))
-
       data_list <- om_to_rceattle(om_input, om_output, em_input,
                                   survey_units = survey_units)
-      inits     <- seed_rceattle_inits(data_list, om_input)
-      srr_pars  <- rceattle_bh_pars(om_input)
-      nyrs      <- length(om_input[["year"]])
-
-      for (scenario in RCEATTLE_SCENARIOS) {
-        fit <- fit_rceattle_scenario(data_list, inits, scenario, srr_pars,
-                                     time_limit = time_limit)
-        save_rceattle_outputs(fit, scenario, outdir, nyrs = nyrs,
-                              save_full_fit = save_full_fit)
-      }
+      list(
+        outdir    = file.path(casedir, "output", subdir, paste0("s", om_sim)),
+        data_list = data_list,
+        inits     = seed_rceattle_inits(data_list, om_input),
+        srr_pars  = rceattle_bh_pars(om_input),
+        nyrs      = length(om_input[["year"]])
+      )
     }, error = function(e) {
       message(sprintf("  [OM %d] skipped: %s", om_sim, conditionMessage(e)))
+      conditionMessage(e)
     })
-    NULL
+
+    if (is.character(setup)) {
+      sprintf("OM %d: %s", om_sim, setup)
+    } else {
+      # Each scenario is fit and written independently. fit_rceattle_scenario()
+      # already returns NULL on a failed fit, but rceattle_estimates() and the
+      # saveRDS calls can still stop(); without this the first such failure
+      # would cost the remaining scenarios too.
+      msgs <- character(0)
+      for (scenario in RCEATTLE_SCENARIOS) {
+        res <- tryCatch({
+          fit <- fit_rceattle_scenario(setup$data_list, setup$inits, scenario,
+                                       setup$srr_pars, time_limit = time_limit)
+          save_rceattle_outputs(fit, scenario, setup$outdir, nyrs = setup$nyrs,
+                                save_full_fit = save_full_fit)
+          NA_character_
+        }, error = function(e) {
+          message(sprintf("  [OM %d / %s] failed: %s",
+                          om_sim, scenario, conditionMessage(e)))
+          sprintf("%s (%s)", conditionMessage(e), scenario)
+        })
+        if (!is.na(res)) msgs <- c(msgs, res)
+      }
+      if (length(msgs)) sprintf("OM %d: %s", om_sim, paste(msgs, collapse = "; "))
+      else NA_character_
+    }
+  }
+
+  # Surface failures on the master as well as in the worker output: a run that
+  # quietly wrote nothing is otherwise indistinguishable from a successful one.
+  failures <- unlist(failures, use.names = FALSE)
+  failures <- failures[!is.na(failures)]
+  if (length(failures)) {
+    warning("run_rceattle(): ", length(failures),
+            " replicate(s) had failures:\n  ",
+            paste(failures, collapse = "\n  "), call. = FALSE)
   }
   invisible(NULL)
 }
