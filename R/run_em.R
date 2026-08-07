@@ -22,4 +22,5 @@ run_em <- function(em_names=NULL, input_list=NULL, em_input_filenames=NULL){
   if("SS" %in% em_names) run_ss(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir, em_bias_cor=em_bias_cor, input_filename=em_input_filenames$SS, initial_equilibrium_F=initial_equilibrium_F)
   if("WHAM" %in% em_names) run_wham(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir)
   if("FIMS" %in% em_names) run_fims(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir, em_bias_cor=em_bias_cor)
+  if("Rceattle" %in% em_names) run_rceattle(maindir=maindir, om_sim_num=om_sim_num, casedir=casedir, em_bias_cor=em_bias_cor)
 }
