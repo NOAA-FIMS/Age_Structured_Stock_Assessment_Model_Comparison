@@ -17,14 +17,14 @@ run_rceattle(
 }
 \arguments{
 \item{maindir}{Main working directory. Accepted for signature parity with the
-other \code{run_*()} functions; not used directly.}
+other \verb{run_*()} functions; not used directly.}
 
-\item{subdir}{Estimation model working directory}
+\item{subdir}{Estimation-model output subfolder under \code{casedir/output}.}
 
 \item{om_sim_num}{Number of iterations from the operating model
-(\code{OM1.RData} .. \code{OM{n}.RData}).}
+(\code{OM1.RData} .. \verb{OM\{n\}.RData}).}
 
-\item{casedir}{Case working directory, containing \code{output/OM/OM{i}.RData}.}
+\item{casedir}{Case working directory, containing \verb{output/OM/OM\{i\}.RData}.}
 
 \item{em_bias_cor}{Use bias correction in the estimation model or not?
 Accepted for signature parity; Rceattle handles recruitment-deviation bias
@@ -35,7 +35,7 @@ correction through its own \code{fit_control()}.}
 (\code{em_input$surveyB.obs}, mt). Errors if the requested field is absent.}
 
 \item{save_full_fit}{Also write the full fitted object per scenario
-(\code{full_fit_rceattle_<scenario>.RDS}). Off by default; roughly 200 KB per
+(\verb{full_fit_rceattle_<scenario>.RDS}). Off by default; roughly 200 KB per
 scenario per replicate.}
 
 \item{time_limit}{Wall-clock seconds after which one scenario fit is
@@ -43,33 +43,30 @@ abandoned and recorded as non-converged.}
 }
 \value{
 Invisibly NULL. Per replicate and scenario, writes into
-\code{casedir/output/<subdir>/s\{i\}/}:
+\verb{casedir/output/<subdir>/s\{i\}/}:
 \itemize{
-  \item \code{fit_rceattle_<scenario>.RDS}: tidy estimates table with columns
-    \code{label, year, age, estimate, uncertainty}; labels are \code{SSB},
-    \code{biomass}, \code{recruitment}, \code{F}, \code{abundance} and
-    \code{catchability}
-  \item \code{run_time_rceattle_<scenario>.RDS}
-  \item \code{optimizer_convergence_rceattle_<scenario>.RDS} (0 = converged)
-  \item \code{max_gradient_rceattle_<scenario>.RDS}
-  \item \code{hessian_rceattle_<scenario>.RDS} (positive-definite Hessian?)
-  \item \code{na_count_<scenario>.RDS}
-  \item \code{condition_number_<scenario>.RDS}
-  \item \code{full_fit_rceattle_<scenario>.RDS}, only when
-    \code{save_full_fit = TRUE}
+\item \verb{fit_rceattle_<scenario>.RDS}: tidy estimates table with columns
+\verb{label, year, age, estimate, uncertainty}; labels are \code{SSB}, \code{biomass},
+\code{recruitment}, \code{F}, \code{abundance} and \code{catchability}
+\item \verb{run_time_rceattle_<scenario>.RDS}
+\item \verb{optimizer_convergence_rceattle_<scenario>.RDS} (0 = converged)
+\item \verb{max_gradient_rceattle_<scenario>.RDS}
+\item \verb{hessian_rceattle_<scenario>.RDS} (positive-definite Hessian?)
+\item \verb{na_count_<scenario>.RDS}
+\item \verb{condition_number_<scenario>.RDS}
+\item \verb{full_fit_rceattle_<scenario>.RDS}, only when \code{save_full_fit = TRUE}
 }
 The last three are written only when a sdreport is available.
 }
 \description{
-Function to read simulated true values from the operating model and to run
-Rceattle over three recruitment scenarios.
+Reads each operating-model replicate and fits Rceattle over three recruitment
+scenarios, writing one set of RDS result files per replicate and scenario.
 }
 \details{
 All three scenarios fit a Beverton-Holt stock-recruit curve
-(\code{build_srr(srr_fun = 2)}, i.e. \eqn{R = \alpha S / (1 + \beta S)}) with
-\eqn{\alpha} fixed at the value implied by the operating model's steepness, and
-with the year-1 age structure estimated as free parameters
-(\code{initMode = 0}).
+(\code{build_srr(srr_fun = 2)}, i.e. \code{R = alpha * S / (1 + beta * S)}) with alpha
+fixed at the value implied by the operating model's steepness, and with the
+year-1 age structure estimated as free parameters (\code{initMode = 0}).
 
 Both choices follow the other estimation models. WHAM fixes its Beverton-Holt
 \code{log_SR_a} from the operating model's steepness and estimates 12 free
@@ -77,30 +74,22 @@ age-specific initial numbers-at-age; FIMS estimates \code{log_init_naa} as fixed
 effects and holds steepness constant at its package default of 0.75, which
 matches these operating models but would not match one with a different
 steepness. Alpha and beta cannot be estimated jointly on these data -- the
-Hessian is singular -- so fixing one of them is unavoidable for every platform
-here.
+Hessian is singular -- so fixing one of them is unavoidable for every
+platform here.
 
-Fitting Rceattle with mean recruitment and an equilibrium initial age structure
-instead would leave it the only model in the comparison without a stock-recruit
-relationship, which biases terminal spawning-stock biomass high and terminal
-fishing mortality low.
+Fitting Rceattle with mean recruitment and an equilibrium initial age
+structure instead would leave it the only model in the comparison without a
+stock-recruit relationship, which biases terminal spawning-stock biomass high
+and terminal fishing mortality low.
 
 Fits are hindcast-only (\code{estimateMode = 1}), so no reference points are
-produced. The scenarios differ only in the treatment of the
-recruitment deviations:
-\itemize{
-  \item \code{random_effects}: random effects, sigmaR estimated
-  \item \code{random_effects_sigmaR_constant}: random effects, sigmaR fixed
-  \item \code{fixed_effects}: penalised fixed effects, sigmaR fixed
-}
+produced. The scenarios differ only in the treatment of the recruitment
+deviations: \code{random_effects} (random effects, sigmaR estimated),
+\code{random_effects_sigmaR_constant} (random effects, sigmaR fixed), and
+\code{fixed_effects} (penalised fixed effects, sigmaR fixed).
 
-On a deterministic OM case (\code{logR_sd == 0}) the two random-effects
-scenarios are ill-posed, because the Laplace inner problem for a zero-variance
-random effect is singular. They are expected to hit \code{time_limit} and be
-recorded as non-converged; use a stochastic case (C1 / C2) for real
-comparisons.
-
-The survey uses Rceattle's analytical (closed-form MLE) catchability, whereas
-FIMS estimates \code{log_q} as a free parameter. The resulting q values are
-directly comparable, but the treatment differs.
+On a deterministic OM case (\code{logR_sd == 0}) the two random-effects scenarios
+are ill-posed -- the Laplace inner problem for a zero-variance random effect
+is singular -- and are expected to hit \code{time_limit} and be recorded as
+non-converged. Use a stochastic case (C1 / C2) for real comparisons.
 }

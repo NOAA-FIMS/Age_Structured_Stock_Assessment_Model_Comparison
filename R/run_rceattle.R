@@ -764,7 +764,7 @@ save_rceattle_outputs <- function(fit, scenario, outdir, nyrs = NULL,
 }
 
 
-#' Run the Rceattle Estimation Model (EM)
+#' Run the Rceattle Estimation Model (EM) (https://github.com/grantdadams/Rceattle)
 #'
 #' Reads each operating-model replicate and fits Rceattle over three recruitment
 #' scenarios, writing one set of RDS result files per replicate and scenario.
@@ -817,8 +817,21 @@ save_rceattle_outputs <- function(fit, scenario, outdir, nyrs = NULL,
 #' @param time_limit Wall-clock seconds after which one scenario fit is
 #'   abandoned and recorded as non-converged.
 #'
-#' @return Invisibly NULL. Results are written under
-#'   `casedir/output/<subdir>/s{i}/`.
+#' @return Invisibly NULL. Per replicate and scenario, writes into
+#'   `casedir/output/<subdir>/s{i}/`:
+#'   \itemize{
+#'     \item `fit_rceattle_<scenario>.RDS`: tidy estimates table with columns
+#'       `label, year, age, estimate, uncertainty`; labels are `SSB`, `biomass`,
+#'       `recruitment`, `F`, `abundance` and `catchability`
+#'     \item `run_time_rceattle_<scenario>.RDS`
+#'     \item `optimizer_convergence_rceattle_<scenario>.RDS` (0 = converged)
+#'     \item `max_gradient_rceattle_<scenario>.RDS`
+#'     \item `hessian_rceattle_<scenario>.RDS` (positive-definite Hessian?)
+#'     \item `na_count_<scenario>.RDS`
+#'     \item `condition_number_<scenario>.RDS`
+#'     \item `full_fit_rceattle_<scenario>.RDS`, only when `save_full_fit = TRUE`
+#'   }
+#'   The last three are written only when a sdreport is available.
 #' @export
 run_rceattle <- function(maindir = maindir,
                          subdir = "Rceattle",
