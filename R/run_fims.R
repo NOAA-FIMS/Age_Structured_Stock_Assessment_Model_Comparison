@@ -67,27 +67,21 @@ run_fims <- function(
       FIMS::FIMSFrame()
 
     # Configure parameters
-    parameters <- data_fims |>
-      # Initialize default FIMS configurations
-      FIMS::create_default_configurations() |>
-      # Create the default parameter list based on the data and configurations
-      FIMS::create_default_parameters(data = data_fims) |>
-      # Unnest the 'data' column to get a flat tibble of all parameters
-      tidyr::unnest(col = data) |>
+    parameters <- FIMS::setup_default_parameters(data = data_fims) |>
       # Update log_Fmort input values for Fleet1
       dplyr::rows_update(
         tibble::tibble(
-          fleet_name = "fleet1",
+          fleet = "fleet1",
           label = "log_Fmort",
-          time = om_input[["year"]],
+          timing = om_input[["year"]],
           value = log(om_output[["f"]])
         ),
-        by = c("fleet_name", "label", "time")
+        by = c("fleet", "label", "timing")
       ) |>
       # Update selectivity parameters and log_q for survey1
       dplyr::rows_update(
         tibble::tibble(
-          fleet_name = "survey1",
+          fleet = "survey1",
           label = c("inflection_point", "slope", "log_q"),
           value = c(
             om_input[["sel_survey"]][["survey1"]][["A50.sel1"]],
@@ -95,23 +89,23 @@ run_fims <- function(
             log(om_output[["survey_q"]][["survey1"]])
           )
         ),
-        by = c("fleet_name", "label")
+        by = c("fleet", "label")
       ) |>
       # Update log_devs in the Recruitment module (time steps 2–30)
       dplyr::rows_update(
         tibble::tibble(
           label = "log_devs",
-          time = om_input[["year"]][-1],
+          timing = om_input[["year"]][-1],
           value = om_input[["logR.resid"]][-1]
         ),
-        by = c("label", "time")
+        by = c("label", "timing")
       ) |>
       # Update log_sd for log_devs in the Recruitment module
       dplyr::rows_update(
         tibble::tibble(
           module_name = "Recruitment",
           label = "log_sd",
-          value = om_input[["logR_sd"]]
+          value = log(om_input[["logR_sd"]])
         ),
         by = c("module_name", "label")
       ) |>
@@ -135,16 +129,6 @@ run_fims <- function(
           value = log(om_output[["N.age"]][1, ])
         ),
         by = c("label", "age")
-      ) |>
-      # Update log_sd values for landings
-      dplyr::rows_update(
-        tibble::tibble(
-          fleet_name = "fleet1",
-          label = "log_sd",
-          time = om_input[["year"]],
-          value = log(sqrt(log(0.01^2 + 1)))
-        ),
-        by = c("fleet_name", "label", "time")
       )
     
     # Configure and Fit FIMS Model
@@ -156,10 +140,22 @@ run_fims <- function(
         FIMS::fit_fims()
     })
 
-    run_time_random_effects <- FIMS::get_timing(fit_fims_random_effects) |> 
-      as.numeric() |>
-      setNames(c("fit_optimization", "fit_sdreport", "fit_total")) |>
-      c(total = fims_elapsed_random_effects[["elapsed"]])
+    fims_time <- FIMS::get_run_time(fit_fims_random_effects)
+    time_unit <- attr(fims_time, "units")
+
+    run_time_random_effects <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "fit_sdreport",
+        "fit_total",
+        "total"
+      ),
+      time = c(
+        as.numeric(fims_time),
+        unname(fims_elapsed_random_effects[["elapsed"]])
+      ),
+      unit = time_unit
+    )
     run_time_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_random_effects.RDS")
     saveRDS(run_time_random_effects, file = run_time_path_random_effects)
 
@@ -214,7 +210,7 @@ run_fims <- function(
         tibble::tibble(
           module_name = "Recruitment",
           label = "log_sd",
-          value = om_input[["logR_sd"]],
+          value = log(om_input[["logR_sd"]]),
           estimation_type = "constant"
         ),
         by = c("module_name", "label")
@@ -228,11 +224,23 @@ run_fims <- function(
         # Run the TMB optimization (estimation)
         FIMS::fit_fims()
     })
-       
-    run_time_random_effects_sigmaR_constant <- FIMS::get_timing(fit_fims_random_effects_sigmaR_constant) |> 
-      as.numeric() |>
-      setNames(c("fit_optimization", "fit_sdreport", "fit_total")) |>
-      c(total = fims_elapsed_random_effects_sigmaR_constant[["elapsed"]])
+
+    fims_time_random_effects_sigmaR_constant <- FIMS::get_run_time(fit_fims_random_effects_sigmaR_constant)
+    time_unit_random_effects_sigmaR_constant <- attr(fims_time_random_effects_sigmaR_constant, "units")
+
+    run_time_random_effects_sigmaR_constant <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "fit_sdreport",
+        "fit_total",
+        "total"
+      ),
+      time = c(
+        as.numeric(fims_time_random_effects_sigmaR_constant),
+        unname(fims_elapsed_random_effects_sigmaR_constant[["elapsed"]])
+      ),
+      unit = time_unit_random_effects_sigmaR_constant
+    )
     run_time_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_random_effects_sigmaR_constant.RDS")
     saveRDS(run_time_random_effects_sigmaR_constant, file = run_time_path_random_effects_sigmaR_constant)
 
@@ -287,7 +295,7 @@ run_fims <- function(
         tibble::tibble(
           module_name = "Recruitment",
           label = "log_sd",
-          value = om_input[["logR_sd"]],
+          value = log(om_input[["logR_sd"]]),
           estimation_type = "constant"
         ),
         by = c("module_name", "label")
@@ -296,11 +304,11 @@ run_fims <- function(
       dplyr::rows_update(
         tibble::tibble(
           label = "log_devs",
-          time = om_input[["year"]][-1],
+          timing = om_input[["year"]][-1],
           value = om_input[["logR.resid"]][-1],
           estimation_type = "fixed_effects"
         ),
-        by = c("label", "time")
+        by = c("label", "timing")
       )
     
     # Configure and Fit FIMS Model
@@ -312,10 +320,23 @@ run_fims <- function(
         FIMS::fit_fims()
     })
     
-    run_time_fixed_effects <- FIMS::get_timing(fit_fims_fixed_effects) |> 
-      as.numeric() |>
-      setNames(c("fit_optimization", "fit_sdreport", "fit_total")) |>
-      c(total = fims_elapsed_fixed_effects[["elapsed"]])
+    
+    fims_time_fixed_effects <- FIMS::get_run_time(fit_fims_fixed_effects)
+    time_unit_fixed_effects <- attr(fims_time_fixed_effects, "units")
+
+    run_time_fixed_effects <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "fit_sdreport",
+        "fit_total",
+        "total"
+      ),
+      time = c(
+        as.numeric(fims_time_fixed_effects),
+        unname(fims_elapsed_fixed_effects[["elapsed"]])
+      ),
+      unit = time_unit_fixed_effects
+    )
     run_time_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_fixed_effects.RDS")
     saveRDS(run_time_fixed_effects, file = run_time_path_fixed_effects)
 
@@ -384,38 +405,54 @@ run_fims <- function(
 prepare_data_fims <- function(om_input, om_output, em_input) {
   # Format observed landings data
   landings_data <- data.frame(
-    type = "landings",
-    name = names(om_output[["L.mt"]])[1],
+    type = "catch",
+    fleet = names(om_output[["L.mt"]])[1],
     age = NA,
     timing = om_input[["year"]],
-    value = em_input[["L.obs"]][[1]],
+    observed = em_input[["L.obs"]][[1]],
     unit = "mt",
-    uncertainty = cv_2_sd(em_input[["cv.L"]][[1]])
+    uncertainty = paste0(
+      "~ dlnorm(meanlog = log_catch_expected, sdlog = ",
+      cv_2_sd(em_input[["cv.L"]][[1]]),
+      ")"
+    )
   )
   # Format observed survey index data
   index_data <- data.frame(
     type = "index",
-    name = names(om_output[["survey_index"]])[1],
+    fleet = names(om_output[["survey_index"]])[1],
     age = NA,
     timing = om_input[["year"]],
-    value = em_input[["surveyB.obs"]][[1]],
+    observed = em_input[["surveyB.obs"]][[1]],
     unit = "mt",
-    uncertainty = cv_2_sd(em_input[["cv.survey"]][[1]])
+    uncertainty = paste0(
+      "~ dlnorm(meanlog = log_index_expected, sdlog = ",
+      cv_2_sd(em_input[["cv.survey"]][[1]]),
+      ")"
+    )
   )
   # Format age-composition data
   age_data <- rbind(
     data.frame(
-      name = names(em_input[["n.L"]]),
+      fleet = names(em_input[["n.L"]]),
       em_input[["L.age.obs"]][["fleet1"]],
       unit = "proportion",
-      uncertainty = em_input[["n.L"]][["fleet1"]],
+      uncertainty = paste(
+        "~ dmultinom(prob = agecomp_proportion, size = ",
+        em_input[["n.L"]][["fleet1"]],
+        ")"
+      ),
       timing = om_input[["year"]]
     ),
     data.frame(
-      name = names(om_output[["survey_age_comp"]])[1],
+      fleet = names(om_output[["survey_age_comp"]])[1],
       em_input[["survey.age.obs"]][[1]],
       unit = "proportion",
-      uncertainty = om_input[["n.survey"]][["survey1"]],
+      uncertainty = paste(
+        "~ dmultinom(prob = agecomp_proportion, size = ",
+        om_input[["n.survey"]][["survey1"]],
+        ")"
+      ),
       timing = om_input[["year"]]
     )
   ) |>
@@ -426,7 +463,7 @@ prepare_data_fims <- function(om_input, om_output, em_input) {
       cols = dplyr::starts_with("X"),
       names_prefix = "X",
       names_to = "age",
-      values_to = "value",
+      values_to = "observed",
       # Convert the "age" column from strings to integers
       names_transform = list(age = as.integer)
     )
@@ -437,9 +474,9 @@ prepare_data_fims <- function(om_input, om_output, em_input) {
   # Create a data frame of weights-at-age (assumed constant over time)
   weights_fishery <- data.frame(
     type = "weight_at_age",
-    name = names(em_input[["n.L"]]),
+    fleet = names(em_input[["n.L"]]),
     age = seq_along(om_input[["W.kg"]]),
-    value = om_input[["W.mt"]],
+    observed = om_input[["W.mt"]],
     uncertainty = NA,
     unit = "mt"
   )
