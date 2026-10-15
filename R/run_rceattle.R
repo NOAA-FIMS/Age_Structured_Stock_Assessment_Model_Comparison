@@ -468,8 +468,14 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
   # positive-definite-Hessian convergence rule, so raise loopnum if a case turns
   # out to be multimodal.
   ctl <- Rceattle::fit_control(
-    getsd = TRUE, getJointPrecision = FALSE,
-    loopnum = 1, newtonsteps = 1, phase = FALSE, verbose = 0)
+    getsd = TRUE, 
+    getJointPrecision = FALSE,
+    loopnum = 3, 
+    newtonsteps = 0, 
+    phase = FALSE, 
+    verbose = 0,
+    nlminb_control = list(iter.max = 10000, eval.max = 10000, trace = 0)
+  )
 
   # Beverton-Holt with alpha fixed at the value implied by the OM's steepness;
   # srr_est_mode = 0 is Rceattle's "fix alpha to the prior mean". WHAM does the
@@ -521,6 +527,21 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
   }
 
   fit <- NULL
+  fit_without_sdreport <- NULL
+  # create ctl_without_sdreport by setting getsd = FALSE in ctl
+  ctl_without_sdreport <- ctl
+  ctl_without_sdreport$getsd <- FALSE
+  fit_without_sdreport <- tryCatch(
+      do.call(Rceattle::fit_mod, c(common, list(
+        map          = map,
+        estimateMode = 1,                        # hindcast (no HCR projection)
+        fit_control  = ctl_without_sdreport))),
+      error = function(e) {
+        message(sprintf("  [%s] fit_mod error: %s", scenario, conditionMessage(e)))
+        NULL
+      }
+    )
+
   elapsed <- system.time({
     fit <- tryCatch(
       do.call(Rceattle::fit_mod, c(common, list(
@@ -533,8 +554,13 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
       }
     )
   })
-
-  if (!is.null(fit)) attr(fit, "elapsed_total") <- elapsed[["elapsed"]]
+  rceattle_obj <- fit$obj
+  tmb_sdreport_time <- system.time(TMB::sdreport(rceattle_obj, skip.delta.method = TRUE))
+  if (!is.null(fit)) {
+    attr(fit, "elapsed_total") <- elapsed[["elapsed"]]
+    attr(fit, "fit_optimization") <- as.numeric(fit$run_time) - as.numeric(fit_without_sdreport$run_time)
+    attr(fit, "tmb_sdreport") <- tmb_sdreport_time[["elapsed"]]
+  }
   fit
 }
 
@@ -849,7 +875,7 @@ run_rceattle <- function(maindir = maindir,
                          subdir = "Rceattle",
                          om_sim_num = NULL,
                          casedir = casedir,
-                         em_bias_cor = em_bias_cor,
+                         em_bias_cor = TRUE,
                          survey_units = c("numbers", "biomass"),
                          save_full_fit = FALSE,
                          time_limit = 300) {
@@ -936,8 +962,13 @@ run_rceattle <- function(maindir = maindir,
       msgs <- character(0)
       for (scenario in RCEATTLE_SCENARIOS) {
         res <- tryCatch({
-          fit <- fit_rceattle_scenario(setup$data_list, setup$inits, scenario,
-                                       setup$srr_pars, time_limit = time_limit)
+          fit <- fit_rceattle_scenario(
+            data_list = setup$data_list, 
+            inits = setup$inits, 
+            scenario = scenario,
+            srr_pars = setup$srr_pars, 
+            time_limit = time_limit
+          )
           save_rceattle_outputs(fit, scenario, setup$outdir, nyrs = setup$nyrs,
                                 save_full_fit = save_full_fit)
           NA_character_
