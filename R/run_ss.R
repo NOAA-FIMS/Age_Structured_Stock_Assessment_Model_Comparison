@@ -90,33 +90,53 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL, casedir=casedi
     exe_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "ss.exe")
     dat_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "data.ss")
 
-    # It's good practice to quote paths in case they contain spaces
-    command_core <- paste(shQuote(exe_path), shQuote(dat_path))
+    is_win <- (.Platform[["OS.type"]] == "windows")
 
-    # Check the operating system and set the final command accordingly
-    if (.Platform[["OS.type"]] == "windows") {
-      # On Windows, the command is just the executable and its argument
-      full_command <- command_core
-      # Execute the command with Windows-specific arguments
-      runtime <- system.time({
-        system(full_command, show.output.on.console = FALSE)
-      })
-    } else {
-      # On non-Windows systems (Linux, macOS), make the file executable first
-      # This is the crucial step to fix "Permission denied"
-      system(paste("chmod +x", shQuote(exe_path)))
-      
-      # Prepend "wine" to the command
-      full_command <- paste("wine", command_core)
-      
-      # Execute the command without the Windows-only arguments
-      runtime <- system.time({
-        system(full_command, ignore.stdout = TRUE, ignore.stderr = TRUE)
-      })      
+    exec_ss <- function(args) {
+      if (is_win) {
+        system2(exe_path, args = args, stdout = FALSE, stderr = FALSE)
+      } else {
+        system(paste("chmod +x", shQuote(exe_path)))
+        system2("wine", args = c(shQuote(exe_path), args), stdout = FALSE, stderr = FALSE)
+      }
     }
 
+    t_opt_rep <- system.time({
+      exec_ss(c(shQuote(dat_path), "-nohess"))
+    })[["elapsed"]]
+
+    t_rep_only <- system.time({
+      exec_ss(c(shQuote(dat_path), "-maxfn", "0", "-nohess", "-ainp", "ss.par"))
+    })[["elapsed"]]
+
+    t_full <- system.time({
+      exec_ss(shQuote(dat_path))
+    })[["elapsed"]]
+
+    t_optimization <- max(0, t_opt_rep - t_rep_only)
+    t_sdreport <- max(0, t_full - t_opt_rep)
+    t_fit_total <- t_optimization + t_sdreport
+
+    run_time_ss <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "fit_sdreport",
+        "fit_total",
+        "total",
+        "tmb_sdreport"
+      ),
+      time = c(
+        as.numeric(t_optimization),
+        as.numeric(t_sdreport),
+        as.numeric(t_fit_total),
+        as.numeric(t_full),
+        NA_real_
+      ),
+      unit = "seconds"
+    )
+
     saveRDS(
-      runtime[["elapsed"]],
+      run_time_ss,
       file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "runtime_ss3.RDS")
     )
     

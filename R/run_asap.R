@@ -57,36 +57,62 @@ run_asap <- function(maindir=NULL, subdir="ASAP", om_sim_num=NULL, casedir=cased
     # Define the path to the executable and its data file
     exe_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "ASAP3.exe")
     dat_path <- file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "asap3.DAT")
+    is_win   <- (.Platform[["OS.type"]] == "windows")
 
-    # It's good practice to quote paths in case they contain spaces
-    command_core <- paste(shQuote(exe_path), shQuote(dat_path))
-
-    # Check the operating system and set the final command accordingly
-    if (.Platform[["OS.type"]] == "windows") {
-      # On Windows, the command is just the executable and its argument
-      full_command <- command_core
-      # Execute the command with Windows-specific arguments
-      runtime <- system.time({
-        system(full_command, show.output.on.console = FALSE)
-      })
-    } else {
-      # On non-Windows systems (Linux, macOS), make the file executable first
-      # This is the crucial step to fix "Permission denied"
-      system(paste("chmod +x", shQuote(exe_path)))
-      
-      # Prepend "wine" to the command
-      full_command <- paste("wine", command_core)
-      
-      # Execute the command without the Windows-only arguments
-      runtime <- system.time({
-        system(full_command, ignore.stdout = TRUE, ignore.stderr = TRUE)
-      })
+    # Cross-platform execution helper
+    exec_asap <- function(args) {
+      if (is_win) {
+        system2(exe_path, args = args, stdout = FALSE, stderr = FALSE)
+      } else {
+        system(paste("chmod +x", shQuote(exe_path)))
+        system2("wine", args = c(shQuote(exe_path), args), stdout = FALSE, stderr = FALSE)
+      }
     }
 
+    # Run optimization + reporting only (-nohess)
+    t_opt_rep <- system.time({
+      exec_asap(c(dat_path, "-nohess"))
+    })[["elapsed"]]
+
+    # Run reporting only (0 iterations from the converged .par file)
+    t_rep_only <- system.time({
+      exec_asap(c(dat_path, "-maxfn 0 -nohess -ainp asap3.par"))
+    })[["elapsed"]]
+
+    # Full evaluation (Optimization + Hessian + Reporting)
+    t_full <- system.time({
+      exec_asap(dat_path)
+    })[["elapsed"]]
+
+    # Isolate components
+    t_optimization <- max(0, t_opt_rep - t_rep_only)
+    t_sdreport     <- max(0, t_full - t_opt_rep)
+    t_fit_total    <- t_optimization + t_sdreport
+
+    # Save timing tibble conforming to your cross-platform schema
+    run_time_asap <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "fit_sdreport",
+        "fit_total",
+        "total",
+        "tmb_sdreport"
+      ),
+      time = c(
+        as.numeric(t_optimization),
+        as.numeric(t_sdreport),
+        as.numeric(t_fit_total),
+        as.numeric(t_full),
+        NA_real_
+      ),
+      unit = "seconds"
+    )
+
     saveRDS(
-      runtime[["elapsed"]],
+      run_time_asap,
       file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "runtime_asap.RDS")
     )
+
     
     file.remove(file.path(casedir, "output", subdir, paste("s", om_sim, sep=""), "ASAP3.exe"))
     file_list <- list.files(path = getwd())
