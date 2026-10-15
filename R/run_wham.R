@@ -81,10 +81,36 @@ run_wham <- function(
     input_wham[["par"]][["mean_rec_pars"]][1] <- log(alpha_om)
     input_wham[["map"]][["mean_rec_pars"]] <- factor(c(NA, 1))
 
-    fit_wham_random_effects <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+    fit_wham_random_effects <- wham::fit_wham(
+      input_wham,
+      do.osa = F, 
+      do.retro = F,
+      n.newton = 0,
+      do.check = F,
+      MakeADFun.silent = TRUE,
+      retro.silent = TRUE, 
+      do.brps = FALSE,
+      fit.tmb.control = list(
+        opt.control = list(iter.max = 10000, eval.max = 10000)
+      )
+    ) 
 
-    # Extract runtime
-    runtime_random_effects <- as.numeric(fit_wham_random_effects[["runtime"]])
+    # Extract runtime (convert minutes to seconds)
+    sdreport_time_random_effects <- system.time(
+      TMB::sdreport(fit_wham_random_effects, skip.delta.method = TRUE)
+    )
+    
+    runtime_random_effects <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "tmb_sdreport"
+      ),
+      time = c(
+        as.numeric(fit_wham_random_effects[["runtime"]]) * 60,
+        unname(sdreport_time_random_effects[["elapsed"]])
+      ),
+      unit = "seconds"
+    )
     runtime_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_random_effects.RDS")
     saveRDS(runtime_random_effects, file = runtime_path_random_effects)
     
@@ -103,10 +129,34 @@ run_wham <- function(
     # Map log_NAA_sigma off so it's not estimated
     # TMB expects a factor mapping; setting to NA fixes it
     input_wham[["map"]][["log_NAA_sigma"]] <- rep(factor(NA), n_ages)
-    fit_wham_random_effects_sigmaR_constant <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+    fit_wham_random_effects_sigmaR_constant <- wham::fit_wham(
+      input_wham,
+      do.osa = F, 
+      do.retro = F,
+      n.newton = 0,
+      do.check = F,
+      MakeADFun.silent = TRUE,
+      retro.silent = TRUE, 
+      do.brps = FALSE,
+      fit.tmb.control = list(
+        opt.control = list(iter.max = 10000, eval.max = 10000)
+      )
+    )
 
     # Extract runtime
-    runtime_random_effects_sigmaR_constant <- as.numeric(fit_wham_random_effects_sigmaR_constant[["runtime"]])
+    sdreport_time_random_effects_sigmaR_constant <- system.time(TMB::sdreport(fit_wham_random_effects_sigmaR_constant, skip.delta.method = TRUE))
+    runtime_random_effects_sigmaR_constant <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "tmb_sdreport"
+      ),
+      time = c(
+        as.numeric(fit_wham_random_effects_sigmaR_constant[["runtime"]]) * 60,
+        unname(sdreport_time_random_effects_sigmaR_constant[["elapsed"]])
+      ),
+      unit = "seconds"
+    )
+
     runtime_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_random_effects_sigmaR_constant.RDS")
     saveRDS(runtime_random_effects_sigmaR_constant, file = runtime_path_random_effects_sigmaR_constant)
     
@@ -125,10 +175,34 @@ run_wham <- function(
     # Set log_NAA to fixed effects 
     input_wham[["random"]] <- input_wham[["random"]][!grepl("log_NAA", input_wham[["random"]])]
 
-    fit_wham_fixed_effects_logNAA <- wham::fit_wham(input_wham, do.osa = F, do.retro = F) 
+    fit_wham_fixed_effects_logNAA <- wham::fit_wham(
+      input_wham, 
+      do.osa = F, 
+      do.retro = F,
+      n.newton = 0,
+      do.check = F,
+      MakeADFun.silent = TRUE,
+      retro.silent = TRUE, 
+      do.brps = FALSE,
+      fit.tmb.control = list(
+        opt.control = list(iter.max = 10000, eval.max = 10000)
+      )
+    ) 
 
     # Extract runtime
-    runtime_fixed_effects_logNAA <- as.numeric(fit_wham_fixed_effects_logNAA[["runtime"]])
+    sdreport_time_fixed_effects_logNAA <- system.time(TMB::sdreport(fit_wham_fixed_effects_logNAA))
+    runtime_fixed_effects_logNAA <- tibble::tibble(
+      component = c(
+        "fit_optimization",
+        "tmb_sdreport"
+      ),
+      time = c(
+        as.numeric(fit_wham_fixed_effects_logNAA[["runtime"]]) * 60,
+        unname(sdreport_time_fixed_effects_logNAA[["elapsed"]])
+      ),
+      unit = "seconds"
+    )
+
     runtime_path_fixed_effects_logNAA <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "runtime_fixed_effects_logNAA.RDS")
     saveRDS(runtime_fixed_effects_logNAA, file = runtime_path_fixed_effects_logNAA)
     

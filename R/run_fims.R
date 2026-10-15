@@ -139,7 +139,10 @@ run_fims <- function(
         # Run the TMB optimization (estimation)
         FIMS::fit_fims()
     })
-
+    
+    fims_obj_random_effects <- FIMS::get_obj(fit_fims_random_effects)
+    sdreport_time_random_effects <- system.time(TMB::sdreport(fims_obj_random_effects, skip.delta.method=TRUE))
+    
     fims_time <- FIMS::get_run_time(fit_fims_random_effects)
     time_unit <- attr(fims_time, "units")
 
@@ -155,7 +158,17 @@ run_fims <- function(
         unname(fims_elapsed_random_effects[["elapsed"]])
       ),
       unit = time_unit
-    )
+    ) |>
+      # add a new row for tmb_sdreport
+      dplyr::rows_append(
+        tibble::tibble(
+          component = "tmb_sdreport",
+          time = unname(sdreport_time_random_effects[["elapsed"]]),
+          unit = time_unit
+        )
+      )
+      
+
     run_time_path_random_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_random_effects.RDS")
     saveRDS(run_time_random_effects, file = run_time_path_random_effects)
 
@@ -224,7 +237,10 @@ run_fims <- function(
         # Run the TMB optimization (estimation)
         FIMS::fit_fims()
     })
-
+    
+    fims_obj_random_effects_sigmaR_constant <- FIMS::get_obj(fit_fims_random_effects_sigmaR_constant)
+    sdreport_time_random_effects_sigmaR_constant <- system.time(TMB::sdreport(fims_obj_random_effects_sigmaR_constant, skip.delta.method=TRUE))
+    
     fims_time_random_effects_sigmaR_constant <- FIMS::get_run_time(fit_fims_random_effects_sigmaR_constant)
     time_unit_random_effects_sigmaR_constant <- attr(fims_time_random_effects_sigmaR_constant, "units")
 
@@ -240,7 +256,15 @@ run_fims <- function(
         unname(fims_elapsed_random_effects_sigmaR_constant[["elapsed"]])
       ),
       unit = time_unit_random_effects_sigmaR_constant
+    ) |>
+    dplyr::rows_append(
+      tibble::tibble(
+        component = "tmb_sdreport",
+        time = unname(sdreport_time_random_effects_sigmaR_constant[["elapsed"]]),
+        unit = time_unit_random_effects_sigmaR_constant
+      )
     )
+
     run_time_path_random_effects_sigmaR_constant <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_random_effects_sigmaR_constant.RDS")
     saveRDS(run_time_random_effects_sigmaR_constant, file = run_time_path_random_effects_sigmaR_constant)
 
@@ -320,7 +344,9 @@ run_fims <- function(
         FIMS::fit_fims()
     })
     
-    
+    fims_obj_fixed_effects <- FIMS::get_obj(fit_fims_fixed_effects)
+    sdreport_time_fixed_effects <- system.time(TMB::sdreport(fims_obj_fixed_effects, skip.delta.method=TRUE))
+
     fims_time_fixed_effects <- FIMS::get_run_time(fit_fims_fixed_effects)
     time_unit_fixed_effects <- attr(fims_time_fixed_effects, "units")
 
@@ -336,6 +362,13 @@ run_fims <- function(
         unname(fims_elapsed_fixed_effects[["elapsed"]])
       ),
       unit = time_unit_fixed_effects
+    ) |>
+    dplyr::rows_append(
+      tibble::tibble(
+        component = "tmb_sdreport",
+        time = unname(sdreport_time_fixed_effects[["elapsed"]]),
+        unit = time_unit_fixed_effects
+      )
     )
     run_time_path_fixed_effects <- file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "run_time_fims_fixed_effects.RDS")
     saveRDS(run_time_fixed_effects, file = run_time_path_fixed_effects)
