@@ -471,10 +471,10 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
     getsd = TRUE, 
     getJointPrecision = FALSE,
     loopnum = 3, 
-    newtonsteps = 0, 
+    newtonsteps = 1, 
     phase = FALSE, 
-    verbose = 0,
-    nlminb_control = list(iter.max = 10000, eval.max = 10000, trace = 0)
+    nlminb_control = list(iter.max = 10000, eval.max = 10000, trace = 0),
+    verbose = 0
   )
 
   # Beverton-Holt with alpha fixed at the value implied by the OM's steepness;
