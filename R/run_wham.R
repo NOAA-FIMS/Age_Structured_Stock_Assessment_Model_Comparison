@@ -187,7 +187,13 @@ run_wham <- function(
       fit.tmb.control = list(
         opt.control = list(iter.max = 10000, eval.max = 10000)
       )
-    ) 
+    )
+
+    write.csv(
+      fit_wham_fixed_effects_logNAA$opt$par,
+      row.names = names(fit_wham_fixed_effects_logNAA$opt$par),
+      file = file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "parameters_fixed_effects_wham.csv")
+    )
 
     # Extract runtime
     sdreport_time_fixed_effects_logNAA <- system.time(TMB::sdreport(fit_wham_fixed_effects_logNAA))

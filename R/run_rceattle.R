@@ -875,7 +875,7 @@ run_rceattle <- function(maindir = maindir,
                          subdir = "Rceattle",
                          om_sim_num = NULL,
                          casedir = casedir,
-                         em_bias_cor = TRUE,
+                         em_bias_cor = em_bias_cor,
                          survey_units = c("numbers", "biomass"),
                          save_full_fit = FALSE,
                          time_limit = 300) {
@@ -969,6 +969,13 @@ run_rceattle <- function(maindir = maindir,
             srr_pars = setup$srr_pars, 
             time_limit = time_limit
           )
+          if (scenario == "fixed_effects") {
+            write.csv(
+              fit$opt$par,
+              row.names = names(fit$opt$par),
+              file = file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "parameters_fixed_effects_rceattle.csv")
+            )
+          }
           save_rceattle_outputs(fit, scenario, setup$outdir, nyrs = setup$nyrs,
                                 save_full_fit = save_full_fit)
           NA_character_

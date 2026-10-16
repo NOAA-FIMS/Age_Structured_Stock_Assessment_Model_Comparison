@@ -344,6 +344,11 @@ run_fims <- function(
         FIMS::fit_fims()
     })
     
+    write.csv(
+      parameters_fixed_effects,
+      file = file.path(casedir, "output", subdir, paste("s", om_sim, sep = ""), "parameters_fixed_effects_fims.csv")
+    )
+
     fims_obj_fixed_effects <- FIMS::get_obj(fit_fims_fixed_effects)
     sdreport_time_fixed_effects <- system.time(TMB::sdreport(fims_obj_fixed_effects, skip.delta.method=TRUE))
 
