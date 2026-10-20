@@ -471,7 +471,7 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
     getsd = TRUE, 
     getJointPrecision = FALSE,
     loopnum = 3, 
-    newtonsteps = 3, 
+    newtonsteps = 0, 
     phase = FALSE, 
     nlminb_control = list(iter.max = 10000, eval.max = 10000, trace = 0),
     verbose = 0
