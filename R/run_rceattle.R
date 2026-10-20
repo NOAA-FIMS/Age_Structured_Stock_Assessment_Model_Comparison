@@ -470,7 +470,7 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
   ctl <- Rceattle::fit_control(
     getsd = TRUE, 
     getJointPrecision = FALSE,
-    loopnum = 3, 
+    loopnum = 4, 
     newtonsteps = 0, 
     phase = FALSE, 
     nlminb_control = list(iter.max = 10000, eval.max = 10000, trace = 0),
