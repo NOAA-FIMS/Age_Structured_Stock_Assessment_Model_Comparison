@@ -314,7 +314,7 @@ run_fims <- function(
     
     # fixed effects
     parameters_fixed_effects <- parameters |>
-      # Update log_sd for log_devs in the Recruitment module to be estimated
+      # Update log_sd for log_devs in the Recruitment module to be constant
       dplyr::rows_update(
         tibble::tibble(
           module_name = "Recruitment",

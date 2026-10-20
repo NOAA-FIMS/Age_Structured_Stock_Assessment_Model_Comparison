@@ -763,10 +763,11 @@ save_rceattle_outputs <- function(fit, scenario, outdir, nyrs = NULL,
   total   <- attr(fit, "elapsed_total")
   total   <- if (!is.null(total)) as.numeric(total) else NA_real_
   run_time <- c(
-    fit_optimization = NA_real_,
+    fit_optimization = attr(fit, "fit_optimization"),
     fit_sdreport     = NA_real_,
     fit_total        = rt_secs,
-    total            = total
+    total            = total,
+    tmb_sdreport     = attr(fit, "tmb_sdreport")
   )
   saveRDS(run_time, tag("run_time_rceattle"))
 
