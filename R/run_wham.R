@@ -85,14 +85,14 @@ run_wham <- function(
       input_wham,
       do.osa = F, 
       do.retro = F,
-      n.newton = 0,
+      # n.newton = 0,
       do.check = F,
       MakeADFun.silent = TRUE,
       retro.silent = TRUE, 
-      do.brps = FALSE
-      # fit.tmb.control = list(
-      #   opt.control = list(iter.max = 10000, eval.max = 10000)
-      # )
+      do.brps = FALSE,
+      fit.tmb.control = list(
+        opt.control = list(iter.max = 10000, eval.max = 10000)
+      )
     ) 
 
     # Extract runtime (convert minutes to seconds)
@@ -133,14 +133,14 @@ run_wham <- function(
       input_wham,
       do.osa = F, 
       do.retro = F,
-      n.newton = 0,
+      # n.newton = 0,
       do.check = F,
       MakeADFun.silent = TRUE,
       retro.silent = TRUE, 
-      do.brps = FALSE
-      # fit.tmb.control = list(
-      #   opt.control = list(iter.max = 10000, eval.max = 10000)
-      # )
+      do.brps = FALSE,
+      fit.tmb.control = list(
+        opt.control = list(iter.max = 10000, eval.max = 10000)
+      )
     )
 
     # Extract runtime
@@ -179,14 +179,14 @@ run_wham <- function(
       input_wham, 
       do.osa = F, 
       do.retro = F,
-      n.newton = 0,
+      # n.newton = 0,
       do.check = F,
       MakeADFun.silent = TRUE,
       retro.silent = TRUE, 
-      do.brps = FALSE
-      # fit.tmb.control = list(
-      #   opt.control = list(iter.max = 10000, eval.max = 10000)
-      # )
+      do.brps = FALSE,
+      fit.tmb.control = list(
+        opt.control = list(iter.max = 10000, eval.max = 10000)
+      )
     )
 
     write.csv(
