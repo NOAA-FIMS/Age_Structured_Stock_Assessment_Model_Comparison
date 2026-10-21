@@ -554,13 +554,23 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
       }
     )
   })
+
+  if (is.null(fit)) return(NULL)
+
   rceattle_obj <- fit$obj
   tmb_sdreport_time <- system.time(TMB::sdreport(rceattle_obj, skip.delta.method = TRUE))
-  if (!is.null(fit)) {
-    attr(fit, "elapsed_total") <- elapsed[["elapsed"]]
+
+  if (is.null(fit_without_sdreport)) {
+    warning(sprintf(
+      "[%s] fit without sdreport failed; optimization runtime is unavailable.",
+      scenario
+    ), call. = FALSE)
+    attr(fit, "fit_optimization") <- NA_real_
+  } else {
     attr(fit, "fit_optimization") <- as.numeric(fit_without_sdreport$run_time)
-    attr(fit, "tmb_sdreport") <- tmb_sdreport_time[["elapsed"]]
   }
+
+  attr(fit, "tmb_sdreport") <- tmb_sdreport_time[["elapsed"]]
   fit
 }
 
