@@ -558,7 +558,7 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
   tmb_sdreport_time <- system.time(TMB::sdreport(rceattle_obj, skip.delta.method = TRUE))
   if (!is.null(fit)) {
     attr(fit, "elapsed_total") <- elapsed[["elapsed"]]
-    attr(fit, "fit_optimization") <- as.numeric(fit$run_time) - as.numeric(fit_without_sdreport$run_time)
+    attr(fit, "fit_optimization") <- as.numeric(fit_without_sdreport$run_time)
     attr(fit, "tmb_sdreport") <- tmb_sdreport_time[["elapsed"]]
   }
   fit
