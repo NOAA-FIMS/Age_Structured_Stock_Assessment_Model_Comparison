@@ -567,7 +567,8 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
     ), call. = FALSE)
     attr(fit, "fit_optimization") <- NA_real_
   } else {
-    attr(fit, "fit_optimization") <- as.numeric(fit_without_sdreport$run_time)
+    # run_time is a difftime, which R reports in minutes once past 60 s.
+    attr(fit, "fit_optimization") <- as.numeric(fit_without_sdreport$run_time, units = "secs")
   }
 
   attr(fit, "tmb_sdreport") <- tmb_sdreport_time[["elapsed"]]
