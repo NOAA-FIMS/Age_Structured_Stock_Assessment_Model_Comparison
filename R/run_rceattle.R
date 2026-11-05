@@ -175,12 +175,10 @@ om_to_rceattle <- function(om_input, om_output = NULL, em_input,
   #   Fleet_type   Fishery = 1, Survey = 2
   #   Selectivity  Logistic = 1
   #   Comp_loglike Multinomial = 0
-  #   Catchability Analytical = 3  (closed-form MLE q; robust, no init needed)
+  #   Catchability Estimated = 1  (log q a free parameter)
   #
-  # The survey uses Analytical catchability rather than a freely estimated q so
-  # the fit is not sensitive to a q starting value. FIMS estimates log_q as a
-  # free parameter; the resulting q values are directly comparable, but the
-  # treatment differs -- a coordination item for the manuscript.
+  # The survey's q is a free parameter, as in ASAP, BAM, SS3, WHAM and FIMS,
+  # started at the OM's true q as ASAP, WHAM and FIMS start theirs.
   simData$fleet_control <- data.frame(
     Fleet_name                = c("Fishery", "Survey"),
     Fleet_code                = 1:2,
@@ -204,8 +202,8 @@ om_to_rceattle <- function(om_input, om_output = NULL, em_input,
     Weight_index              = 1,
     Age_transition_index      = 1,
     Q_index                   = c(NA, 1),
-    Catchability              = c(NA, 3L),          # survey: Analytical q
-    Q_prior                   = c(NA, 1),
+    Catchability              = c(NA, 1L),          # survey: estimated q
+    Q_prior                   = c(NA, unlist(em_input[["survey_q"]])[1]),  # starting q
     Q_sd_prior                = c(NA, 0.2),
     Time_varying_q            = c(NA, 0),
     Time_varying_q_sd_prior   = c(NA, 1),
@@ -353,10 +351,14 @@ om_to_rceattle <- function(om_input, om_output = NULL, em_input,
 
 #' Seed Rceattle starting parameters at OM truth
 #'
-#' Initialise the recruitment and rec-dev parameters before fitting.
+#' Starts R0, the recruitment deviations, every year's F and both logistic
+#' selectivities at the OM's values, as run_fims() does. From Rceattle's
+#' defaults (F = 1 every year, inflection at age 0) a quarter of fits failed,
+#' stopping with q 8-31% below truth.
 #'
 #' @param data_list An Rceattle data_list from om_to_rceattle().
-#' @param om_input The OM truth list (for R0 and logR.resid).
+#' @param om_input The OM truth list (R0, logR.resid, f, sel_fleet, sel_survey,
+#'   ages).
 #' @return A parameter list suitable for `fit_mod(inits = )`.
 #' @keywords internal
 #' @noRd
@@ -365,6 +367,14 @@ seed_rceattle_inits <- function(data_list, om_input) {
   p$rec_pars[1, "R0"] <- log(om_input[["R0"]])            # log-scale R0
   resid <- as.numeric(om_input[["logR.resid"]])
   p$rec_dev[1, seq_along(resid)] <- resid
+  # Start F and both logistic selectivities at the OM's values, as run_fims() does
+  # (FIMS's default fishery logistic, inflection 2 and slope 1, is the OM's).
+  p$log_F[1, ] <- log(as.numeric(om_input[["f"]]))
+  sel <- list(om_input[["sel_fleet"]][[1]], om_input[["sel_survey"]][[1]])
+  for (i in seq_along(sel)) {
+    p$sel_inf[1, i, 1]     <- sel[[i]][["A50.sel1"]] - om_input[["ages"]][1] + 1  # bin ordinal
+    p$log_sel_slp[1, i, 1] <- log(sel[[i]][["slope.sel1"]])
+  }
   p
 }
 
@@ -462,17 +472,15 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
     c("random_effects", "random_effects_sigmaR_constant")
 
   # Optimiser controls. getJointPrecision is off because nothing downstream
-  # reads it. loopnum = 1 gives one optimiser pass rather than Rceattle's
-  # default 5 -- the speed/robustness trade-off for a 500-replicate run. A
-  # replicate that stops at a local optimum can still pass the max-gradient and
-  # positive-definite-Hessian convergence rule, so raise loopnum if a case turns
-  # out to be multimodal.
+  # reads it. A loopnum restart begins where the last pass stopped, so it does
+  # not rescue a failed fit; the starting values in seed_rceattle_inits() do.
   ctl <- Rceattle::fit_control(
     getsd = TRUE, 
     getJointPrecision = FALSE,
     loopnum = 4, 
     newtonsteps = 0, 
     phase = FALSE, 
+    bias_adjust_obs = FALSE,   # the OM draws observations with no bias correction
     nlminb_control = list(iter.max = 10000, eval.max = 10000, trace = 0),
     verbose = 0
   )
@@ -649,8 +657,7 @@ rceattle_estimates <- function(fit, nyrs = NULL) {
 
   # Survey catchability. index_q is [fleet, hindcast year] -- no projection
   # column, unlike the population arrays -- and its rows follow fleet_control
-  # row order. Analytical (closed-form MLE) q, so this is derived rather than a
-  # free parameter; see the fleet_control comment in om_to_rceattle().
+  # row order; see the fleet_control comment in om_to_rceattle().
   #
   # Fleet_type is the integer switch code (2 = survey) before switch_check() and
   # the readable label ("Survey") after it; a fit carries the cleaned data_list.
