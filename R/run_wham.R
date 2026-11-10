@@ -85,7 +85,7 @@ run_wham <- function(
       input_wham,
       do.osa = F, 
       do.retro = F,
-      # n.newton = 0,
+      n.newton = 3,
       do.check = F,
       MakeADFun.silent = TRUE,
       retro.silent = TRUE, 
@@ -97,7 +97,12 @@ run_wham <- function(
 
     # Extract runtime (convert minutes to seconds)
     sdreport_time_random_effects <- system.time(
-      TMB::sdreport(fit_wham_random_effects, skip.delta.method = TRUE)
+      TMB::sdreport(
+        fit_wham_random_effects, 
+        skip.delta.method = TRUE,
+        getReportCovariance = FALSE
+
+      )
     )
     
     runtime_random_effects <- tibble::tibble(
@@ -133,7 +138,7 @@ run_wham <- function(
       input_wham,
       do.osa = F, 
       do.retro = F,
-      # n.newton = 0,
+      n.newton = 3,
       do.check = F,
       MakeADFun.silent = TRUE,
       retro.silent = TRUE, 
@@ -144,7 +149,13 @@ run_wham <- function(
     )
 
     # Extract runtime
-    sdreport_time_random_effects_sigmaR_constant <- system.time(TMB::sdreport(fit_wham_random_effects_sigmaR_constant, skip.delta.method = TRUE))
+    sdreport_time_random_effects_sigmaR_constant <- system.time(
+      TMB::sdreport(
+        fit_wham_random_effects_sigmaR_constant,
+        skip.delta.method = TRUE,
+        getReportCovariance = FALSE
+      )
+    )
     runtime_random_effects_sigmaR_constant <- tibble::tibble(
       component = c(
         "fit_optimization",
@@ -179,7 +190,7 @@ run_wham <- function(
       input_wham, 
       do.osa = F, 
       do.retro = F,
-      # n.newton = 0,
+      n.newton = 3,
       do.check = F,
       MakeADFun.silent = TRUE,
       retro.silent = TRUE, 
@@ -196,7 +207,13 @@ run_wham <- function(
     )
 
     # Extract runtime
-    sdreport_time_fixed_effects_logNAA <- system.time(TMB::sdreport(fit_wham_fixed_effects_logNAA))
+    sdreport_time_fixed_effects_logNAA <- system.time(
+      TMB::sdreport(
+        fit_wham_fixed_effects_logNAA,
+        skip.delta.method = TRUE,
+        getReportCovariance = FALSE
+      )
+    )
     runtime_fixed_effects_logNAA <- tibble::tibble(
       component = c(
         "fit_optimization",

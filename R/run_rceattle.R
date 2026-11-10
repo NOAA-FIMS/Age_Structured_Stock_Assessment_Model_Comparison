@@ -477,8 +477,8 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
   ctl <- Rceattle::fit_control(
     getsd = TRUE, 
     getJointPrecision = FALSE,
-    loopnum = 4, 
-    newtonsteps = 0, 
+    loopnum = 1, 
+    newtonsteps = 3, 
     phase = FALSE, 
     bias_adjust_obs = FALSE,   # the OM draws observations with no bias correction
     nlminb_control = list(iter.max = 10000, eval.max = 10000, trace = 0),
@@ -566,7 +566,11 @@ fit_rceattle_scenario <- function(data_list, inits, scenario, srr_pars,
   if (is.null(fit)) return(NULL)
 
   rceattle_obj <- fit$obj
-  tmb_sdreport_time <- system.time(TMB::sdreport(rceattle_obj, skip.delta.method = TRUE))
+  tmb_sdreport_time <- system.time(
+    TMB::sdreport(rceattle_obj, 
+    skip.delta.method = TRUE,
+    getReportCovariance = FALSE)
+  )
 
   if (is.null(fit_without_sdreport)) {
     warning(sprintf(

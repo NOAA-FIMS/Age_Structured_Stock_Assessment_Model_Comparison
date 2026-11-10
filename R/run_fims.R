@@ -137,11 +137,20 @@ run_fims <- function(
         # Initialize the FIMS model object with the updated parameters
         FIMS::initialize_fims(data = data_fims) |>
         # Run the TMB optimization (estimation)
-        FIMS::fit_fims()
+        FIMS::fit_fims(
+          number_of_loops = 0,
+          number_of_newton_steps = 3
+        )
     })
     
     fims_obj_random_effects <- FIMS::get_obj(fit_fims_random_effects)
-    sdreport_time_random_effects <- system.time(TMB::sdreport(fims_obj_random_effects, skip.delta.method=TRUE))
+    sdreport_time_random_effects <- system.time(
+      TMB::sdreport(
+        fims_obj_random_effects, 
+        skip.delta.method = TRUE,
+        getReportCovariance = FALSE
+      )
+    )
     
     fims_time <- FIMS::get_run_time(fit_fims_random_effects)
     time_unit <- attr(fims_time, "units")
@@ -235,11 +244,20 @@ run_fims <- function(
         # Initialize the FIMS model object with the updated parameters
         FIMS::initialize_fims(data = data_fims) |>
         # Run the TMB optimization (estimation)
-        FIMS::fit_fims()
+        FIMS::fit_fims(
+          number_of_loops = 0,
+          number_of_newton_steps = 3
+        )
     })
     
     fims_obj_random_effects_sigmaR_constant <- FIMS::get_obj(fit_fims_random_effects_sigmaR_constant)
-    sdreport_time_random_effects_sigmaR_constant <- system.time(TMB::sdreport(fims_obj_random_effects_sigmaR_constant, skip.delta.method=TRUE))
+    sdreport_time_random_effects_sigmaR_constant <- system.time(
+      TMB::sdreport(
+        fims_obj_random_effects_sigmaR_constant, 
+        skip.delta.method = TRUE,
+        getReportCovariance = FALSE
+      )
+    )
     
     fims_time_random_effects_sigmaR_constant <- FIMS::get_run_time(fit_fims_random_effects_sigmaR_constant)
     time_unit_random_effects_sigmaR_constant <- attr(fims_time_random_effects_sigmaR_constant, "units")
@@ -341,7 +359,10 @@ run_fims <- function(
         # Initialize the FIMS model object with the updated parameters
         FIMS::initialize_fims(data = data_fims) |>
         # Run the TMB optimization (estimation)
-        FIMS::fit_fims()
+        FIMS::fit_fims(
+          number_of_loops = 0,
+          number_of_newton_steps = 3
+        )
     })
     
     write.csv(
@@ -350,7 +371,13 @@ run_fims <- function(
     )
 
     fims_obj_fixed_effects <- FIMS::get_obj(fit_fims_fixed_effects)
-    sdreport_time_fixed_effects <- system.time(TMB::sdreport(fims_obj_fixed_effects, skip.delta.method=TRUE))
+    sdreport_time_fixed_effects <- system.time(
+      TMB::sdreport(
+        fims_obj_fixed_effects, 
+        skip.delta.method = TRUE,
+        getReportCovariance = FALSE
+      )
+    )
 
     fims_time_fixed_effects <- FIMS::get_run_time(fit_fims_fixed_effects)
     time_unit_fixed_effects <- attr(fims_time_fixed_effects, "units")
