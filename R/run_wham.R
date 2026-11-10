@@ -78,7 +78,9 @@ run_wham <- function(
     h_om <- om_input[["h"]]
     spr0_om <- om_input[["Phi.0"]] * 1000
     alpha_om <- (4 * h_om) / (spr0_om * (1 - h_om))
+    beta_om <- (alpha_om - 1 / spr0_om) / om_input[["R0"]]
     input_wham[["par"]][["mean_rec_pars"]][1] <- log(alpha_om)
+    input_wham[["par"]][["mean_rec_pars"]][2] <- log(beta_om)
     input_wham[["map"]][["mean_rec_pars"]] <- factor(c(NA, 1))
 
     fit_wham_random_effects <- wham::fit_wham(
