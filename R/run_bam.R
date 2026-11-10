@@ -135,10 +135,10 @@ run_bam <- function(maindir=maindir, subdir="BAM", om_sim_num=NULL, casedir=case
         "tmb_sdreport"
       ),
       time = c(
-        as.numeric(t_optimization),
-        as.numeric(t_sdreport),
-        as.numeric(t_fit_total),
-        as.numeric(t_full),
+        as.numeric(t_optimization, units = "secs"),
+        as.numeric(t_sdreport, units = "secs"),
+        as.numeric(t_fit_total, units = "secs"),
+        as.numeric(t_full, units = "secs"),
         NA_real_
       ),
       unit = "seconds"

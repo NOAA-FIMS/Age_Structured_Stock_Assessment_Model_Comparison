@@ -163,7 +163,7 @@ run_fims <- function(
         "total"
       ),
       time = c(
-        as.numeric(fims_time),
+        as.numeric(fims_time, units = "secs"),
         unname(fims_elapsed_random_effects[["elapsed"]])
       ),
       unit = time_unit
@@ -270,7 +270,7 @@ run_fims <- function(
         "total"
       ),
       time = c(
-        as.numeric(fims_time_random_effects_sigmaR_constant),
+        as.numeric(fims_time_random_effects_sigmaR_constant, units = "secs"),
         unname(fims_elapsed_random_effects_sigmaR_constant[["elapsed"]])
       ),
       unit = time_unit_random_effects_sigmaR_constant
@@ -390,7 +390,7 @@ run_fims <- function(
         "total"
       ),
       time = c(
-        as.numeric(fims_time_fixed_effects),
+        as.numeric(fims_time_fixed_effects, units = "secs"),
         unname(fims_elapsed_fixed_effects[["elapsed"]])
       ),
       unit = time_unit_fixed_effects

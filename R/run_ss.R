@@ -126,10 +126,10 @@ run_ss <- function(maindir=maindir, subdir="SS", om_sim_num=NULL, casedir=casedi
         "tmb_sdreport"
       ),
       time = c(
-        as.numeric(t_optimization),
-        as.numeric(t_sdreport),
-        as.numeric(t_fit_total),
-        as.numeric(t_full),
+        as.numeric(t_optimization, units = "secs"),
+        as.numeric(t_sdreport, units = "secs"),
+        as.numeric(t_fit_total, units = "secs"),
+        as.numeric(t_full, units = "secs"),
         NA_real_
       ),
       unit = "seconds"
